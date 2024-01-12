@@ -12,15 +12,15 @@
 		?>
 			<hgroup>
 				<h2 class="entry-title">
-					<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'emm' ), the_title_attribute( array( 'echo' => false ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+					<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'theme_main' ), the_title_attribute( array( 'echo' => false ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
 				</h2>
-				<h3 class="entry-format"><?php esc_html_e( 'Featured', 'emm' ); ?></h3>
+				<h3 class="entry-format"><?php esc_html_e( 'Featured', 'theme_main' ); ?></h3>
 			</hgroup>
 		<?php
 			else :
 		?>
 			<h2 class="entry-title">
-				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'emm' ), the_title_attribute( array( 'echo' => false ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'theme_main' ), the_title_attribute( array( 'echo' => false ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
 			</h2>
 		<?php
 			endif;
@@ -28,7 +28,7 @@
 			if ( 'post' === get_post_type() ) :
 		?>
 			<div class="entry-meta">
-				<?php emm_article_posted_on(); ?>
+				<?php theme_main_article_posted_on(); ?>
 			</div><!-- /.entry-meta -->
 		<?php
 			endif;
@@ -45,8 +45,8 @@
 		else :
 	?>
 		<div class="entry-content">
-			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'emm' ) ); ?>
-			<?php wp_link_pages( array( 'before' => '<div class="page-link"><span>' . __( 'Pages:', 'emm' ) . '</span>', 'after' => '</div>' ) ); ?>
+			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'theme_main' ) ); ?>
+			<?php wp_link_pages( array( 'before' => '<div class="page-link"><span>' . __( 'Pages:', 'theme_main' ) . '</span>', 'after' => '</div>' ) ); ?>
 		</div><!-- /.entry-content -->
 	<?php
 		endif;
@@ -58,12 +58,12 @@
 			if ( 'post' === get_post_type() ) : // Hide category and tag text for pages on Search.
 
 				/* translators: used between list items, there is a space after the comma */
-				$categories_list = get_the_category_list( __( ', ', 'emm' ) );
+				$categories_list = get_the_category_list( __( ', ', 'theme_main' ) );
 				if ( $categories_list ) :
 			?>
 					<span class="cat-links">
 						<?php
-							printf( __( '<span class="%1$s">Posted in</span> %2$s', 'emm' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
+							printf( __( '<span class="%1$s">Posted in</span> %2$s', 'theme_main' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
 							$show_sep = true;
 						?>
 					</span>
@@ -71,7 +71,7 @@
 				endif;
 
 				/* translators: used between list items, there is a space after the comma */
-				$tags_list = get_the_tag_list( '', __( ', ', 'emm' ) );
+				$tags_list = get_the_tag_list( '', __( ', ', 'theme_main' ) );
 				if ( $tags_list ) :
 					if ( $show_sep ) :
 			?>
@@ -81,7 +81,7 @@
 				?>
 					<span class="tag-links">
 						<?php
-							printf( __( '<span class="%1$s">Tagged</span> %2$s', 'emm' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
+							printf( __( '<span class="%1$s">Tagged</span> %2$s', 'theme_main' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
 							$show_sep = true;
 						?>
 					</span>
@@ -99,7 +99,7 @@
 			<span class="comments-link">
 				<?php
 					printf(
-						esc_html__( 'Leave a comment', 'emm' ),
+						esc_html__( 'Leave a comment', 'theme_main' ),
 						get_the_title()
 					);
 				?>
@@ -108,8 +108,8 @@
 			endif;
 		?>
 
-		<a href="<?php the_permalink(); ?>" class="btn btn-secondary"><?php esc_html_e( 'more', 'emm' ); ?></a>
+		<a href="<?php the_permalink(); ?>" class="btn btn-secondary"><?php esc_html_e( 'more', 'theme_main' ); ?></a>
 
-		<?php edit_post_link( __( 'Edit', 'emm' ), '<span class="edit-link">', '</span>' ); ?>
+		<?php edit_post_link( __( 'Edit', 'theme_main' ), '<span class="edit-link">', '</span>' ); ?>
 	</footer><!-- /.entry-meta -->
 </article><!-- /#post-<?php the_ID(); ?> -->

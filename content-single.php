@@ -12,7 +12,7 @@
 			if ( 'post' === get_post_type() ) :
 		?>
 			<div class="entry-meta">
-				<?php emm_article_posted_on(); ?>
+				<?php theme_main_article_posted_on(); ?>
 			</div><!-- /.entry-meta -->
 		<?php
 			endif;
@@ -26,28 +26,28 @@
 
 			the_content();
 
-			wp_link_pages( array( 'before' => '<div class="page-link"><span>' . esc_html__( 'Pages:', 'emm' ) . '</span>', 'after' => '</div>' ) );
+			wp_link_pages( array( 'before' => '<div class="page-link"><span>' . esc_html__( 'Pages:', 'theme_main' ) . '</span>', 'after' => '</div>' ) );
 		?>
 	</div><!-- /.entry-content -->
 
 	<?php
-		edit_post_link( __( 'Edit', 'emm' ), '<span class="edit-link">', '</span>' );
+		edit_post_link( __( 'Edit', 'theme_main' ), '<span class="edit-link">', '</span>' );
 	?>
 
 	<footer class="entry-meta">
 		<hr>
 		<?php
 			/* translators: used between list items, there is a space after the comma */
-			$category_list = get_the_category_list( __( ', ', 'emm' ) );
+			$category_list = get_the_category_list( __( ', ', 'theme_main' ) );
 
 			/* translators: used between list items, there is a space after the comma */
-			$tag_list = get_the_tag_list( '', __( ', ', 'emm' ) );
+			$tag_list = get_the_tag_list( '', __( ', ', 'theme_main' ) );
 			if ( '' != $tag_list ) :
-				$utility_text = __( 'This entry was posted in %1$s and tagged %2$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'emm' );
+				$utility_text = __( 'This entry was posted in %1$s and tagged %2$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'theme_main' );
 			elseif ( '' != $category_list ) :
-				$utility_text = __( 'This entry was posted in %1$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'emm' );
+				$utility_text = __( 'This entry was posted in %1$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'theme_main' );
 			else :
-				$utility_text = __( 'This entry was posted by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'emm' );
+				$utility_text = __( 'This entry was posted by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'theme_main' );
 			endif;
 
 			printf(

@@ -11,13 +11,13 @@ if ( have_posts() ) :
 	<h1 class="page-title">
 		<?php
 			if ( is_day() ) :
-				printf( esc_html__( 'Daily Archives: %s', 'emm' ), get_the_date() );
+				printf( esc_html__( 'Daily Archives: %s', 'theme_main' ), get_the_date() );
 			elseif ( is_month() ) :
-				printf( esc_html__( 'Monthly Archives: %s', 'emm' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'emm' ) ) );
+				printf( esc_html__( 'Monthly Archives: %s', 'theme_main' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'theme_main' ) ) );
 			elseif ( is_year() ) :
-				printf( esc_html__( 'Yearly Archives: %s', 'emm' ), get_the_date( _x( 'Y', 'yearly archives date format', 'emm' ) ) );
+				printf( esc_html__( 'Yearly Archives: %s', 'theme_main' ), get_the_date( _x( 'Y', 'yearly archives date format', 'theme_main' ) ) );
 			else :
-				esc_html_e( 'Blog Archives', 'emm' );
+				esc_html_e( 'Blog Archives', 'theme_main' );
 			endif;
 		?>
 	</h1>

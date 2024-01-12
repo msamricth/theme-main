@@ -3,7 +3,7 @@
  * The template for displaying the archive loop.
  */
 
-emm_content_nav( 'nav-above' );
+theme_main_content_nav( 'nav-above' );
 
 if ( have_posts() ) :
 ?>
@@ -26,4 +26,4 @@ endif;
 
 wp_reset_postdata();
 
-emm_content_nav( 'nav-below' );
+theme_main_content_nav( 'nav-below' );

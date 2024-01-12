@@ -1,0 +1,78 @@
+.has-primary-color {
+    color: var(--wp--preset--color--primary);
+}
+.has-secondary-color {
+    color: var(--wp--preset--color--secondary);
+}
+.has-info-color {
+    color: var(--wp--preset--color--info);
+}
+.has-danger-color {
+    color: var(--wp--preset--color--danger);
+}
+.has-error-color {
+    color: var(--wp--preset--color--danger);
+}
+.has-success-color {
+    color: var(--wp--preset--color--success);
+}
+.has-dark-color {
+    color: var(--wp--preset--color--dark);
+}
+.has-light-color {
+    color: var(--wp--preset--color--light);
+}
+.has-gray-500-color {
+    color: var(--wp--preset--color--gray-500);
+}
+.has-gray-600-color {
+    color: var(--wp--preset--color--gray-600);
+}
+.has-gray-800-color {
+    color: var(--wp--preset--color--gray-800);
+}
+.has-gray-900-color {
+    color: var(--wp--preset--color--gray-900);
+}
+.has-primary-background-color {
+    background-color: var(--wp--preset--color--primary);
+}
+.has-secondary-background-color {
+    background-color: var(--wp--preset--color--secondary);
+}
+.has-info-background-color {
+    background-color: var(--wp--preset--color--info);
+}
+.has-danger-background-color {
+    background-color: var(--wp--preset--color--danger);
+}
+.has-error-background-color {
+    background-color: var(--wp--preset--color--danger);
+}
+.has-success-background-color {
+    background-color: var(--wp--preset--color--success);
+}
+.has-dark-background-color {
+    background-color: var(--wp--preset--color--dark);
+}
+.has-light-background-color {
+    background-color: var(--wp--preset--color--light);
+}
+.has-gray-500-background-color {
+    background-color: var(--wp--preset--color--gray-500);
+}
+.has-gray-600-background-color {
+    background-color: var(--wp--preset--color--gray-600);
+}
+.has-gray-800-background-color {
+    background-color: var(--wp--preset--color--gray-800);
+}
+.has-gray-900-background-color {
+    background-color: var(--wp--preset--color--gray-900);
+}
+.d-inherit {
+    display: initial !important;
+}
+
+
+@include media-breakpoint-up(md) {}

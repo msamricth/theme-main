@@ -18,7 +18,7 @@ if ( post_password_required() ) {
 	?>
 		<h2 id="comments-title">
 			<?php
-				esc_html_e( 'No Comments yet!', 'emm' );
+				esc_html_e( 'No Comments yet!', 'theme_main' );
 			?>
 		</h2>
 	<?php
@@ -30,7 +30,7 @@ if ( post_password_required() ) {
 			<?php
 				$comments_number = get_comments_number();
 				if ( '1' === $comments_number ) {
-					printf( _x( 'One Reply to &ldquo;%s&rdquo;', 'comments title', 'emm' ), get_the_title() );
+					printf( _x( 'One Reply to &ldquo;%s&rdquo;', 'comments title', 'theme_main' ), get_the_title() );
 				} else {
 					printf(
 						/* translators: 1: number of comments, 2: post title */
@@ -39,7 +39,7 @@ if ( post_password_required() ) {
 							'%1$s Replies to &ldquo;%2$s&rdquo;',
 							$comments_number,
 							'comments title',
-							'emm'
+							'theme_main'
 						),
 						number_format_i18n( $comments_number ),
 						get_the_title()
@@ -51,9 +51,9 @@ if ( post_password_required() ) {
 			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 		?>
 		<nav id="comment-nav-above">
-			<h1 class="assistive-text"><?php esc_html_e( 'Comment navigation', 'emm' ); ?></h1>
-			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'emm' ) ); ?></div>
-			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'emm' ) ); ?></div>
+			<h1 class="assistive-text"><?php esc_html_e( 'Comment navigation', 'theme_main' ); ?></h1>
+			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'theme_main' ) ); ?></div>
+			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'theme_main' ) ); ?></div>
 		</nav>
 		<?php
 			endif;
@@ -67,16 +67,16 @@ if ( post_password_required() ) {
 				 * define theme_comment() and that will be used instead.
 				 * See theme_comment() in my-theme/functions.php for more.
 				 */
-				wp_list_comments( array( 'callback' => 'emm_comment' ) );
+				wp_list_comments( array( 'callback' => 'theme_main_comment' ) );
 			?>
 		</ol>
 		<?php
 			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 		?>
 		<nav id="comment-nav-below">
-			<h1 class="assistive-text"><?php esc_html_e( 'Comment navigation', 'emm' ); ?></h1>
-			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'emm' ) ); ?></div>
-			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'emm' ) ); ?></div>
+			<h1 class="assistive-text"><?php esc_html_e( 'Comment navigation', 'theme_main' ); ?></h1>
+			<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'theme_main' ) ); ?></div>
+			<div class="nav-next"><?php next_comments_link( __( 'Newer Comments &rarr;', 'theme_main' ) ); ?></div>
 		</nav>
 		<?php
 			endif;
@@ -87,7 +87,7 @@ if ( post_password_required() ) {
 		 */
 		elseif ( ! comments_open() && ! is_page() && post_type_supports( get_post_type(), 'comments' ) ) :
 	?>
-		<h2 id="comments-title" class="nocomments"><?php esc_html_e( 'Comments are closed.', 'emm' ); ?></h2>
+		<h2 id="comments-title" class="nocomments"><?php esc_html_e( 'Comments are closed.', 'theme_main' ); ?></h2>
 	<?php
 		endif;
 

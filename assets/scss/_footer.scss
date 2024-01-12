@@ -1,0 +1,62 @@
+.footer {
+    min-height: 667px;
+    z-index: 0;
+    position: relative;
+    p, .footer-content * {
+         color: white;
+    }
+    
+    .navbar-nav {
+        margin-top: 0;
+    }
+    @include media-breakpoint-up(md) { 
+        padding-bottom: 48px;
+        .navbar-nav {
+            width: 50%;
+        }
+    }
+    span.wpcf7-not-valid-tip {
+        display: none;
+    }
+    a {
+        text-decoration: none;
+    }
+    .footer-cta {
+        .input-group {
+            flex-wrap: initial;
+        }
+        .wpcf7-response-output {
+            display: none !important;
+        }
+        input.wpcf7-form-control.form-control {
+            height: 30px;
+            padding-bottom: 20px;
+        }
+        
+        .form-floating label {
+            margin-top: -24px;
+            margin-left: -3px !important;
+            transition: margin 0.25s ease, opacity 0.25s ease;
+        }
+        
+    }
+    .nav-underline {
+        background-color: $white !important;
+    }
+    a, .nav-link {
+        color: $white;
+    }
+    .nav {
+        .menu-item:first-child .nav-link {
+            padding-top: 0;
+        }
+        .nav-link {
+            padding: 1rem var(--bs-nav-link-padding-x);
+        }
+    }
+    @include media-breakpoint-up(md) { 
+        p, p > a {
+            font-size: 20px;
+        }
+    }
+}

@@ -1,23 +1,24 @@
-			<?php
-				// If Single or Archive (Category, Tag, Author or a Date based page).
-				if ( is_single() || is_archive() ) :
-			?>
-					</div><!-- /.col -->
+				<?php
+					// If Single or Archive (Category, Tag, Author or a Date based page).
+					if ( is_single() || is_archive() ) :
+				?>
+						</div><!-- /.col -->
 
-					<?php
-						get_sidebar();
-					?>
+						<?php
+							get_sidebar();
+						?>
 
-				</div><!-- /.row -->
-			<?php
-				endif;
-			?>
+					</div><!-- /.row -->
+				<?php
+					endif;
+				?>
+			</div>
 		</main><!-- /#main -->
 		<footer id="footer">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
-						<p><?php printf( esc_html__( '&copy; %1$s %2$s. All rights reserved.', 'emm' ), wp_date( 'Y' ), get_bloginfo( 'name', 'display' ) ); ?></p>
+						<p><?php printf( esc_html__( '&copy; %1$s %2$s. All rights reserved.', 'theme_main' ), wp_date( 'Y' ), get_bloginfo( 'name', 'display' ) ); ?></p>
 					</div>
 
 					<?php
@@ -47,7 +48,7 @@
 
 								if ( current_user_can( 'manage_options' ) ) :
 							?>
-								<span class="edit-link"><a href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>" class="badge bg-secondary"><?php esc_html_e( 'Edit', 'emm' ); ?></a></span><!-- Show Edit Widget link -->
+								<span class="edit-link"><a href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>" class="badge bg-secondary"><?php esc_html_e( 'Edit', 'theme_main' ); ?></a></span><!-- Show Edit Widget link -->
 							<?php
 								endif;
 							?>

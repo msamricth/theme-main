@@ -16,13 +16,13 @@ the_post();
 
 		wp_link_pages(
 			array(
-				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'emm' ) . '">',
+				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'theme_main' ) . '">',
 				'after'    => '</nav>',
-				'pagelink' => esc_html__( 'Page %', 'emm' ),
+				'pagelink' => esc_html__( 'Page %', 'theme_main' ),
 			)
 		);
 		edit_post_link(
-			esc_attr__( 'Edit', 'emm' ),
+			esc_attr__( 'Edit', 'theme_main' ),
 			'<span class="edit-link">',
 			'</span>'
 		);

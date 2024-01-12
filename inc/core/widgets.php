@@ -1,0 +1,46 @@
+<?php
+/**
+ * Init Widget areas in Sidebar.
+ *
+ * @since v1.0
+ *
+ * @return void
+ */
+function theme_main_widgets_init() {
+	// Area 1.
+	register_sidebar(
+		array(
+			'name'          => 'Primary Widget Area (Sidebar)',
+			'id'            => 'primary_widget_area',
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+
+	// Area 2.
+	register_sidebar(
+		array(
+			'name'          => 'Secondary Widget Area (Header Navigation)',
+			'id'            => 'secondary_widget_area',
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+
+	// Area 3.
+	register_sidebar(
+		array(
+			'name'          => 'Third Widget Area (Footer)',
+			'id'            => 'third_widget_area',
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+}
+add_action( 'widgets_init', 'theme_main_widgets_init' );

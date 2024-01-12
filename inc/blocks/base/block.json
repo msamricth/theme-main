@@ -1,0 +1,28 @@
+{
+    "name": "acf/base",
+    "title": "Starter Block",
+    "description": "A custom block that uses ACF fields.",
+    "category": "formatting",
+    "icon": "admin-comments",
+    "keywords": ["video", "image"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block.php"
+    },
+    "attributes" : {
+        "markerColor": {
+            "type": "string"
+        },
+        "customMarkerColor": {
+            "type": "string"
+        }
+    },
+    "supports": {
+        "anchor": true,
+        "color": {
+            "link": true,
+            "gradients": true
+        }
+    },
+    "style": [ "file:./block.css" ]
+}

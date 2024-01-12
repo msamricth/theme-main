@@ -10,9 +10,9 @@ get_header();
 $search_enabled = get_theme_mod( 'search_enabled', '1' ); // Get custom meta-value.
 ?>
 <div id="post-0" class="content error404 not-found">
-	<h1 class="entry-title"><?php esc_html_e( 'Not found', 'emm' ); ?></h1>
+	<h1 class="entry-title"><?php esc_html_e( 'Not found', 'theme_main' ); ?></h1>
 	<div class="entry-content">
-		<p><?php esc_html_e( 'It looks like nothing was found at this location.', 'emm' ); ?></p>
+		<p><?php esc_html_e( 'It looks like nothing was found at this location.', 'theme_main' ); ?></p>
 		<div>
 			<?php
 				if ( '1' === $search_enabled ) :

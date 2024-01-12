@@ -1,13 +1,12 @@
 {
-	"name": "themes-starter",
-	"version": "3.0.0",
+	"name": "emm-talarico-theme-main",
+	"version": "0.5.0",
 	"license": "GPL-2.0",
-	"description": "A WordPress Starter Theme built with Bootstrap 5.",
-	"homepage": "https://them.es",
-	"author": "them.es",
+	"description": "A biolerpoint theme.",
+	"author": "Emm Talarico",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/them-es/themes-starter.git"
+		"url": "https://github.com/msamricth/emm-bootstrap-base"
 	},
 	"scripts": {
 		"watch": "webpack serve && wp-scripts start",
@@ -17,9 +16,12 @@
 		"last 2 versions"
 	],
 	"dependencies": {
-		"bootstrap": "^5.3.1",
 		"@popperjs/core": "^2.11.8",
-		"jquery": "^3.7.0"
+		"bootstrap": "^5.3.1",
+		"gsap": "^3.12.4",
+		"hamburgers": "^1.2.1",
+		"jquery": "^3.7.0",
+		"video.js": "^8.9.0"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.11.0",

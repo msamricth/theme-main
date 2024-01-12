@@ -16,8 +16,8 @@ get_header();
 			?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<div id="image-navigation" class="d-flex mb-4 justify-content-between">
-						<div><?php previous_image_link( 'large', '<span aria-hidden="true">&larr;</span> ' . esc_html__( 'Previous image', 'emm' ) ); ?></div>
-						<div><?php next_image_link( 'large', esc_html__( 'Next image', 'emm' ) . ' <span aria-hidden="true">&rarr;</span>' ); ?></div>
+						<div><?php previous_image_link( 'large', '<span aria-hidden="true">&larr;</span> ' . esc_html__( 'Previous image', 'theme_main' ) ); ?></div>
+						<div><?php next_image_link( 'large', esc_html__( 'Next image', 'theme_main' ) . ' <span aria-hidden="true">&rarr;</span>' ); ?></div>
 					</div><!-- /.d-flex -->
 					<header class="entry-header">
 						<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
@@ -43,18 +43,18 @@ get_header();
 
 							wp_link_pages(
 								array(
-									'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'emm' ) . '</span>',
+									'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'theme_main' ) . '</span>',
 									'after'       => '</div>',
 									'link_before' => '<span>',
 									'link_after'  => '</span>',
-									'pagelink'    => '<span class="screen-reader-text">' . esc_html__( 'Page', 'emm' ) . ' </span>%',
+									'pagelink'    => '<span class="screen-reader-text">' . esc_html__( 'Page', 'theme_main' ) . ' </span>%',
 									'separator'   => '<span class="screen-reader-text">, </span>',
 								)
 							);
 						?>
 					</div><!-- /.entry-content -->
 					<footer class="entry-footer">
-						<?php edit_post_link( esc_html__( 'Edit', 'emm' ), '<span class="edit-link">', '</span>' ); ?>
+						<?php edit_post_link( esc_html__( 'Edit', 'theme_main' ), '<span class="edit-link">', '</span>' ); ?>
 					</footer><!-- /.entry-footer -->
 				</article><!-- /#post-## -->
 
@@ -67,8 +67,8 @@ get_header();
 					// Parent post navigation.
 					the_post_navigation(
 						array(
-							'prev_text'  => esc_html_x( 'Published in %title', 'Parent post link', 'emm' ),
-							'aria_label' => esc_html__( 'Parent post', 'emm' ),
+							'prev_text'  => esc_html_x( 'Published in %title', 'Parent post link', 'theme_main' ),
+							'aria_label' => esc_html__( 'Parent post', 'theme_main' ),
 						)
 					);
 

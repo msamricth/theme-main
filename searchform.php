@@ -5,7 +5,7 @@
 ?>
 <form class="search-form" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 	<div class="input-group">
-		<input type="text" name="s" class="form-control" placeholder="<?php esc_attr_e( 'Search', 'emm' ); ?>" />
-		<button type="submit" class="btn btn-secondary" name="submit"><?php esc_html_e( 'Search', 'emm' ); ?></button>
+		<input type="text" name="s" class="form-control" placeholder="<?php esc_attr_e( 'Search', 'theme_main' ); ?>" />
+		<button type="submit" class="btn btn-secondary" name="submit"><?php esc_html_e( 'Search', 'theme_main' ); ?></button>
 	</div><!-- /.input-group -->
 </form>
