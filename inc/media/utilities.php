@@ -1,7 +1,7 @@
 <?php
 /**
  * Template file: inc/media/video.php
- * Core Utilities for the Media framework within the Supply Theme
+ * Core Utilities for the Media framework within Theme Main
  *
  * @package Bootstrap Base
  * @since v1
@@ -44,12 +44,13 @@ if (!function_exists('get_header_assets')):
         $mobileVideo = '';
         $desktopVideo = '';
         $header_media = '';
+        
         if ($videoMURL) {
             if ($mobile_ratio) {
             } else {
                 $mobile_ratio = 'mobile';
             }
-            $mobileVideo .= '<div class="d-md-none supply-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder, 'yes', 'preload="auto" autoplay ') . '</div>';
+            $mobileVideo .= '<div class="d-md-none theme-main-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder, 'yes', 'preload="auto" autoplay ') . '</div>';
             $classes .= "d-none d-md-block";
         }
         if ($ratio) {
@@ -58,22 +59,24 @@ if (!function_exists('get_header_assets')):
             $classes .= ' ratio-16x9';
         }
         if ($videoURL) {
-            $desktopVideo .= '<div class="ratio supply-video ' . $classes . '">' . background_video($videoURL, $placerholder, 'yes', 'preload="auto" autoplay ') . '</div>';
+            $desktopVideo .= '<div class="ratio theme-main-video ' . $classes . '">' . background_video($videoURL, $placerholder, 'yes', 'preload="auto" autoplay ') . '</div>';
         }
         //$desktopVideo .= $mobileVideo;
         //return $desktopVideo;
+        if ($ratio) {
+            $header_media .= customRatio($ratio);
+        }
+        if ($mobile_ratio) {
+            $header_media .= customRatio($mobile_ratio);
+        }
         if (empty($videoURL)) {
             if ($placerholder) {
                 $header_media .= image_containers($placerholder, $mobileplaceholder, $ratio, $mobile_ratio);
+            } else {
+                $header_media .= image_containers_URL('https://placehold.co/1440x750?text=Placeholder%20Image', 'placeholder image', 'https://placehold.co/390x844?text=Placeholder%20for%20header%20media', 'fullw', 'fullw');
             }
         } else {
 
-            if ($ratio) {
-                $header_media .= customRatio($ratio);
-            }
-            if ($mobile_ratio) {
-                $header_media .= customRatio($mobile_ratio);
-            }
             $header_media .= $desktopVideo;
             $header_media .= $mobileVideo;
         }
@@ -82,6 +85,8 @@ if (!function_exists('get_header_assets')):
     }
 
 endif;
+
+
 
 
 
@@ -103,7 +108,7 @@ if (!function_exists('video_containers')):
             } else {
                 $mobile_ratio = 'mobile';
             }
-            $mobileVideo .= '<div class="d-md-none supply-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder) . '</div>';
+            $mobileVideo .= '<div class="d-md-none theme-main-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder) . '</div>';
             $classes .= "d-none d-md-block";
         }
         if ($ratio) {
@@ -111,7 +116,7 @@ if (!function_exists('video_containers')):
         } else {
             $classes .= ' ratio-16x9';
         }
-        $desktopVideo .= '<div class="ratio supply-video ' . $classes . '">' . background_video($videoURL, $placerholder) . '</div>';
+        $desktopVideo .= '<div class="ratio theme-main-video ' . $classes . '">' . background_video($videoURL, $placerholder) . '</div>';
         $desktopVideo .= $mobileVideo;
         return $desktopVideo;
     }
@@ -135,7 +140,7 @@ if (!function_exists('image_containers')):
             } else {
                 $mobile_ratio = 'mobile';
             }
-            $mobileImage .= '<div class="d-sm-none supply-image ratio ratio-' . $mobile_ratio . '">';
+            $mobileImage .= '<div class="d-sm-none theme-main-image ratio ratio-' . $mobile_ratio . '">';
             $mobileImage .= '<img src="' . esc_url($imageObjectMobile['url']) . '" alt="' . esc_attr($imageObjectMobile['alt']) . '" />';
             $mobileImage .= '</div>';
         } else {
@@ -147,8 +152,26 @@ if (!function_exists('image_containers')):
         } else {
             $classes .= ' ratio-16x9';
         }
-        $desktopImage .= '<div class="ratio supply-image ' . $classes . '">';
-        $desktopImage .= '<img class="' . $classes . '" src="' . esc_url($imageObject['url']) . '" alt="' . esc_attr($imageObject['alt']) . '" />';
+        $desktopImage .= '<div class="ratio theme-main-image ' . $classes . '">';
+
+        $desktopImage .= '<img class="' . $classes . '"';
+        if (is_array($imageObject) && isset($imageObject['url'])) {
+            $desktopImage .= ' src="' . esc_url($imageObject['url']) . '" alt="' . esc_attr($imageObject['alt']) . '"';
+        } else {
+
+            // Check if imageObject is a valid attachment ID
+            if (is_numeric($imageObject)) {
+                $image_url = wp_get_attachment_image_src($imageObject, 'full');
+
+                if ($image_url) {
+                    $desktopImage .= ' src="' . esc_url($image_url[0]) . '" alt="' . esc_attr(get_post_meta($imageObject, '_wp_attachment_image_alt', true)) . '"';
+                }
+            }
+
+
+        }
+        $desktopImage .= ' />';
+        // add fall backs
         $desktopImage .= '</div>';
         $desktopImage .= $mobileImage;
         if (is_array($imageObject)) {
@@ -157,6 +180,43 @@ if (!function_exists('image_containers')):
     }
 endif;
 
+if (!function_exists('image_containers_URL')):
+    /**
+     * Master Container for Images  / with ratios
+     *
+     * @since v1.5
+     */
+    function image_containers_URL($imageObject, $alt = null, $imageObjectMobile = null, $ratio = null, $mobile_ratio = null)
+    {
+        $classes = '';
+        $mobileImage = '';
+        $desktopImage = '';
+        if ($imageObjectMobile) {
+            $classes .= 'd-none d-sm-block';
+            if ($mobile_ratio) {
+            } else {
+                $mobile_ratio = 'mobile';
+            }
+            $mobileImage .= '<div class="d-sm-none theme-main-image ratio ratio-' . $mobile_ratio . '">';
+            $mobileImage .= '<img src="' . $imageObjectMobile . '" alt="' . $alt . '" />';
+            $mobileImage .= '</div>';
+        } else {
+            $classes .= "main-image";
+        }
+
+        if ($ratio) {
+            $classes .= ' ratio-' . $ratio;
+        } else {
+            $classes .= ' ratio-16x9';
+        }
+        $desktopImage .= '<div class="ratio theme-main-image ' . $classes . '">';
+        $desktopImage .= '<img class="' . $classes . '" src="' . $imageObject . '" alt="' . $alt . '" />';
+        $desktopImage .= '</div>';
+        $desktopImage .= $mobileImage;
+        return $desktopImage;
+
+    }
+endif;
 
 if (!function_exists('image_containersNR')):
     /**
@@ -172,14 +232,14 @@ if (!function_exists('image_containersNR')):
         $desktopImage = '';
         if ($imageObjectMobile) {
             $classes .= 'd-none d-md-block';
-            $mobileImage .= '<div class="d-md-none supply-image">';
+            $mobileImage .= '<div class="d-md-none theme-main-image">';
             $mobileImage .= '<img src="' . esc_url($imageObjectMobile['url']) . '" alt="' . esc_attr($imageObjectMobile['alt']) . '" />';
             $mobileImage .= '</div>';
         } else {
             $classes .= "main-image";
         }
 
-        $desktopImage .= '<div class=" supply-image ' . $classes . '">';
+        $desktopImage .= '<div class=" theme-main-image ' . $classes . '">';
         $desktopImage .= '<img class="' . $classes . '" src="' . esc_url($imageObject['url']) . '" alt="' . esc_attr($imageObject['alt']) . '" />';
         $desktopImage .= '</div>';
         $desktopImage .= $mobileImage;
@@ -202,10 +262,10 @@ if (!function_exists('video_containersNR')):
         $mobileVideoOutput = '';
         $output = '';
         if ($mobileVideo) {
-            $mobileVideoOutput .= '<div class="d-md-none supply-video">' . $mobileVideo . '</div>';
+            $mobileVideoOutput .= '<div class="d-md-none theme-main-video">' . $mobileVideo . '</div>';
             $classes .= "d-none d-md-block";
         }
-        $output .= '<div class="supply-video ' . $classes . '">' . $mainVideo . '</div>';
+        $output .= '<div class="theme-main-video ' . $classes . '">' . $mainVideo . '</div>';
         $output .= $mobileVideoOutput;
         return $output;
     }

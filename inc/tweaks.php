@@ -80,6 +80,8 @@ function randClassName($length = 10) {
     }
     return $randomString;
 }
+
+function enqueue_header_markup($markup){
 /**
  * Enqueue footer markup in WP at lowest priority.
  * Convenience function!
@@ -92,9 +94,8 @@ function randClassName($length = 10) {
 *	}, 10, 1);
 *}
  */
-function enqueue_header_markup($markup){
   
-  add_action( 'wp_head', function() {echo $markup;} );
+ // add_action( 'wp_head', function() {echo $markup;} );
 }
 //add_action('wp_head', 'enqueue_header_markup', 9);
 function my_acf_admin_head() {
@@ -124,7 +125,7 @@ function add_slug_body_class( $classes ) {
         $classes[] = $post->post_type . '-' . $post->post_name;
     }
     if ( is_single() && 'post' == get_post_type() ) {
-        $classes[] = 'supply-articles';
+        $classes[] = 'blog-posts';
     }
     return $classes;
 }

@@ -11,9 +11,12 @@
 @import '../node_modules/bootstrap/scss/functions';
 
 @import '/scss/variables';
+
+@import '/scss/custom_variables';
 @import '/scss/bootstrap';
-@import '/scss/container';
+@import '/scss/utilities';
 @import '/scss/main';
+@import '/scss/header';
 @import '/scss/animations';
 @import '/scss/block-settings';
 @import '/scss/nav';

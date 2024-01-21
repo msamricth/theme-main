@@ -52,6 +52,7 @@ navbarCollapse.addEventListener('show.bs.collapse', event => {
     setTimeout(
         function () {
             navbarToggler.classList.add('is-active');
+            navbarMain.classList.add('mobile-nav-open');
         }, 100);
 });
 
@@ -60,5 +61,7 @@ navbarCollapse.addEventListener('hide.bs.collapse', event => {
     setTimeout(
         function () {
             navbarToggler.classList.remove('is-active');
+            
+            navbarMain.classList.remove('mobile-nav-open');
         }, 100);
 })

@@ -19,7 +19,7 @@ $page_id = get_option( 'page_for_posts' );
 	</div><!-- /.col -->
 	<div class="col-md-12">
 		<?php
-			get_template_part( 'archive', 'loop' );
+			get_template_part( 'templates/archive/loop' );
 		?>
 	</div><!-- /.col -->
 </div><!-- /.row -->

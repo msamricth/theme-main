@@ -23,7 +23,7 @@ if ( have_posts() ) :
 		</h1>
 	</header>
 <?php
-	get_template_part( 'author', 'bio' );
+	get_template_part( 'templates/author', 'bio' );
 
 	/**
 	 * Since we called the_post() above, we need to

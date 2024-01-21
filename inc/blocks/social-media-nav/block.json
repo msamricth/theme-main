@@ -1,0 +1,35 @@
+{
+    "name": "acf/social-media-nav",
+    "title": "Social Media Nav",
+    "description": "A navigation list of your social media icons. (You can edit these links in your Theme Options Page.)",
+    "category": "Theme Main",
+    "icon": "admin-users",
+    "keywords": [
+        "nav",
+        "navigation",
+        "picture"
+    ],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [
+            "left",
+            "right",
+            "wide",
+            "full"
+        ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

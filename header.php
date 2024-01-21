@@ -15,12 +15,12 @@
 </head>
 <body <?php body_class($bodyClasses ); ?>>
 
-<?php echo get_theme_head(); wp_body_open(); ?>
+<?php wp_body_open(); ?>
 <a href="#main" class="visually-hidden-focusable"><?php esc_html_e( 'Skip to main content', theme_namespace() ); ?></a>
 <div class="scroller" data-scroller <?php echo get_scroller_attributes(); ?>>
 	<div id="wrapper" <?php echo get_wrapper();?>> 
 		<header id="nav-header">
-			<nav id="header" class="<?php echo get_nav_header('navbar navbar-expand-lg') ?>">
+			<nav id="header" class="<?php echo get_nav_header('navbar navbar-expand-lg') ?>"  <?php echo get_nav_attributes(); ?>>
 				<div class="container">
 					<?php echo get_navbrand(); ?>
 					<button class="navbar-toggler hamburger hamburger--<?php echo get_hamburger();?>" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php esc_attr_e( 'Toggle navigation', theme_namespace() ); ?>">

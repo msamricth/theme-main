@@ -1,7 +1,7 @@
 <?php
 /**
  * Template file: inc/theme_functions.php
- * Core functions and template tags for the Supply Theme
+ * Core functions and template tags for Theme Main
  *
  * @package Bootstrap Base
  * @since v3
@@ -31,7 +31,7 @@ function my_acf_settings_show_admin( $show_admin ) { return false; }
 $theme_ACFProFields = __DIR__ . '/acf/acf_fields.php';
 $theme_ACFProBlocks = __DIR__ . '/acf/acf_blocks.php';
 //$theme_ACFProDIR  = __DIR__ . '/acf/';
-if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
+//if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
 if ( is_readable( $theme_ACFProBlocks ) ) {	require_once $theme_ACFProBlocks;}
 
 $theme_plugins = __DIR__ . '/tgma.php';
@@ -42,8 +42,6 @@ if ( is_readable( $theme_plugins ) ) {	require_once $theme_plugins;}
  *
  * @since v3
  */
-$theme_main_core = __DIR__ . '/core.php';
-if ( is_readable( $theme_functions ) ) {	require_once $theme_main_core;}
 
 $theme_main_media_setting = __DIR__ . '/media/settings.php';
 if ( is_readable( $theme_main_media_setting ) ) {	require_once $theme_main_media_setting;}
@@ -53,3 +51,6 @@ if ( is_readable( $theme_main_media_utilities ) ) {	require_once $theme_main_med
 
 $theme_main_media_video = __DIR__ . '/media/video.php';
 if ( is_readable( $theme_main_media_video ) ) {	require_once $theme_main_media_video;}
+
+$theme_main_core = __DIR__ . '/core.php';
+if ( is_readable( $theme_functions ) ) {	require_once $theme_main_core;}

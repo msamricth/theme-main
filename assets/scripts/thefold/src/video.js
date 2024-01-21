@@ -1,20 +1,25 @@
-import { lazy_load_videos, lazy_loaded_video, $videoI} from "./identifiers.js";
+import { lazy_load_videos, lazy_loaded_video, $videoI, vimeoPlaceholder} from "./identifiers.js";
 import { loadVideoErrorHandler } from "./console.js"; 
 import { foldRefresh } from "./gsap.js";
-import videojs from 'video.js/dist/alt/video.core.novtt.js';
+//import videojs from 'video.js/dist/alt/video.core.novtt.js';
 var action, vaction, sTIIV, sTPIV;
 function LazyLoad() {
-	document.addEventListener("DOMContentLoaded", function() {
-		var lazyVideos = [].slice.call(lazy_loaded_video);
+      document.addEventListener("DOMContentLoaded", function() {
+		var lazyVideos = [].slice.call(document.querySelectorAll("video.selfhosted.lazy"));
 	  
 		if ("IntersectionObserver" in window) {
 		  var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
 			entries.forEach(function(video) {
 			  if (video.isIntersecting) {
+				for (var source in video.target.children) {
+				  var videoSource = video.target.children[source];
+				  if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+					videoSource.src = videoSource.dataset.src;
+				  }
+				}
 	  
-				//video.target.load();
-                fetchAndPlay(video.target);
-				
+				video.target.load();
+				video.target.classList.remove("lazy");
 				lazyVideoObserver.unobserve(video.target);
 			  }
 			});
@@ -25,26 +30,15 @@ function LazyLoad() {
 		  });
 		}
 	  });
+
 }
 
+
+
+
+
 function videoInit(){
-    if(lazy_load_videos){
-        LazyLoad();
-    }
-    videojs.hookOnce('beforeerror', function(player, err) {
-        const error = player.error();
-      
-        // prevent current error from being cleared out
-        if (err === null) {
-          return error;
-        }
-      
-        // but allow changing to a new error
-        return err;
-    });
-    videojs.hook('error', function(player, err) {
-        loadVideoErrorHandler('', `${player.id()}`, `${err.message}`, 'loading', `errored out with code ${err.code}`);
-    });
+    LazyLoad();
 }
 
 
@@ -110,6 +104,10 @@ function updateVideo() {
 function playVimeo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = null){
     var isPlaying = player.currentTime > 0 && !player.paused && !player.ended && player.readyState > player.HAVE_CURRENT_DATA;
     if(video.classList.contains('loaded')){
+        if(vimeoPlaceholder){
+            let hidePlaceholder = vimeoPlaceholder.classList + ' d-none';
+            vimeoPlaceholder.classList = hidePlaceholder;
+        }
         if (!isPlaying) {
             var playPromise = player.play();
             if (playPromise !== undefined) {

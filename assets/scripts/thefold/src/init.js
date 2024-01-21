@@ -1,7 +1,6 @@
 
 import { Wrapper, bodyOG, scrollRoot, hasCustomBGColor } from "./identifiers.js";
 import {customOn} from "./utils.js";
-import { customFold } from "./custom.js";
 
 function initCustom(theme){
     if(customOn){

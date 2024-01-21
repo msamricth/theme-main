@@ -1,124 +1,151 @@
 
-import { Wrapper, bodyOG, scrollRoot, hasCustomBGColor, header, navbarNav } from "./identifiers.js";
+import { Wrapper, bodyOG, scrollRoot, hasCustomBGColor, header, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, navOG } from "./identifiers.js";
 // import {OGbg, OGtxt, topTA, bottomTA, customOn} from "./utils.js";
-import { foldSwitch, customFold } from "./custom.js";
 import { clearchemes, playFoldAnimation } from "./extras.js";
 import { initCustom } from "./init.js";
-import { foldDebug } from "./console.js"; 
+import { foldDebug } from "./console.js";
 var scrollActions, foldColor, foldBG;;
 
 
-function setFold(theme, bg = null, txt = null){
-	clearchemes();
-	initCustom(theme);
+function setFoldLegacy(theme) {
+
 	switch (theme) {
 		case 'bg-header':
+			clearchemes();
 			Wrapper.classList = bodyOG + ' bg-header';
-			if(bodyOG == 'bg-custom ') {
-				customFold();
+
+			let scheme = navOG;
+			let bgScheme = scheme;
+			if (isHeaderNavTransLight) {
+				bgScheme = 'transparent';
+				scheme = 'light';
 			}
-			if(bodyOG == 'bg-pattern ') {
-				Wrapper.classList = 'bg-light';
-				setTimeout(
-					function() {
-						Wrapper.classList = 'bg-light ' + theme;
-				}, 400);
+			if (isHeaderNavTransDark) {
+				bgScheme = 'var(--bs-border-color-translucent)';
+				scheme = 'dark';
 			}
-			if(bodyOG == 'bg-offerings ') {
-				Wrapper.classList = 'bg-dark ' + theme;
-			}
+			setNavBG(bgScheme);
+			setNavcolor(scheme);
+			setNavDrawal(scheme);
 			break;
 		case 'bg-play-animation':
-				playFoldAnimation();
+			playFoldAnimation();
 			break;
 		case 'bg-footer':
-			if(bodyOG == 'bg-custom ') {
-				Wrapper.classList = bodyOG;
-			} else {
-				Wrapper.classList = 'bg-dark';
-			}
+			Wrapper.classList = 'bg-dark';
 			break;
 		case 'header':
 			Wrapper.classList = bodyOG + ' bg-header';
-			if(bodyOG == 'bg-custom ') {
-				customFold();
+			scheme = navOG;
+			bgScheme = scheme;
+			if (isHeaderNavTransLight) {
+				bgScheme = 'transparent';
+				scheme = 'light';
 			}
+			if (isHeaderNavTransDark) {
+				bgScheme = 'var(--bs-border-color-translucent)';
+				scheme = 'dark';
+			}
+			setNavBG(bgScheme);
+			setNavcolor(scheme);
+			setNavDrawal(scheme);
 			break;
 		case 'undefined':
 			Wrapper.classList = bodyOG;
 			console.log('No trigger detected');
 			break;
 		case 'bg-pattern':
-			if(Wrapper.classList.contains(theme)){
-				if(Wrapper.classList.contains('bg-header')){
+			if (Wrapper.classList.contains(theme)) {
+				if (Wrapper.classList.contains('bg-header')) {
 					Wrapper.classList = 'bg-light';
 					setTimeout(
-						function() {
+						function () {
 							Wrapper.classList = 'bg-light ' + theme;
-					}, 400);
+						}, 400);
 				}
 			} else {
 				Wrapper.classList = 'bg-light';
 				setTimeout(
-					function() {
+					function () {
 						Wrapper.classList = 'bg-light ' + theme;
-				}, 600);
+					}, 600);
 			}
 			break;
-		case 'bg-custom':
-			foldSwitch(theme, bg, txt, foldBG = null, foldColor = null);
-			break;
+		//case 'bg-custom':
+		//foldSwitch(theme, bg, txt, foldBG = null, foldColor = null);
+		//break;
 		default:
-			if(Wrapper.classList.contains(theme)){
-				if(Wrapper.classList.contains('bg-header')){
-					Wrapper.classList = theme;
-					if(bodyOG == 'bg-custom') {
-						customFold();
-					}
-				}
-			} else {
-				Wrapper.classList = theme;
-			}
+			Wrapper.classList = theme;
+			scheme = theme.replace('bg-', '');
+
+			setNavBG(scheme)
+			setNavcolor(scheme);
+			setNavDrawal(scheme);
+
 	}
-	if(theme == null) {
+	if (theme == null) {
 		Wrapper.classList = bodyOG;
+		scheme = bodyOG.replace('bg-', '');
+
+		setNavBG(scheme)
+		setNavcolor(scheme);
+		setNavDrawal(scheme);
 	}
 }
-function matchNav(elem){
+function matchNav(elem) {
 	let elemClasses = elem.classList,
-	headerBG, headerColor;
-	
+		headerBG, headerColor;
+
 	elemClasses.forEach((elemClass, i) => {
 
-		if(elemClass.includes('match_')){
+		if (elemClass.includes('match_')) {
 			headerBG = elemClass.replace('match_', '');
-			header.style.setProperty('--nav-bg', 'var(--wp--preset--color--'+headerBG+')');
-			if(headerColor){} else {
-				header.style.setProperty('--mt-nav-link-color', 'var(--mt-contrasting-text-'+headerBG+')');
+			setNavBG(headerBG)
+			if (headerColor) { } else {
+				setNavcolor(headerBG);
 			}
-			navbarNav.style.setProperty('--bs-navDdropdown-bg', 'var(--bs-'+headerBG+'-bg-subtle)');
+			setNavBG(headerBG)
 
 		}
 
-		if(elemClass.includes('colorMatch_')){
+		if (elemClass.includes('colorMatch_')) {
 			headerColor = elemClass.replace('colorMatch_', '');
-			header.style.setProperty('--mt-nav-link-color', 'var(--wp--preset--color--'+headerColor+')');
+			header.style.setProperty('--mt-nav-link-color', 'var(--bs-' + headerColor + ')');
 		}
 	})
 
-} 
-function animationOn(elem){
-	if(elem.classList.contains('animate')){
+}
+function setNavBGVar(headerBG) {
+	header.style.setProperty('--mt-nav-bg', headerBG);
+}
+function setNavBG(headerBG) {
+	if (headerBG.includes('transparent')) {
+		setNavBGVar('transparent');
+	} else if (headerBG.includes('var')) {
+		setNavBGVar(headerBG);
+	} else {
+		setNavBGVar('var(--bs-' + headerBG + ')');
+	}
+}
+function setNavcolor(headerColor) {
+	header.style.setProperty('--mt-nav-link-color', 'var(--mt-contrasting-text-' + headerColor + ')');
+}
+function setNavDrawal(scheme) {
+	header.style.setProperty('--mt-nav-drawer-open-bg', 'var(--bs-' + scheme + ')');
+	header.style.setProperty('--mt-nav-drawer-open-color', 'var(--mt-contrasting-text-' + scheme + ')');
+}
+function animationOn(elem) {
+	if (elem.classList.contains('animate')) {
 
 	} else {
 		elem.classList.add('animate');
 	}
-	
+
 	setTimeout(
-		function() {
+		function () {
 			elem.classList.remove('animation-on');
-	}, 600);
-	
+		}, 600);
+
 }
 
-export{ setFold, matchNav, animationOn};
+export { matchNav, animationOn, setFoldLegacy };

@@ -1,25 +1,10 @@
 
-import { Wrapper, bodyOG, sidebar} from "./identifiers.js";
+import { Wrapper, bodyOG, sidebar, header} from "./identifiers.js";
 import {OGbg} from "./utils.js";
-import {checkFoldColor} from "./custom.js";
 
 function clearchemes(){
-	
-	document.body.style.removeProperty('--supply-fold-color');
-	document.body.style.removeProperty('--bgcustom');
-	
-	
-	if(document.body.classList.contains('page-scheme-dark')){
-		document.body.classList.remove('page-scheme-dark');
-	}
-
-	if(document.body.classList.contains('page-scheme-light')){
-		document.body.classList.remove('page-scheme-light');
-	}
-	if(document.body.classList.contains('customScheme')){
-		document.body.style.setProperty('--bgcustom', OGbg);
-		checkFoldColor(OGbg);
-	}
+	header.style.removeProperty('--mt-nav-bg');
+	header.style.removeProperty('--mt-nav-link-color');
 }
 
 

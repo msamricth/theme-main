@@ -1,7 +1,7 @@
 <?php
 /**
  * Template file: inc/core.php
- * Core functions for the Supply Theme
+ * Core functions for Theme Main
  *
  * @package Bootstrap Base
  * @since v1
@@ -76,14 +76,6 @@ if ( is_readable( $core_nav ) ) {	require_once $core_nav; }
 
 
 /**
- * Blocks and Block settings
- * @since v1.0
- */
-$theme_main_block_settings = __DIR__ . '/core/blocks.php';
-if ( is_readable( $theme_main_block_settings ) ) {	require_once $theme_main_block_settings;}
-
-
-/**
  * Widgets
  * @since v1.0
  */
@@ -101,3 +93,11 @@ $core_sidebar = __DIR__ . '/core/sidebar.php';
 if ( is_readable( $core_sidebar ) ) {
 	require_once $core_sidebar;
 }
+
+/**
+ * Blocks and Block settings
+ * @since v1.0
+ */
+$theme_main_block_settings = __DIR__ . '/core/blocks.php';
+if ( is_readable( $theme_main_block_settings ) ) {	require_once $theme_main_block_settings;}
+

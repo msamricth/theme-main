@@ -4,7 +4,7 @@
  * Template file: inc/navs/nav.php
  *
  * 
- * Nav functions for the Supply Theme
+ * Nav functions for Theme Main
  *
  * @package Bootstrap Base
  * @since v1

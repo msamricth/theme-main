@@ -1,0 +1,27 @@
+{
+    "name": "acf/header-block",
+    "title": "Header Block",
+    "description": "Theme header block",
+    "category": "Theme Main",
+    "icon": "welcome-view-site",
+    "keywords": ["head", "media", "header", "heading"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block.php"
+    },
+    "style": "file:./block.css",
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

@@ -1,0 +1,9 @@
+header.header-container .page-header {
+    position: absolute;
+    z-index: 15;
+}
+
+.edit-post-visual-editor__content-area header.header-container {
+    height: 500px;
+    min-height: 500px;
+}

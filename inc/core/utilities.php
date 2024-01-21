@@ -1,7 +1,7 @@
 <?php
 /**
  * Template file: inc/core/utilities.php
- * Utilities for the Supply Theme
+ * Utilities for Theme Main
  *
  * @package Bootstrap Base
  * @since v1
@@ -110,6 +110,28 @@ if (!function_exists('RGBToHSL')):
 
 endif;
 
+if (!function_exists('get_match_nav')):
+	/**
+	 * "Theme posted on" pattern.
+	 *
+	 * @since v7.6
+	 */
+	function get_match_nav($custom = null)
+	{
+		if (isset($custom)) {
+			$scheme = $custom;
+		} else {
+			$scheme = get_field('background_color', get_theme_main_postID());
+		}
+		if ($scheme) {
+			$scheme = 'match-nav match_' . $scheme . ' ';
+		} else {
+			$scheme = 'match-nav match_light';
+		}
+		return $scheme;
+	}
+
+endif;
 
 if (!function_exists('get_scheme')):
 	/**
@@ -119,21 +141,13 @@ if (!function_exists('get_scheme')):
 	 */
 	function get_scheme($custom = null)
 	{
-		$output = '';
 		if (isset($custom)) {
 			$scheme = $custom;
 		} else {
-			$scheme = get_field('background_color');
+			$scheme = get_field('background_color', get_theme_main_postID());
 		}
 		if ($scheme) {
-			if (strpos($scheme, 'dots') !== false) {
-				$bodyClasses .= ' dots_on ';
-				$scheme = 'bg-light bg-pattern';
-				// }elseif(strpos($scheme, 'offerings') !== false){
-				//   $scheme = 'bg-dark bg-offerings';
-			} else {
-				$scheme = 'bg-' . $scheme . ' ';
-			}
+			$scheme = 'bg-' . $scheme . ' ';
 		} else {
 			$scheme = 'bg-light';
 		}
@@ -141,6 +155,78 @@ if (!function_exists('get_scheme')):
 	}
 
 endif;
+// Define the function to append choices
+if (!function_exists('acf_append_color_choices')) {
+    function acf_append_color_choices($field) {
+        // Get values from repeater field in Field Group A
+        $repeater_values = get_field('extra_colors', 'option');
+
+        // Check if values exist
+        if ($repeater_values) {
+            // Loop through repeater values and add them as choices
+            foreach ($repeater_values as $color) {
+                // Replace white spaces with underscores in the color label
+                $label = slugify($color['color_label']);
+
+                // Add color to choices array
+                $field['choices'][$label] = $color['color_label'];
+            }
+        }
+
+        // Return the modified field
+        return $field;
+    }
+
+    // Hook into acf/load_field and apply the function to your select fields
+    add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
+    add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
+}
+
+if (!function_exists('theme_main_load_more_posts')) {
+    function theme_main_load_more_posts()
+    {
+        $page = $_POST['page'];
+
+        $load_moreArgs = array(
+            'posts_per_page' => 6,
+            'paged' => $page,
+            'offset' => ($page - 1) * 6, // Calculate offset based on page number
+        );
+
+        $query = new WP_Query($load_moreArgs);
+		$i = 0;
+		$row_class = '';
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+
+				if ($i == 0) {
+					$row_class = 'horizontal-card';
+					// Display 1 post in the first row
+					get_template_part('templates/content/horizontal-card', null, ['row_class' => $row_class]);
+				} elseif ($i <= 3) {
+	
+					$row_class = 'vertical-card col-lg-4';
+					// Display 3 posts in the second row
+					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+				} else {
+					$row_class = 'vertical-card col-lg-6';
+					// Display 2 posts in the third row
+					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+				}
+				$i++; // Increment $i after each post
+            }
+        }
+
+        wp_reset_postdata();
+        die();
+    }
+
+    add_action('wp_ajax_load_more_posts', 'theme_main_load_more_posts');
+    add_action('wp_ajax_nopriv_load_more_posts', 'theme_main_load_more_posts');
+}
+
 
 
 if (!function_exists('customRatio')):
@@ -360,21 +446,22 @@ if (!function_exists('theme_main_add_user_fields')) {
 }
 
 
-if ( ! function_exists( 'theme_main_article_posted_on' ) ) {
+if (!function_exists('theme_main_article_posted_on')) {
 	/**
 	 * "Theme posted on" pattern.
 	 *
 	 * @since v1.0
 	 */
-	function theme_main_article_posted_on() {
+	function theme_main_article_posted_on()
+	{
 		printf(
-			wp_kses_post( __( '<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author-meta vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', theme_namespace() ) ),
-			esc_url( get_the_permalink() ),
-			esc_attr( get_the_date() . ' - ' . get_the_time() ),
-			esc_attr( get_the_date( 'c' ) ),
-			esc_html( get_the_date() . ' - ' . get_the_time() ),
-			esc_url( get_author_posts_url( (int) get_the_author_meta( 'ID' ) ) ),
-			sprintf( esc_attr__( 'View all posts by %s', theme_namespace() ), get_the_author() ),
+			wp_kses_post(__('<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author-meta vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', theme_namespace())),
+			esc_url(get_the_permalink()),
+			esc_attr(get_the_date() . ' - ' . get_the_time()),
+			esc_attr(get_the_date('c')),
+			esc_html(get_the_date() . ' - ' . get_the_time()),
+			esc_url(get_author_posts_url((int) get_the_author_meta('ID'))),
+			sprintf(esc_attr__('View all posts by %s', theme_namespace()), get_the_author()),
 			get_the_author()
 		);
 	}
@@ -387,193 +474,87 @@ if ( ! function_exists( 'theme_main_article_posted_on' ) ) {
  *
  * @return string
  */
-function theme_main_password_form() {
+function theme_main_password_form()
+{
 	global $post;
-	$label = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
+	$label = 'pwbox-' . (empty($post->ID) ? rand() : $post->ID);
 
-	$output                  = '<div class="row">';
-		$output             .= '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">';
-		$output             .= '<h4 class="col-md-12 alert alert-warning">' . esc_html__( 'This content is password protected. To view it please enter your password below.', theme_namespace() ) . '</h4>';
-			$output         .= '<div class="col-md-6">';
-				$output     .= '<div class="input-group">';
-					$output .= '<input type="password" name="post_password" id="' . esc_attr( $label ) . '" placeholder="' . esc_attr__( 'Password', theme_namespace() ) . '" class="form-control" />';
-					$output .= '<div class="input-group-append"><input type="submit" name="submit" class="btn btn-primary" value="' . esc_attr__( 'Submit', theme_namespace() ) . '" /></div>';
-				$output     .= '</div><!-- /.input-group -->';
-			$output         .= '</div><!-- /.col -->';
-		$output             .= '</form>';
-	$output                 .= '</div><!-- /.row -->';
+	$output = '<div class="row">';
+	$output .= '<form action="' . esc_url(site_url('wp-login.php?action=postpass', 'login_post')) . '" method="post">';
+	$output .= '<h4 class="col-md-12 alert alert-warning">' . esc_html__('This content is password protected. To view it please enter your password below.', theme_namespace()) . '</h4>';
+	$output .= '<div class="col-md-6">';
+	$output .= '<div class="input-group">';
+	$output .= '<input type="password" name="post_password" id="' . esc_attr($label) . '" placeholder="' . esc_attr__('Password', theme_namespace()) . '" class="form-control" />';
+	$output .= '<div class="input-group-append"><input type="submit" name="submit" class="btn btn-primary" value="' . esc_attr__('Submit', theme_namespace()) . '" /></div>';
+	$output .= '</div><!-- /.input-group -->';
+	$output .= '</div><!-- /.col -->';
+	$output .= '</form>';
+	$output .= '</div><!-- /.row -->';
 
 	return $output;
 }
-add_filter( 'the_password_form', 'theme_main_password_form' );
+add_filter('the_password_form', 'theme_main_password_form');
 
 
-if ( ! function_exists( 'theme_main_comment' ) ) {
-	/**
-	 * Style Reply link.
-	 *
-	 * @since v1.0
-	 *
-	 * @param string $class Link class.
-	 *
-	 * @return string
-	 */
-	function theme_main_replace_reply_link_class( $class ) {
-		return str_replace( "class='comment-reply-link", "class='comment-reply-link btn btn-outline-secondary", $class );
-	}
-	add_filter( 'comment_reply_link', 'theme_main_replace_reply_link_class' );
+if (!function_exists('theme_main_duplicate_post_link')) {
+    function theme_main_duplicate_post_link($actions, $post)
+    {
+        if (current_user_can('edit_posts')) {
+            $duplicate_url = admin_url('admin.php?action=theme_main_duplicate_post&amp;post=' . $post->ID . '&amp;nonce=' . wp_create_nonce('theme_main_duplicate_post_nonce'));
 
-	/**
-	 * Template for comments and pingbacks:
-	 * add function to comments.php ... wp_list_comments( array( 'callback' => 'theme_main_comment' ) );
-	 *
-	 * @since v1.0
-	 *
-	 * @param object $comment Comment object.
-	 * @param array  $args    Comment args.
-	 * @param int    $depth   Comment depth.
-	 */
-	function theme_main_comment( $comment, $args, $depth ) {
-		$GLOBALS['comment'] = $comment;
-		switch ( $comment->comment_type ) :
-			case 'pingback':
-			case 'trackback':
-				?>
-		<li class="post pingback">
-			<p>
-				<?php
-					esc_html_e( 'Pingback:', theme_namespace() );
-					comment_author_link();
-					edit_comment_link( esc_html__( 'Edit', theme_namespace() ), '<span class="edit-link">', '</span>' );
-				?>
-			</p>
-				<?php
-				break;
-			default:
-				?>
-		<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-			<article id="comment-<?php comment_ID(); ?>" class="comment">
-				<footer class="comment-meta">
-					<div class="comment-author vcard">
-						<?php
-							$avatar_size = ( '0' !== $comment->comment_parent ? 68 : 136 );
-							echo get_avatar( $comment, $avatar_size );
+            $actions['duplicate'] = '<a href="' . esc_url($duplicate_url) . '" title="' . esc_attr__('Duplicate this item', 'theme_main') . '">' . __('Duplicate', 'theme_main') . '</a>';
+        }
 
-							/* Translators: 1: Comment author, 2: Date and time */
-							printf(
-								wp_kses_post( __( '%1$s, %2$s', theme_namespace() ) ),
-								sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
-								sprintf(
-									'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
-									esc_url( get_comment_link( $comment->comment_ID ) ),
-									get_comment_time( 'c' ),
-									/* Translators: 1: Date, 2: Time */
-									sprintf( esc_html__( '%1$s ago', theme_namespace() ), human_time_diff( (int) get_comment_time( 'U' ), current_time( 'timestamp' ) ) )
-								)
-							);
+        return $actions;
+    }
 
-							edit_comment_link( esc_html__( 'Edit', theme_namespace() ), '<span class="edit-link">', '</span>' );
-						?>
-					</div><!-- .comment-author .vcard -->
+    add_filter('post_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+    add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+    add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+}
 
-					<?php if ( '0' === $comment->comment_approved ) { ?>
-						<em class="comment-awaiting-moderation">
-							<?php esc_html_e( 'Your comment is awaiting moderation.', theme_namespace() ); ?>
-						</em>
-						<br />
-					<?php } ?>
-				</footer>
+if (!function_exists('theme_main_duplicate_post')) {
+    function theme_main_duplicate_post()
+    {
+        // Check for nonce security
+        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'theme_main_duplicate_post_nonce')) {
+            return;
+        }
 
-				<div class="comment-content"><?php comment_text(); ?></div>
+        // Check if user has proper permissions
+        if (!current_user_can('edit_posts')) {
+            return;
+        }
 
-				<div class="reply">
-					<?php
-						comment_reply_link(
-							array_merge(
-								$args,
-								array(
-									'reply_text' => esc_html__( 'Reply', theme_namespace() ) . ' <span>&darr;</span>',
-									'depth'      => $depth,
-									'max_depth'  => $args['max_depth'],
-								)
-							)
-						);
-					?>
-				</div><!-- /.reply -->
-			</article><!-- /#comment-## -->
-				<?php
-				break;
-		endswitch;
-	}
+        // Get the original post ID
+        $post_id = (isset($_GET['post'])) ? absint($_GET['post']) : '';
 
-	/**
-	 * Custom Comment form.
-	 *
-	 * @since v1.0
-	 * @since v1.1: Added 'submit_button' and 'submit_field'
-	 * @since v2.0.2: Added '$consent' and 'cookies'
-	 *
-	 * @param array $args    Form args.
-	 * @param int   $post_id Post ID.
-	 *
-	 * @return array
-	 */
-	function theme_main_custom_commentform( $args = array(), $post_id = null ) {
-		if ( null === $post_id ) {
-			$post_id = get_the_ID();
-		}
+        if (empty($post_id)) {
+            return;
+        }
 
-		$commenter     = wp_get_current_commenter();
-		$user          = wp_get_current_user();
-		$user_identity = $user->exists() ? $user->display_name : '';
+        // Get the original post
+        $post = get_post($post_id);
 
-		$args = wp_parse_args( $args );
+        // Duplicate the post
+        $new_post_id = wp_insert_post(array(
+            'post_title' => $post->post_title . ' (Duplicate)',
+            'post_content' => $post->post_content,
+            'post_status' => $post->post_status,
+            'post_type' => $post->post_type,
+            'post_author' => get_current_user_id(),
+        ));
 
-		$req      = get_option( 'require_name_email' );
-		$aria_req = ( $req ? " aria-required='true' required" : '' );
-		$consent  = ( empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"' );
-		$fields   = array(
-			'author'  => '<div class="form-floating mb-3">
-							<input type="text" id="author" name="author" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" placeholder="' . esc_html__( 'Name', theme_namespace() ) . ( $req ? '*' : '' ) . '"' . $aria_req . ' />
-							<label for="author">' . esc_html__( 'Name', theme_namespace() ) . ( $req ? '*' : '' ) . '</label>
-						</div>',
-			'email'   => '<div class="form-floating mb-3">
-							<input type="email" id="email" name="email" class="form-control" value="' . esc_attr( $commenter['comment_author_email'] ) . '" placeholder="' . esc_html__( 'Email', theme_namespace() ) . ( $req ? '*' : '' ) . '"' . $aria_req . ' />
-							<label for="email">' . esc_html__( 'Email', theme_namespace() ) . ( $req ? '*' : '' ) . '</label>
-						</div>',
-			'url'     => '',
-			'cookies' => '<p class="form-check mb-3 comment-form-cookies-consent">
-							<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" class="form-check-input" type="checkbox" value="yes"' . $consent . ' />
-							<label class="form-check-label" for="wp-comment-cookies-consent">' . esc_html__( 'Save my name, email, and website in this browser for the next time I comment.', theme_namespace() ) . '</label>
-						</p>',
-		);
+        // Duplicate post meta
+        $post_meta = get_post_meta($post_id);
+        foreach ($post_meta as $key => $value) {
+            update_post_meta($new_post_id, $key, maybe_unserialize($value[0]));
+        }
 
-		$defaults = array(
-			'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
-			'comment_field'        => '<div class="form-floating mb-3">
-											<textarea id="comment" name="comment" class="form-control" aria-required="true" required placeholder="' . esc_attr__( 'Comment', theme_namespace() ) . ( $req ? '*' : '' ) . '"></textarea>
-											<label for="comment">' . esc_html__( 'Comment', theme_namespace() ) . '</label>
-										</div>',
-			/** This filter is documented in wp-includes/link-template.php */
-			'must_log_in'          => '<p class="must-log-in">' . sprintf( wp_kses_post( __( 'You must be <a href="%s">logged in</a> to post a comment.', theme_namespace() ) ), wp_login_url( esc_url( get_the_permalink( get_the_ID() ) ) ) ) . '</p>',
-			/** This filter is documented in wp-includes/link-template.php */
-			'logged_in_as'         => '<p class="logged-in-as">' . sprintf( wp_kses_post( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>', theme_namespace() ) ), get_edit_user_link(), $user->display_name, wp_logout_url( apply_filters( 'the_permalink', esc_url( get_the_permalink( get_the_ID() ) ) ) ) ) . '</p>',
-			'comment_notes_before' => '<p class="small comment-notes">' . esc_html__( 'Your Email address will not be published.', theme_namespace() ) . '</p>',
-			'comment_notes_after'  => '',
-			'id_form'              => 'commentform',
-			'id_submit'            => 'submit',
-			'class_submit'         => 'btn btn-primary',
-			'name_submit'          => 'submit',
-			'title_reply'          => '',
-			'title_reply_to'       => esc_html__( 'Leave a Reply to %s', theme_namespace() ),
-			'cancel_reply_link'    => esc_html__( 'Cancel reply', theme_namespace() ),
-			'label_submit'         => esc_html__( 'Post Comment', theme_namespace() ),
-			'submit_button'        => '<input type="submit" id="%2$s" name="%1$s" class="%3$s" value="%4$s" />',
-			'submit_field'         => '<div class="form-submit">%1$s %2$s</div>',
-			'format'               => 'html5',
-		);
+        // Redirect to the edit screen of the new duplicate post
+        wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
+        exit;
+    }
 
-		return $defaults;
-	}
-	add_filter( 'comment_form_defaults', 'theme_main_custom_commentform' );
+    add_action('admin_action_theme_main_duplicate_post', 'theme_main_duplicate_post');
 }

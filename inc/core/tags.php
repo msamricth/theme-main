@@ -3,7 +3,7 @@
  * Template file: inc/core/tags.php
  *
  * 
- * Core functions for the Supply Theme
+ * Core functions for Theme Main
  *
  * @package Bootstrap Base
  * @since v1
