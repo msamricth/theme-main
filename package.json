@@ -6,7 +6,7 @@
 	"author": "Emm Talarico",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/msamricth/emm-bootstrap-base"
+		"url": "https://github.com/msamricth/theme-main"
 	},
 	"scripts": {
 		"watch": "webpack serve && wp-scripts start",
