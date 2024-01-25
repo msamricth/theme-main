@@ -100,3 +100,14 @@ if ( is_readable( $core_sidebar ) ) {
  */
 $theme_main_block_settings = __DIR__ . '/core/blocks.php';
 if ( is_readable( $theme_main_block_settings ) ) {	require_once $theme_main_block_settings;}
+
+
+/**
+ * Core Installer
+ *
+ * @since v1.0
+ */
+$core_installer = __DIR__ . '/core/one-time-functions.php';
+if ( is_readable( $core_installer ) ) {
+	require_once $core_installer;
+}

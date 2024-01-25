@@ -1,67 +1,60 @@
-
 const scrollRoot = document.querySelector('[data-scroller]');
 const nav_compression = document.body.classList.contains('nav_compression');
-var lastScrollTop = 0; // This Varibale will store the top position
+var lastScrollTop = 0;
 var newScroll;
 const main = document.querySelector('main');
-navbarMain = document.getElementById('header'); // Get The NavBar
-navcontainer = document.getElementById('nav-header');
-navbarToggler = document.querySelector('.navbar-toggler');
-navbarCollapse = document.querySelector('.navbar-collapse');
-if (nav_compression) {
+const navbarMain = document.getElementById('header');
+const navcontainer = document.getElementById('nav-header');
+const navbarToggler = document.querySelector('.navbar-toggler');
+const navbarCollapse = document.querySelector('.navbar-collapse');
 
-    window.addEventListener('scroll', function () {
-        //on every scroll this funtion will be called
+document.addEventListener('DOMContentLoaded', function () {
+    if (nav_compression) {
+        const navbarMainHeight = navbarMain.clientHeight;
 
-        var scrollTop = window.scrollY || document.documentElement.scrollTop;
-        //This line will get the location on scroll
+        window.addEventListener('scroll', function () {
+            var scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-        //This line will get the location on scroll
-        if (scrollTop < 250) {
+            // Close any open dropdowns in navbarMain
+            const openDropdowns = navbarMain.querySelectorAll('.show');
+            openDropdowns.forEach(dropdown => dropdown.classList.remove('show'));
 
-
-            navbarMain.style.top = '0';
-
-        } else {
-            // if (scrollTop > 0 && scrollTop < main.innerHeight - window.innerHeight) {
-            if (scrollTop > lastScrollTop) { //if it will be greater than the previous
-                navbarMain.style.top = '-120px';
-                //set the value to the negetive of height of navbar 
-                newScroll = scrollTop - 2; //  - added the '- 2' as a work around since sometimes small scrolls aren't recored
-            }
-
-            else {
+            if (scrollTop < 250) {
                 navbarMain.style.top = '0';
-                newScroll = scrollTop + 2;
+            } else {
+                if (scrollTop > lastScrollTop) {
+                    navbarMain.style.top = `-${navbarMainHeight}px`;
+                    newScroll = scrollTop - 2;
+                } else {
+                    navbarMain.style.top = '0';
+                    newScroll = scrollTop + 2;
+                }
             }
-        }
-        lastScrollTop = newScroll; //New Position Stored
+            lastScrollTop = newScroll;
+        });
+    }
+
+    function hideNav() {
+        navcontainer.classList.remove("is-visible");
+    }
+
+    function showNav() {
+        navcontainer.classList.remove("is-hidden");
+    }
+
+    navbarCollapse.addEventListener('show.bs.collapse', event => {
+        setTimeout(
+            function () {
+                navbarToggler.classList.add('is-active');
+                navbarMain.classList.add('mobile-nav-open');
+            }, 100);
     });
-}
-function hideNav() {
-    navcontainer.classList.remove("is-visible");
-    // navcontainer.classList.add("is-hidden");
-}
 
-function showNav() {
-    navcontainer.classList.remove("is-hidden");
-    //navcontainer.classList.add("is-visible", "scrolling");
-}
-
-navbarCollapse.addEventListener('show.bs.collapse', event => {
-    setTimeout(
-        function () {
-            navbarToggler.classList.add('is-active');
-            navbarMain.classList.add('mobile-nav-open');
-        }, 100);
+    navbarCollapse.addEventListener('hide.bs.collapse', event => {
+        setTimeout(
+            function () {
+                navbarToggler.classList.remove('is-active');
+                navbarMain.classList.remove('mobile-nav-open');
+            }, 100);
+    });
 });
-
-
-navbarCollapse.addEventListener('hide.bs.collapse', event => {
-    setTimeout(
-        function () {
-            navbarToggler.classList.remove('is-active');
-            
-            navbarMain.classList.remove('mobile-nav-open');
-        }, 100);
-})

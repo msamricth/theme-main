@@ -7,28 +7,30 @@
  * @since v1.5
  */
 
-add_theme_support('editor-font-sizes', array(
+add_theme_support(
+    'editor-font-sizes',
     array(
-        'name' => esc_attr__('Small', 'themeLangDomain'),
-        'size' => 12,
-        'slug' => 'small'
-    ),
-    array(
-        'name' => esc_attr__('Regular', 'themeLangDomain'),
-        'size' => 16,
-        'slug' => 'regular'
-    ),
-    array(
-        'name' => esc_attr__('Large', 'themeLangDomain'),
-        'size' => 36,
-        'slug' => 'large'
-    ),
-    array(
-        'name' => esc_attr__('Huge', 'themeLangDomain'),
-        'size' => 50,
-        'slug' => 'huge'
+        array(
+            'name' => esc_attr__('Small', 'themeLangDomain'),
+            'size' => 12,
+            'slug' => 'small'
+        ),
+        array(
+            'name' => esc_attr__('Regular', 'themeLangDomain'),
+            'size' => 16,
+            'slug' => 'regular'
+        ),
+        array(
+            'name' => esc_attr__('Large', 'themeLangDomain'),
+            'size' => 36,
+            'slug' => 'large'
+        ),
+        array(
+            'name' => esc_attr__('Huge', 'themeLangDomain'),
+            'size' => 50,
+            'slug' => 'huge'
+        )
     )
-)
 );
 function theme_main_editor_colors()
 {
@@ -116,55 +118,73 @@ if (!function_exists('theme_main_setup_theme')) {
     remove_action('enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets');
     remove_action('enqueue_block_editor_assets', 'gutenberg_enqueue_block_editor_assets_block_directory');
 }
-function load_headpper_block()
-{
-    $template = array(
-        'acf/header-block',
-        array(),
-        array(
-            'core/paragraph',
-            array(
-                'placeholder' => 'Add a inner paragraph'
-            )
-        ),
-        array(
-            'wp-bootstrap-blocks/row',
-            array(),
-            array(
-                array(
-                    'wp-bootstrap-blocks/column',
-                    array(),
-                    array(
-                        array('core/image', array()),
-                    )
-                ),
-                array(
-                    'wp-bootstrap-blocks/column',
-                    array(),
-                    array(
-                        array(
-                            'core/paragraph',
-                            array(
-                                'placeholder' => 'Add a inner paragraph'
-                            )
-                        ),
-                    )
-                ),
-            )
-        )
-    );
-    $post_type_object = get_post_type_object('post');
-    $post_type_object->template = $template;
-}
 
 
-function load_header_block()
+
+
+function theme_main_load_header_posts_block()
 {
 
     $post_type_object = get_post_type_object('post');
     $post_type_object->template = array(
         array(
-            'acf/header-block')
+            'acf/header-block'
+        )
     );
+
 }
-add_action('init', 'load_header_block', 20);
+add_action('init', 'theme_main_load_header_posts_block', 20);
+
+
+
+function theme_main_load_header_page_block()
+{
+
+    $post_type_object = get_post_type_object('page');
+    $post_type_object->template = array(
+        array(
+            'acf/header-block'
+        )
+    );
+
+}
+
+add_action('init', 'theme_main_load_header_page_block', 20);
+
+
+
+
+function theme_main_check_for_updates() {
+    // Your GitHub repository information
+    $github_user = 'msamricth';
+    $github_repo = 'theme-main';
+    $github_api_url = "https://api.github.com/repos/$github_user/$github_repo/releases/latest";
+
+    // Get the latest release information from GitHub
+    $response = wp_remote_get($github_api_url);
+
+    if (is_wp_error($response)) {
+        // Handle error if the request fails
+        return;
+    }
+
+    $body = wp_remote_retrieve_body($response);
+    $release_data = json_decode($body);
+
+    if (!$release_data || isset($release_data->message)) {
+        // Handle error if JSON decoding fails or GitHub returns an error
+        return;
+    }
+
+    // Compare the latest GitHub version with your theme version
+    $github_version = $release_data->tag_name;
+    $current_version = wp_get_theme()->get('Version');
+
+    if (version_compare($github_version, $current_version, '>')) {
+        // New version available, you can perform actions here (e.g., display a notice)
+        echo '<div class="notice notice-info is-dismissible"><p>New theme version available: ' . esc_html($github_version) . '</p></div>';
+    }
+}
+
+// Hook the function to the 'wp_loaded' action
+add_action('wp_loaded', 'theme_main_check_for_updates');

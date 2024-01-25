@@ -1,7 +1,16 @@
+<?php
+$footer_background_image = get_field("footer_background_image","option");
+$footer_options = '';
 
+if( $footer_background_image ) {
+	$footer_options =' has-background-image" style="background-image="url('.$footer_background_image.');';
+
+}
+
+?>
 </div>
 </main><!-- /#main -->
-<div class="pre-footer">
+<div class="pre-footer mt-gutter">
 	<?php if (is_active_sidebar('forth_widget_area')):
 
 		dynamic_sidebar('forth_widget_area');
@@ -16,7 +25,7 @@
 
 	endif; ?>
 </div>
-<footer id="footer" class="footer py-5">
+<footer id="footer" class="footer py-5 <?php echo $footer_options; ?>">
 
 	<?php
 

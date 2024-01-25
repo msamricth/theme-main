@@ -1,0 +1,26 @@
+{
+    "name": "acf/carousel-slide-block",
+    "title": "Carousel Slide Block",
+    "description": "Slide Block for the Carousel Block",
+    "category": "Theme Main",
+    "icon": "images-alt",
+    "keywords": ["Image", "media", "picture", "call to action", "slider", "carousel", "slide", "individual"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

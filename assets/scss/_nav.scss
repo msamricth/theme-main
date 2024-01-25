@@ -1,16 +1,17 @@
 @import "../../node_modules/hamburgers/_sass/hamburgers/hamburgers";
 
 header .navbar {
-    background-color: var(--mt-nav-bg);
+    background-color: var(--theme-main-nav-bg);
     transition: background-color .6s ease, color .6s ease, opacity .6s ease, top .6s ease;
     will-change: background-color, color, opacity, top;
 
     box-shadow: none;
 
     &.mobile-nav-open {
-        --mt-nav-bg: var(--mt-nav-drawer-open-bg) !important;
-        --mt-nav-link-color: var(--mt-nav-drawer-open-color) !important;
+        --theme-main-nav-bg: var(--theme-main-nav-drawer-open-bg) !important;
+        --theme-main-nav-link-color: var(--theme-main-nav-drawer-open-color) !important;
     }
+
     @include media-breakpoint-down(md) {
         .navbar-collapse.collapse.show {
             /* height: 92vh; */
@@ -35,7 +36,7 @@ header .navbar {
         }
 
         .dropdown-menu {
-            --bs-navDdropdown-bg: transparent;
+            --theme-main-navDdropdown-bg: transparent;
         }
 
     }
@@ -50,7 +51,7 @@ header .navbar {
     .hamburger.is-active .hamburger-inner,
     .hamburger.is-active .hamburger-inner::before,
     .hamburger.is-active .hamburger-inner::after {
-        background-color: var(--mt-nav-link-color);
+        background-color: var(--theme-main-nav-link-color);
 
     }
 
@@ -60,19 +61,20 @@ header .navbar {
     }
 
     .navbar-nav {
-        --bs-nav-link-color: var(--mt-nav-link-color);
+        --bs-nav-link-color: var(--theme-main-nav-link-color);
+
     }
 
 
     .dropdown-menu {
-        background-color: var(--bs-navDdropdown-bg);
+        background-color: var(--theme-main-navDdropdown-bg);
         max-height: 0px;
         transition: max-height 0.25s ease;
-        /* height:0px; */
+        top: var(--theme-main-dropdown-top);
         display: block;
         overflow: clip;
         --bs-dropdown-padding-y: 0;
-
+        --bs-dropdown-link-hover-bg: transparent;
         &.show {
             max-height: 500px;
         }
@@ -80,28 +82,50 @@ header .navbar {
 
 }
 
+.make_dropdown_menus_horizontal {
+    .navbar-nav {
+        position: relative;
+    }
+
+    .dropdown {
+        position: static;
+    }
+
+    .dropdown-menu {
+        display: block;
+        .dropdown-item {
+            font-weight: 600;
+            color: var(--theme-main-nav-link-color);
+        }
+        @include media-breakpoint-up(lg) {
+            display: flex;
+        }
+
+    }
+}
+
 .navbar-nav {
     --bs-nav-link-padding-y: 3rem;
     --bs-nav-link-font-weight: 800;
     --bs-nav-link-font-size: 20px;
-    --bs-nav-link-color: var(--mt-nav-link-color);
+    --bs-nav-link-color: var(--theme-main-nav-link-color);
 
 
-    .nav-link {
+    .nav-link, .dropdown-item {
         width: 100%;
         text-transform: uppercase;
         opacity: .76;
 
         &.active,
         &.show {
-            color: var(--mt-nav-link-color);
+            color: var(--theme-main-nav-link-color);
             opacity: 1;
         }
 
 
         &:hover,
         &:focus {
-            color: var(--mt-nav-link-color);
+            color: var(--theme-main-nav-link-color);
         }
 
         &:focus-visible {
@@ -111,7 +135,7 @@ header .navbar {
     }
 
     &:hover {
-        .nav-link {
+        .nav-link, .dropdown-item  {
             opacity: 0.6;
 
             &:hover,
@@ -128,7 +152,7 @@ header .navbar {
     padding: 0;
     margin-bottom: 51px;
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         display: flex;
         // justify-content: space-between;
         max-width: 60%;

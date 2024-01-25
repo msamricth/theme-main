@@ -1,5 +1,5 @@
 {
-    "name": "acf/base",
+    "name": "acf/media",
     "title": "Media Block",
     "description": "A custom Media block that uses ACF fields.",
     "style": [ "file:./block.css" ],

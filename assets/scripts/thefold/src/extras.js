@@ -3,8 +3,8 @@ import { Wrapper, bodyOG, sidebar, header} from "./identifiers.js";
 import {OGbg} from "./utils.js";
 
 function clearchemes(){
-	header.style.removeProperty('--mt-nav-bg');
-	header.style.removeProperty('--mt-nav-link-color');
+	header.style.removeProperty('--theme-main-nav-bg');
+	header.style.removeProperty('--theme-main-nav-link-color');
 }
 
 

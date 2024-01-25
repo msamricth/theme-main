@@ -38,7 +38,7 @@ if (!function_exists('get_theme_Colors_CSS_variables')) {
         --bs-' . $prefixColor . '-text-emphasis: ' . $text . ';
         --bs-' . $prefixColor . '-bg-subtle: ' . $subtle . ';
         --bs-' . $prefixColor . '-border-subtle: ' . $border . ';
-        --mt-contrasting-text-' . $prefixColor . ': ' . $contrast . ';
+        --theme-main-contrasting-text-' . $prefixColor . ': ' . $contrast . ';
         ';
     }
 }
@@ -285,7 +285,10 @@ if (!function_exists('get_bodyclasses')):
         if (get_field('nav_compression', 'option') == 1):
             $bodyClasses .= 'nav_compression ';
         endif;
-
+        if (get_field('make_dropdown_menus_horizontal', 'option') == 1):
+            $bodyClasses .= 'make_dropdown_menus_horizontal ';
+        endif;
+        
         return $bodyClasses;
     }
 endif;
@@ -407,21 +410,21 @@ if (!function_exists('get_nav_attributes')):
         $navbar_page_scheme = get_field('navbar_color_settings', get_theme_main_postID());
         if ($navbar_page_scheme) {
             if (str_contains($navbar_page_scheme, 'transparent-dark') !== false) {
-                $output .= '--mt-nav-bg: var(--bs-border-color-translucent);';
-                $output .= '--mt-nav-link-color: var(--mt-contrasting-text-dark);';
-                $output .= '--mt-nav-drawer-open-bg: var(--bs-dark);';
-                $output .= '--mt-nav-drawer-open-color: var(--mt-contrasting-text-dark);';
+                $output .= '--theme-main-nav-bg: var(--bs-border-color-translucent);';
+                $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-dark);';
+                $output .= '--theme-main-nav-drawer-open-bg: var(--bs-dark);';
+                $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-dark);';
 
             } elseif (str_contains($navbar_page_scheme, 'transparent-light') !== false) {
-                $output .= '--mt-nav-bg: transparent;';
-                $output .= '--mt-nav-link-color: var(--mt-contrasting-text-light);';
-                $output .= '--mt-nav-drawer-open-bg: var(--bs-light);';
-                $output .= '--mt-nav-drawer-open-color: var(--mt-contrasting-text-light);';
+                $output .= '--theme-main-nav-bg: transparent;';
+                $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-light);';
+                $output .= '--theme-main-nav-drawer-open-bg: var(--bs-light);';
+                $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-light);';
             } else {
-                $output .= '--mt-nav-bg: var(--bs-' . $navbar_page_scheme . ' );';
-                $output .= '--mt-nav-link-color: var(--mt-contrasting-text-' . $navbar_page_scheme . ' );';
-                $output .= '--mt-nav-drawer-open-bg: var(--bs-' . $navbar_page_scheme . ' );';
-                $output .= '--mt-nav-drawer-open-color: var(--mt-contrasting-text-' . $navbar_page_scheme . ' );';
+                $output .= '--theme-main-nav-bg: var(--bs-' . $navbar_page_scheme . ' );';
+                $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
+                $output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $navbar_page_scheme . ' );';
+                $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
             }
             $output = 'data-og-scheme="'. $navbar_page_scheme .'" style="' . $output . '"';
         }
@@ -438,12 +441,12 @@ if (!function_exists('get_header_color')):
         $navbar_page_scheme = get_field('navbar_color_settings', get_theme_main_postID());
         if ($navbar_page_scheme) {
             if (str_contains($navbar_page_scheme, 'transparent-dark') !== false) {
-                $output .= '--mt-page-header-color: var(--mt-contrasting-text-dark);';
+                $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-dark);';
 
             } elseif (str_contains($navbar_page_scheme, 'transparent-light') !== false) {
-                $output .= '--mt-page-header-color: var(--mt-contrasting-text-light);';
+                $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-light);';
             } else {
-                $output .= '--mt-page-header-color: var(--mt-contrasting-text-' . $navbar_page_scheme . ' );';
+                $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
             }
             $output = 'style="' . $output . '"';
         }

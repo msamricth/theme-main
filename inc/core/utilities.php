@@ -157,48 +157,49 @@ if (!function_exists('get_scheme')):
 endif;
 // Define the function to append choices
 if (!function_exists('acf_append_color_choices')) {
-    function acf_append_color_choices($field) {
-        // Get values from repeater field in Field Group A
-        $repeater_values = get_field('extra_colors', 'option');
+	function acf_append_color_choices($field)
+	{
+		// Get values from repeater field in Field Group A
+		$repeater_values = get_field('extra_colors', 'option');
 
-        // Check if values exist
-        if ($repeater_values) {
-            // Loop through repeater values and add them as choices
-            foreach ($repeater_values as $color) {
-                // Replace white spaces with underscores in the color label
-                $label = slugify($color['color_label']);
+		// Check if values exist
+		if ($repeater_values) {
+			// Loop through repeater values and add them as choices
+			foreach ($repeater_values as $color) {
+				// Replace white spaces with underscores in the color label
+				$label = slugify($color['color_label']);
 
-                // Add color to choices array
-                $field['choices'][$label] = $color['color_label'];
-            }
-        }
+				// Add color to choices array
+				$field['choices'][$label] = $color['color_label'];
+			}
+		}
 
-        // Return the modified field
-        return $field;
-    }
+		// Return the modified field
+		return $field;
+	}
 
-    // Hook into acf/load_field and apply the function to your select fields
-    add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
-    add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
+	// Hook into acf/load_field and apply the function to your select fields
+	add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
+	add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
 }
 
 if (!function_exists('theme_main_load_more_posts')) {
-    function theme_main_load_more_posts()
-    {
-        $page = $_POST['page'];
+	function theme_main_load_more_posts()
+	{
+		$page = $_POST['page'];
 
-        $load_moreArgs = array(
-            'posts_per_page' => 6,
-            'paged' => $page,
-            'offset' => ($page - 1) * 6, // Calculate offset based on page number
-        );
+		$load_moreArgs = array(
+			'posts_per_page' => 6,
+			'paged' => $page,
+			'offset' => ($page - 1) * 6, // Calculate offset based on page number
+		);
 
-        $query = new WP_Query($load_moreArgs);
+		$query = new WP_Query($load_moreArgs);
 		$i = 0;
 		$row_class = '';
-        if ($query->have_posts()) {
-            while ($query->have_posts()) {
-                $query->the_post();
+		if ($query->have_posts()) {
+			while ($query->have_posts()) {
+				$query->the_post();
 
 
 				if ($i == 0) {
@@ -206,7 +207,7 @@ if (!function_exists('theme_main_load_more_posts')) {
 					// Display 1 post in the first row
 					get_template_part('templates/content/horizontal-card', null, ['row_class' => $row_class]);
 				} elseif ($i <= 3) {
-	
+
 					$row_class = 'vertical-card col-lg-4';
 					// Display 3 posts in the second row
 					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
@@ -216,15 +217,15 @@ if (!function_exists('theme_main_load_more_posts')) {
 					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
 				}
 				$i++; // Increment $i after each post
-            }
-        }
+			}
+		}
 
-        wp_reset_postdata();
-        die();
-    }
+		wp_reset_postdata();
+		die();
+	}
 
-    add_action('wp_ajax_load_more_posts', 'theme_main_load_more_posts');
-    add_action('wp_ajax_nopriv_load_more_posts', 'theme_main_load_more_posts');
+	add_action('wp_ajax_load_more_posts', 'theme_main_load_more_posts');
+	add_action('wp_ajax_nopriv_load_more_posts', 'theme_main_load_more_posts');
 }
 
 
@@ -497,64 +498,67 @@ add_filter('the_password_form', 'theme_main_password_form');
 
 
 if (!function_exists('theme_main_duplicate_post_link')) {
-    function theme_main_duplicate_post_link($actions, $post)
-    {
-        if (current_user_can('edit_posts')) {
-            $duplicate_url = admin_url('admin.php?action=theme_main_duplicate_post&amp;post=' . $post->ID . '&amp;nonce=' . wp_create_nonce('theme_main_duplicate_post_nonce'));
+	function theme_main_duplicate_post_link($actions, $post)
+	{
+		if (current_user_can('edit_posts')) {
+			$duplicate_url = admin_url('admin.php?action=theme_main_duplicate_post&amp;post=' . $post->ID . '&amp;nonce=' . wp_create_nonce('theme_main_duplicate_post_nonce'));
 
-            $actions['duplicate'] = '<a href="' . esc_url($duplicate_url) . '" title="' . esc_attr__('Duplicate this item', 'theme_main') . '">' . __('Duplicate', 'theme_main') . '</a>';
-        }
+			$actions['duplicate'] = '<a href="' . esc_url($duplicate_url) . '" title="' . esc_attr__('Duplicate this item', 'theme_main') . '">' . __('Duplicate', 'theme_main') . '</a>';
+		}
 
-        return $actions;
-    }
+		return $actions;
+	}
 
-    add_filter('post_row_actions', 'theme_main_duplicate_post_link', 10, 2);
-    add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
-    add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+	add_filter('post_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+	add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
+	add_filter('page_row_actions', 'theme_main_duplicate_post_link', 10, 2);
 }
 
 if (!function_exists('theme_main_duplicate_post')) {
-    function theme_main_duplicate_post()
-    {
-        // Check for nonce security
-        if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'theme_main_duplicate_post_nonce')) {
-            return;
-        }
+	function theme_main_duplicate_post()
+	{
+		// Check for nonce security
+		if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'theme_main_duplicate_post_nonce')) {
+			return;
+		}
 
-        // Check if user has proper permissions
-        if (!current_user_can('edit_posts')) {
-            return;
-        }
+		// Check if user has proper permissions
+		if (!current_user_can('edit_posts')) {
+			return;
+		}
 
-        // Get the original post ID
-        $post_id = (isset($_GET['post'])) ? absint($_GET['post']) : '';
+		// Get the original post ID
+		$post_id = (isset($_GET['post'])) ? absint($_GET['post']) : '';
 
-        if (empty($post_id)) {
-            return;
-        }
+		if (empty($post_id)) {
+			return;
+		}
 
-        // Get the original post
-        $post = get_post($post_id);
+		// Get the original post
+		$post = get_post($post_id);
 
-        // Duplicate the post
-        $new_post_id = wp_insert_post(array(
-            'post_title' => $post->post_title . ' (Duplicate)',
-            'post_content' => $post->post_content,
-            'post_status' => $post->post_status,
-            'post_type' => $post->post_type,
-            'post_author' => get_current_user_id(),
-        ));
+		// Duplicate the post
+		$new_post_id = wp_insert_post(
+			array(
+				'post_title' => $post->post_title . ' (Duplicate)',
+				'post_content' => $post->post_content,
+				'post_status' => $post->post_status,
+				'post_type' => $post->post_type,
+				'post_author' => get_current_user_id(),
+			)
+		);
 
-        // Duplicate post meta
-        $post_meta = get_post_meta($post_id);
-        foreach ($post_meta as $key => $value) {
-            update_post_meta($new_post_id, $key, maybe_unserialize($value[0]));
-        }
+		// Duplicate post meta
+		$post_meta = get_post_meta($post_id);
+		foreach ($post_meta as $key => $value) {
+			update_post_meta($new_post_id, $key, maybe_unserialize($value[0]));
+		}
 
-        // Redirect to the edit screen of the new duplicate post
-        wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
-        exit;
-    }
+		// Redirect to the edit screen of the new duplicate post
+		wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
+		exit;
+	}
 
-    add_action('admin_action_theme_main_duplicate_post', 'theme_main_duplicate_post');
+	add_action('admin_action_theme_main_duplicate_post', 'theme_main_duplicate_post');
 }
+

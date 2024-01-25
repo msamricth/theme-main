@@ -1,0 +1,314 @@
+.splide:not([data-same-height]) {
+    flex-direction: column;
+
+    &.middle {
+        .splide__slide {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .splide__slide {
+        img {
+            height: auto;
+        }
+    }
+}
+
+.splide {
+    .splide__slide__caption span {
+        display: block;
+    }
+
+    button.splide__arrow.splide__arrow--next {
+        position: absolute;
+        height: 100%;
+        right: 0;
+        z-index: 1;
+    }
+
+    button.splide__arrow.splide__arrow--prev {
+        position: absolute;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .splide__arrow.splide__arrow--next,
+    .splide__arrow.splide__arrow--prev {
+        width: 100px;
+        background-color: transparent;
+        border: 0;
+
+        svg {
+            display: none;
+        }
+    }
+
+    &.justify-content-bottom {
+        .splide__slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+
+            @media (min-width: 400px) {
+                min-width: 300px;
+            }
+        }
+    }
+
+    &.custom-height-set {
+        .splide__slide {
+
+            height: 100% !important;
+
+            @media (min-width: 400px) {
+                min-width: inherit;
+            }
+        }
+
+    }
+
+    .splide__slide {
+        max-width: 100%;
+
+        .splide__slide__caption {
+            min-height: 300px;
+            padding-top: 10px;
+
+            @media (min-width: 300px) {
+                min-height: 180px;
+            }
+
+            @media (min-width: 400px) {
+                min-height: 132px;
+            }
+
+            span {
+                display: inline-block;
+                line-height: 1.7;
+                vertical-align: text-top;
+            }
+
+            @include media-breakpoint-up(sm) {
+                min-height: 160px;
+            }
+
+            @include media-breakpoint-up(md) {
+                min-height: 150px;
+                padding-top: 20px;
+                padding-right: 40px;
+            }
+
+            @include media-breakpoint-up(xxl) {
+                min-height: 125px;
+            }
+
+            @include media-breakpoint-up(xxl) {
+                //  min-height: 95px;
+            }
+
+            @include media-breakpoint-up(3xl) {
+                min-height: 160px;
+            }
+
+            @include media-breakpoint-up(4xl) {
+                min-height: 130px;
+            }
+        }
+    }
+}
+
+[data-same-height] {
+    height: var(--supply-carousel-maxheight);
+    min-height: auto;
+
+    .splide__slide {
+        width: auto !important;
+        max-width: max-content;
+
+        @supports (-webkit-touch-callout: none) {
+            //not sure this will work - got it from stack xahnge
+
+            //    display: inline;
+            /* CSS specific to iOS devices */
+        }
+
+        //  &:first-child { align-items: flex-start; }
+        img {
+            height: 100%;
+            width: auto !important;
+        }
+
+        // come up with better fix for ratio later on
+        .ratio {
+            height: 100%;
+            position: static;
+            width: auto;
+
+            // width: auto;
+            //   max-width: 100vw;
+            * {
+                position: initial;
+            }
+
+            &:before {
+                padding-top: 0;
+            }
+        }
+    }
+}
+
+.fullscreen-element,
+.header-container__media {
+    &.carousel:not(.multiple-slides) {
+        height: 100vh;
+
+    }
+}
+
+
+
+
+.carousel:not(.multiple-slides) {
+    overflow: clip;
+
+    .splide .splide__slide:not(.full-width) {
+        --theme-main-medium-carousel-min-height: 630px;
+        position: relative;
+        min-height: var(--theme-main-medium-carousel-min-height);
+
+        &.position-Outside {
+            .carousel-block-editor-content {
+                position: static;
+                height: 100%;
+
+                .container {
+                    height: 100%;
+
+                    .card {
+                        height: 100%;
+
+                        .row {
+                            min-height: 100%;
+
+                            .inner-card {
+                                height: auto; 
+                                @include media-breakpoint-up(dlg) {
+                                    height: 100%;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    .card {
+        position: relative;
+        z-index: 99;
+        color: var(--theme-main-carousel-color);
+
+        .card-body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    }
+
+    .splide__slide {
+        z-index: 1;
+
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-width: unset;
+
+        }
+
+        &.placement-top {
+            .header-overlay {
+                transform: scaley(-1);
+            }
+
+        }
+
+        &.position-Outside {
+            .carousel-block-editor-content {
+                top: 0
+            }
+
+            .carousel-captions--placement-left,
+            .carousel-captions--placement-right {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        @include media-breakpoint-up(lg) {
+
+            &.placement-left {
+                .header-overlay {
+                    background: linear-gradient(90deg, var(--theme-main-header-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-header-overlay-level, 95%));
+                }
+
+            }
+
+            &.placement-right {
+                .header-overlay {
+                    background: linear-gradient(270deg, var(--theme-main-header-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-header-overlay-level, 95%));
+                }
+
+            }
+        }
+
+        &.position-Inside {
+            .carousel-block-editor-content.content-slides {
+                right: 0;
+                left: 0;
+                bottom: 0;
+                position: absolute;
+            }
+        }
+
+        .carousel-block-editor-content.content-slides {
+            --theme-main-carousel-color: #{$light};
+            z-index: 999;
+            position: relative;
+
+            &.placement-top {
+                top: 0;
+
+                .header-overlay {
+                    transform: scaley(-1);
+                }
+
+            }
+
+            color: var(--theme-main-carousel-color);
+
+            .carousel-captions {
+                &--placement-right {
+                    margin-left: auto;
+
+
+                    .wp-block-column {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.carousel-block-editor-content.placement-top+.header-overlay {
+    transform: scaley(-1);
+}
+
+/* Add this CSS to hide pagination dots */
+.splide__pagination {
+    display: none !important;
+}

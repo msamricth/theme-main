@@ -31,7 +31,6 @@ endif;
 
 $blockStyles = '';
 $header_content = '';
-$blockClasses = 'col-dlg-10 mx-auto col-xl-8';
 $blockContent = '';
 $page_title = '';
 if (isset($args['page_title'])) {
@@ -114,9 +113,15 @@ $header_content .= '<div class="page-header py-5 my-3xl-5 fold '.$blockClasses.'
 
 
 $header_content .= '<div class="container">';
-$header_content .= '<InnerBlocks class="demo-author-block-acf__innerblocks"
-template="'. esc_attr( wp_json_encode( $inner_blocks_template ) ) .'"/>';
+$header_content .= '<InnerBlocks class="header-block-editor-content" template="'. esc_attr( wp_json_encode( $inner_blocks_template ) ) .'"/>';
 $header_content .= '</div></div>';
+
+
+$header_type = get_field('header_type');
+
+if ( $header_type == 'carousel') {
+    $header_media = theme_main_get_legacy_carousel('carousel-'.$blockID, 1);
+}
 ?>
 <header id="<?php echo esc_attr($anchor); ?>" class="<?php echo esc_attr(get_block_classes($block, $classes)); ?>">
     <?php

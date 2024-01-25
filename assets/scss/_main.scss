@@ -3,7 +3,7 @@
  */
 
 body {
-	--mt-nav-link-color: #{$body-color};
+	--theme-main-nav-link-color: #{$body-color};
 	#main {    
 		max-width: 100%;
 		overflow: clip;
@@ -138,8 +138,6 @@ img {
 }
 
 .single {
-
-	.entry-content,
 	.post-navigation,
 	#comments-title {
 		margin: $grid-gutter-width 0;

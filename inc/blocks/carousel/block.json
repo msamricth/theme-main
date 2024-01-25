@@ -1,0 +1,28 @@
+{
+    "name": "acf/carousel-block",
+    "title": "Carousel Block",
+    "description": "Customizable Carousel Block",
+    "category": "Theme Main",
+    "icon": "format-image",
+    "keywords": ["Image", "media", "picture", "call to action", "slider", "carousel"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "editorScript": "file:./splide.min.js",
+    "script": "file:./splide.min.js",
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

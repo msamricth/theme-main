@@ -1,0 +1,26 @@
+{
+    "name": "acf/carousel-header",
+    "title": "Carousel Header",
+    "description": "Theme header block as a carousel",
+    "category": "Theme Main",
+    "icon": "image-rotate-right",
+    "keywords": ["content", "carousel", "picture", "media", "engagement", "call to action"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

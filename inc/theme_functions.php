@@ -27,10 +27,16 @@ function my_acf_settings_url( $url ) {    return MY_ACF_URL; }
 // add_filter('acf/settings/show_admin', 'my_acf_settings_show_admin');
 function my_acf_settings_show_admin( $show_admin ) { return false; }
 
+
+//load custom acf upgrades
+$theme_ACFPUpgrades = __DIR__ . '/acf/acf-theme_main_upgrades.php';
+
 // Load Supply ACF Content
 $theme_ACFProFields = __DIR__ . '/acf/acf_fields.php';
 $theme_ACFProBlocks = __DIR__ . '/acf/acf_blocks.php';
 //$theme_ACFProDIR  = __DIR__ . '/acf/';
+
+if ( is_readable( $theme_ACFPUpgrades ) ) {	require_once $theme_ACFPUpgrades;}
 //if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
 if ( is_readable( $theme_ACFProBlocks ) ) {	require_once $theme_ACFProBlocks;}
 
@@ -43,7 +49,7 @@ if ( is_readable( $theme_plugins ) ) {	require_once $theme_plugins;}
  * @since v3
  */
 
-$theme_main_media_setting = __DIR__ . '/media/settings.php';
+$theme_main_media_setting = __DIR__ . '/media/components.php';
 if ( is_readable( $theme_main_media_setting ) ) {	require_once $theme_main_media_setting;}
 
 $theme_main_media_utilities = __DIR__ . '/media/utilities.php';
@@ -53,4 +59,4 @@ $theme_main_media_video = __DIR__ . '/media/video.php';
 if ( is_readable( $theme_main_media_video ) ) {	require_once $theme_main_media_video;}
 
 $theme_main_core = __DIR__ . '/core.php';
-if ( is_readable( $theme_functions ) ) {	require_once $theme_main_core;}
+if ( is_readable( $theme_main_core ) ) {	require_once $theme_main_core;}

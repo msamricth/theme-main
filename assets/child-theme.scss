@@ -1,18 +1,13 @@
-// Compile "main.scss" as "css/main.css"
 
-/**
- * Import Bootstrap sources
- * https://getbootstrap.com/docs/5.2/customize/sass
- */
-
-// @import "../node_modules/bootstrap/scss/bootstrap"; // Include all of Bootstrap
-
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+/* add this import to your child theme's main.scss: 
 @import '../node_modules/bootstrap/scss/functions';
+@import '../../theme-main/assets/scss/variables';
+@import '/scss/variables'; //your child theme variables
+@import '../../theme-main/assets/child-theme.scss';
 
-@import '/scss/variables';
+//the rest of your child themes scss/css
+*/
 
-@import '/scss/custom_variables';
 @import '/scss/bootstrap';
 @import '/scss/utilities';
 @import '/scss/main';

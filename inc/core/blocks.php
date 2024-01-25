@@ -39,7 +39,7 @@ if (!function_exists('get_block_settings')):
     function get_block_settings($block, $blockID, $classNames)
     {
         $output = '';
-
+        $turnOnFold = '';
         $anchor = $blockID . '-block-' . $block['id'];
         if (!empty($block['anchor'])) {
             $anchor = $block['anchor'];
@@ -72,8 +72,8 @@ if (!function_exists('get_block_settings')):
         if (!empty($block['bottomMargin'])) {
             $classes .= ' ' . $block['bottomMargin'];
         }
-        if (!empty($block['fullHeight'])) {
-            $classes .= ' ' . $block['fullHeight'];
+        if (!empty($block['fullWidth'])) {
+            $classes .= ' full-width';
         }
         if (!empty($block['blockAnimation'])) {
             $classes .= ' ' . $block['blockAnimation'];
@@ -84,6 +84,39 @@ if (!function_exists('get_block_settings')):
 
         if (!empty($block['textColor'])) {
             $classes .= ' has-' . $block['textColor'] . '-color';
+        }
+
+        if (!empty($block['matchNavBackground'])) {
+            $turnOnFold = 1;
+
+            if (!empty($block['textColor'])) {
+                $classes .= ' colorMatch_' . $block['textColor'];
+            }
+            if (!empty($block['backgroundColor'])) {
+                $classes .= '  match-nav match_' . $block['backgroundColor'];
+            }
+        }
+        if (!empty($block['blockAnimation'])) {
+            $turnOnFold = 1;
+            $classes .= '  animation-on ' . $block['blockAnimation'];
+        }
+        if ($turnOnFold) {
+            $classes .= ' fold';
+        }
+        if (!empty($block['hideMobile'])) {
+            $classes .= ' d-none';
+        }
+        if (!empty($block['hideTablet'])) {
+            $classes .= ' d-inherit d-md-none d-xl-inherit';
+        }
+        if (!empty($block['hideDesktop'])) {
+            $classes .= ' d-xl-none';
+        }
+
+
+        if (!empty($block['backgroundImage'])) {
+            $classes .= ' has-background-image';
+            $classes .= '" style="background-image:url(' . $block['backgroundImage'] . ');';
         }
 
         $anchor = 'id="' . $anchor . '"';
@@ -103,6 +136,7 @@ if (!function_exists('get_block_classes')):
     {
         $output = '';
 
+        $turnOnFold = '';
 
         $classes = $classNames . ' ';
         // Create class attribute allowing for custom "className" and "align" values.
@@ -132,8 +166,8 @@ if (!function_exists('get_block_classes')):
         if (!empty($block['bottomMargin'])) {
             $classes .= ' ' . $block['bottomMargin'];
         }
-        if (!empty($block['fullHeight'])) {
-            $classes .= ' ' . $block['fullHeight'];
+        if (!empty($block['fullWidth'])) {
+            $classes .= ' full-width';
         }
         if (!empty($block['blockAnimation'])) {
             $classes .= ' ' . $block['blockAnimation'];
@@ -146,6 +180,32 @@ if (!function_exists('get_block_classes')):
             $classes .= ' has-' . $block['textColor'] . '-color';
         }
 
+        if (!empty($block['matchNavBackground'])) {
+            $turnOnFold = 1;
+
+            if (!empty($block['textColor'])) {
+                $classes .= ' colorMatch_' . $block['textColor'];
+            }
+            if (!empty($block['backgroundColor'])) {
+                $classes .= '  match-nav match_' . $block['backgroundColor'];
+            }
+        }
+        if (!empty($block['blockAnimation'])) {
+            $turnOnFold = 1;
+            $classes .= '  animation-on ' . $block['blockAnimation'];
+        }
+        if ($turnOnFold) {
+            $classes .= ' fold';
+        }
+        if (!empty($block['hideMobile'])) {
+            $classes .= ' d-none';
+        }
+        if (!empty($block['hideTablet'])) {
+            $classes .= ' d-inherit d-md-none d-xl-inherit';
+        }
+        if (!empty($block['hideDesktop'])) {
+            $classes .= ' d-xl-none';
+        }
         $output = $classes;
 
         return $output;
@@ -166,49 +226,84 @@ function theme_main_register_acf_blocks()
     register_block_type(get_stylesheet_directory() . '/inc/blocks/social-media-nav');
     register_block_type(get_stylesheet_directory() . '/inc/blocks/header-block');
     register_block_type(get_stylesheet_directory() . '/inc/blocks/media');
+    register_block_type(get_stylesheet_directory() . '/inc/blocks/content-slider');
+    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
+    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-header');
+    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel');
 
 }
 add_action('init', 'theme_main_register_acf_blocks');
 
+function theme_main_carousel_blocks_slides($allowed_blocks, $post)
+{
+    // Get the current block type
+    $block_type = get_post_type($post);
 
-    function acf_set_featured_image($post_id = null)
-    {
+    if ($block_type === 'acf/carousel-block') {
+        // Define the allowed inner block type(s)
+        $allowed_inner_blocks = array('acf/carousel-slide-block');
 
-        $current_post = get_queried_object();
-        if (empty($post_id)) {
-            $post_id = $current_post ? $current_post->ID : null;
+        // Check if the inner block is allowed
+        if (!in_array($block_type, $allowed_inner_blocks)) {
+            // If not allowed, remove it
+            return array();
         }
+    } elseif ($block_type === 'acf/carousel-header') {
+        // Define the allowed inner block type(s)
+        $allowed_inner_blocks = array('acf/carousel-slide-block');
 
-        $post_thumbnail_exists = has_post_thumbnail($post_id);
+        // Check if the inner block is allowed
+        if (!in_array($block_type, $allowed_inner_blocks)) {
+            // If not allowed, remove it
+            return array();
+        }
+    }
 
-        if (!$post_thumbnail_exists) {
-            $post = get_post($post_id);
-            $blocks = parse_blocks($post->post_content);
+    // If not the specified parent block, allow all inner blocks
+    return $allowed_blocks;
+}
 
-            foreach ($blocks as $block) {
-                if ('acf/header-block' === $block['blockName']) {
+// Hook the function into the 'allowed_block_types_all' filter
+add_filter('allowed_block_types_all', 'theme_main_carousel_blocks_slides', 10, 2);
 
-                    $image_data = get_field('header_image', $block['id']);
-                   if (!empty($block['attrs']['data']['header_image'])) {
-                        $image_data = $block['attrs']['data']['header_image'];
+
+function acf_set_featured_image($post_id = null)
+{
+
+    $current_post = get_queried_object();
+    if (empty($post_id)) {
+        $post_id = $current_post ? $current_post->ID : null;
+    }
+
+    $post_thumbnail_exists = has_post_thumbnail($post_id);
+
+    if (!$post_thumbnail_exists) {
+        $post = get_post($post_id);
+        $blocks = parse_blocks($post->post_content);
+
+        foreach ($blocks as $block) {
+            if ('acf/header-block' === $block['blockName']) {
+
+                $image_data = get_field('header_image', $block['id']);
+                if (!empty($block['attrs']['data']['header_image'])) {
+                    $image_data = $block['attrs']['data']['header_image'];
+                }
+
+                // Check if it's an array and has an ID
+                if (is_array($image_data) && isset($image_data['ID'])) {
+                    $image_id = $image_data['ID'];
+                } else {
+                    if ($image_data) {
+                        $image_id = $image_data;
                     }
-
-                    // Check if it's an array and has an ID
-                    if (is_array($image_data) && isset($image_data['ID'])) {
-                        $image_id = $image_data['ID'];
-                    } else {
-                        if($image_data){
-                            $image_id = $image_data;
-                        }                       
-                    }
-                    if ($image_id) {
-                        update_post_meta($post_id, '_thumbnail_id', $image_id);
-                    }
+                }
+                if ($image_id) {
+                    update_post_meta($post_id, '_thumbnail_id', $image_id);
                 }
             }
         }
     }
+}
 
-    // acf/save_post - filter for all ACF fields
-    add_action('acf/save_post', 'acf_set_featured_image', 20);
-    
+// acf/save_post - filter for all ACF fields
+add_action('acf/save_post', 'acf_set_featured_image', 20);

@@ -30,6 +30,211 @@ if (!function_exists('muteBTN')):
     }
 
 endif;
+if (!function_exists('theme_main_limit_inner_blocks')):
+    function theme_main_limit_inner_blocks($allowed_block_type, $block_content)
+    {
+        // Parse the block content
+        $blocks = parse_blocks($block_content);
+
+        // Filter only the allowed block type
+        $filtered_blocks = array_filter($blocks, function ($block) use ($allowed_block_type) {
+            return $block['blockName'] === $allowed_block_type;
+        });
+
+        // Convert the filtered blocks back to HTML
+        $filtered_content = '';
+        foreach ($filtered_blocks as $filtered_block) {
+            $filtered_content .= render_block($filtered_block);
+        }
+
+        return $filtered_content;
+    }
+endif;
+
+//if (function_exists('theme_main_get_slides_inner_block_template')) {
+function theme_main_get_slides_inner_block_template($related_content_title, $related_content_excerpt, $related_content_url, $related_content_placement, $related_content_position, $related_content_date = null)
+{
+    $slideContent = '';
+    $layoutSize = '';
+    $inner_blocks_template = '';
+    switch ($related_content_placement) {
+        case "left":
+            $layoutSize = "skinny";
+            break;
+        case "right":
+            $layoutSize = "skinny";
+            break;
+        case "top":
+            $layoutSize = "wide";
+            break;
+        case "bottom":
+            $layoutSize = "wide";
+            break;
+
+    }
+
+    if ($layoutSize == "wide") {
+        $slideContent .= '<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex" style="padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)">'; //1
+        $slideContent .= '<div class="wp-block-column is-vertically-aligned-bottom is-layout-flow wp-block-column-is-layout-flow">'; //2
+        $slideContent .= '<h2 class="wp-block-post-title">' . $related_content_title . '</h2>';
+        $slideContent .= '<p>' . $related_content_excerpt . '</p>';
+        $slideContent .= '</div>'; //2
+        $slideContent .= '<div class="wp-block-column is-vertically-aligned-bottom is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:250px">'; //3
+        $slideContent .= '<div class="wp-block-buttons is-layout-flex wp-container-core-buttons-layout-1 wp-block-buttons-is-layout-flex">'; //4
+        $slideContent .= '<div class="wp-block-button"><a href="' . $related_content_url . '" class="wp-block-button__link wp-element-button">Learn More</a></div>'; //5 //5
+        $slideContent .= '</div>'; //4
+        $slideContent .= '</div>'; //3
+        $slideContent .= '</div>'; //1
+
+
+        $inner_blocks_template = $slideContent;
+    }
+
+    if ($layoutSize == "skinny") {
+
+        if ($related_content_position == 'Outside') {
+
+
+            $slideContent .= '<div class="card-body px-dlg-0 pt-dlg-0 pb-4">';
+            $slideContent .= '<h3 class="card-title">' . $related_content_title . '</h3>';
+            if ($related_content_date) {
+                $slideContent .= '<strong class="text-muted">' . $related_content_date . '</strong>';
+            }
+            $slideContent .= '<p class="card-text mt-3">' . $related_content_excerpt . '</p>';
+            $slideContent .= '</div>';
+            $slideContent .= '<div class="card-footer bg-transparent text-left p-dlg-0 me-auto ms-0">';
+            $slideContent .= '<a href="' . $related_content_url . '" class="btn btn-primary">Learn More</a>';
+            $slideContent .= '</div>';
+
+
+        } else {
+
+            $slideContent .= '<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex" style="padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)">';
+            $slideContent .= '<div class="wp-block-column is-vertically-aligned-bottom is-layout-flow wp-block-column-is-layout-flow">';
+
+            $slideContent .= '<h2 class="wp-block-post-title">' . $related_content_title . '</h2>';
+            $slideContent .= '<p>' . $related_content_excerpt . '</p>';
+
+            $slideContent .= '<div class="wp-block-button"><a href="' . $related_content_url . '" class="wp-block-button__link wp-element-button">Learn More</a></div>';
+            $slideContent .= '</div>';
+            $slideContent .= '</div>';
+        }
+
+        $inner_blocks_template = $slideContent;
+    }
+
+    return $inner_blocks_template;
+}
+//}
+
+
+if (function_exists('theme_main_get_slides_inner_block_basic_template')) {
+    function theme_main_get_slides_inner_block_basic_template()
+    {
+
+
+        $inner_blocks_template = array(
+            array(
+                'core/columns',
+                array(
+                    'verticalAlignment' => 'bottom',
+                    'style' => array(
+                        'spacing' => array(
+                            'padding' => array(
+                                'top' => 'var:preset|spacing|30',
+                                'right' => 'var:preset|spacing|30',
+                                'bottom' => 'var:preset|spacing|30',
+                                'left' => 'var:preset|spacing|30',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    array(
+                        'core/column',
+                        array(
+                            'verticalAlignment' => 'bottom',
+                            'width' => '',
+                        ),
+                        array(
+                            array(
+                                'core/paragraph',
+                                array(
+                                    'placeholder' => 'Add a inner paragraph'
+                                )
+                            ),
+                        ),
+                    )
+                ),
+            ),
+        );
+
+
+
+
+        return $inner_blocks_template;
+    }
+}
+
+
+if (function_exists('theme_main_get_slides_options')) {
+    function theme_main_get_slides_options($options_same_height, $options_custom_height, $options_gap, $options_per_move, $multiple_slides)
+    {
+        $blockContent = '';
+        if (have_rows('slide_count_per_breakpoint')):
+            while (have_rows('slide_count_per_breakpoint')):
+                the_row();
+                $blockContent .= ' data-s320="' . get_sub_field('320') . '"';
+                $blockContent .= ' data-s768="' . get_sub_field('768') . '"';
+                $blockContent .= ' data-s1024="' . get_sub_field('1024') . '"';
+                $blockContent .= ' data-s1290="' . get_sub_field('1290') . '"';
+                $blockContent .= ' data-s1440="' . get_sub_field('1440') . '"';
+                $blockContent .= ' data-s1920="' . get_sub_field('1920') . '"';
+                $blockContent .= ' data-s2400="' . get_sub_field('2400') . '"';
+            endwhile;
+        endif;
+        $blockContent .= ' ' . $options_same_height;
+        if ($options_custom_height) {
+            $blockContent .= ' data-custom_height="' . $options_custom_height . '"';
+        }
+        $blockContent .= 'data-multiple-slides=' . $multiple_slides . '" data-gap="' . $options_gap . '" ' . ' data-per_move="' . $options_per_move . '" ';
+        return $blockContent;
+    }
+}
+
+
+if (!function_exists('get_header_gradient_type_color')):
+    function get_header_gradient_type_color()
+    {
+        if (get_sub_field('turn_on_overlay')) {
+            if (get_sub_field('overlay_color')) {
+                $gradient_type_color = "--theme-main-contrasting-text-" . get_sub_field('overlay_color');
+
+                return 'style="--theme-main-carousel-color: var(' . $gradient_type_color . ');"';
+
+            }
+        }
+    }
+endif;
+
+
+
+if (!function_exists('get_header_gradient')):
+    function get_header_gradient()
+    {
+        if (get_sub_field('turn_on_overlay')) {
+            $headerOverlayBG = "--bs-" . get_sub_field('overlay_color') . "-rgb";
+            $headerOverlayOpacity = get_sub_field('opacity_level');
+            $gradient_level = get_sub_field('gradient_level');
+
+            if (empty($headerOverlayOpacity)) {
+                $headerOverlayOpacity = '0';
+            }
+            return '<div class="header-overlay" style="--theme-main-header-overlay-color: rgba(var(' . $headerOverlayBG . '), 0.' . $headerOverlayOpacity . '); --theme-main-header-overlay-level: ' . $gradient_level . '%;"></div>';
+
+        }
+    }
+endif;
 
 if (!function_exists('get_header_assets')):
     /**
@@ -44,14 +249,24 @@ if (!function_exists('get_header_assets')):
         $mobileVideo = '';
         $desktopVideo = '';
         $header_media = '';
-        
+
         if ($videoMURL) {
             if ($mobile_ratio) {
             } else {
                 $mobile_ratio = 'mobile';
             }
-            $mobileVideo .= '<div class="d-md-none theme-main-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder, 'yes', 'preload="auto" autoplay ') . '</div>';
+            $mobileVideo .= '<div class="d-block d-md-none theme-main-video ratio ratio-' . $mobile_ratio . '">' . background_video($videoMURL, $mobileplaceholder, 'yes', 'preload="auto" autoplay ') . '</div>';
             $classes .= "d-none d-md-block";
+        } else {
+            if ($mobileplaceholder) {
+
+                if ($mobile_ratio) {
+                } else {
+                    $mobile_ratio = 'mobile';
+                }
+                $mobileVideo .= '<div class="d-block d-md-none theme-main-video ratio ratio-' . $mobile_ratio . '">' . theme_main_get_image($mobileplaceholder) . '</div>';
+                $classes .= "d-none d-md-block";
+            }
         }
         if ($ratio) {
             $classes .= ' ratio-' . $ratio;
@@ -180,6 +395,35 @@ if (!function_exists('image_containers')):
     }
 endif;
 
+if (!function_exists('theme_main_get_image')):
+    /**
+     * Master Container for Images  / with ratios
+     *
+     * @since v1.5
+     */
+    function theme_main_get_image($imageObject)
+    {
+        $image = '';
+        $image .= '<img ';
+        if (is_array($imageObject) && isset($imageObject['url'])) {
+            $image .= ' src="' . esc_url($imageObject['url']) . '" alt="' . esc_attr($imageObject['alt']) . '"';
+        } else {
+
+            // Check if imageObject is a valid attachment ID
+            if (is_numeric($imageObject)) {
+                $image_url = wp_get_attachment_image_src($imageObject, 'full');
+
+                if ($image_url) {
+                    $image .= ' src="' . esc_url($image_url[0]) . '" alt="' . esc_attr(get_post_meta($imageObject, '_wp_attachment_image_alt', true)) . '"';
+                }
+            }
+
+
+        }
+        $image .= ' />';
+        return $image;
+    }
+endif;
 if (!function_exists('image_containers_URL')):
     /**
      * Master Container for Images  / with ratios
