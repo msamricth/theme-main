@@ -104,7 +104,7 @@ if (!function_exists('get_block_settings')):
             $classes .= ' fold';
         }
         if (!empty($block['hideMobile'])) {
-            $classes .= ' d-none';
+            $classes .= ' d-none d-md-inherit';
         }
         if (!empty($block['hideTablet'])) {
             $classes .= ' d-inherit d-md-none d-xl-inherit';
@@ -198,7 +198,7 @@ if (!function_exists('get_block_classes')):
             $classes .= ' fold';
         }
         if (!empty($block['hideMobile'])) {
-            $classes .= ' d-none';
+            $classes .= ' d-none d-md-inherit';
         }
         if (!empty($block['hideTablet'])) {
             $classes .= ' d-inherit d-md-none d-xl-inherit';

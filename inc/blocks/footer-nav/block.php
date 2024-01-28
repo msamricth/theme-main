@@ -36,7 +36,7 @@ if (!empty($justify)) {
 					'container' => 'nav',
 					'container_class' => 'footer-nav ',
 					'fallback_cb' => '',
-					'items_wrap' => '<ul class="menu navbar-nav nav d-flex flex-row '.$justify.'">%3$s</ul>',
+					'items_wrap' => '<ul class="menu navbar-nav nav d-block d-dlg-flex flex-row '.$justify.'">%3$s</ul>',
 					//'fallback_cb'    => 'WP_Bootstrap4_Navwalker_Footer::fallback',
 					'walker' => new WP_Bootstrap_Navwalker_Footer_horizontal(),
 				)

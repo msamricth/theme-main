@@ -163,9 +163,13 @@
     &.carousel:not(.multiple-slides) {
         height: 100vh;
 
+        .header-overlay {
+            height: 100vh;
+            bottom: auto;
+        }
+
     }
 }
-
 
 
 
@@ -192,9 +196,10 @@
                             min-height: 100%;
 
                             .inner-card {
-                                height: auto; 
+                                height: auto;
+
                                 @include media-breakpoint-up(dlg) {
-                                    height: 100%;
+                                    //   height: 100%;
                                 }
                             }
                         }
@@ -214,6 +219,14 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
+            .card-sub-title {
+                opacity: .865;
+                text-align: justify;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2px;
+                font-size: 0.9rem;
+            }
         }
     }
 

@@ -76,7 +76,6 @@ if (!class_exists('WP_Bootstrap4_Navwalker_Footer')) {
 			$item_output = $args->before;
 			$item_output .= '<a' . $attributes . ' class="nav-link">';
 			$item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-			$item_output .= '<span class="nav-underline"></span>';
 			$item_output .= '</a>';
 			$item_output .= $args->after;
 
@@ -107,7 +106,7 @@ if (!class_exists('WP_Bootstrap_Navwalker_Footer_horizontal')) {
 		 */
 		public function start_lvl(&$output, $depth = 0, $args = null)
 		{
-			$output .= '<ul role="menu" class="sub-menu">';
+			$output .= '<ul role="menu" class="sub-menu small list-unstyled mb-4 mb-xl-1">';
 		}
 
 		/**

@@ -548,8 +548,10 @@ if (!function_exists('theme_main_get_carousel_slides')) {
                     $related_content_url = get_permalink($related_content);
                     $related_content_title = get_the_title($related_content);
                     $related_content_excerpt = get_the_excerpt($related_content);
+                    $related_content_date_posted = get_the_date('D, M j', $related_content) . '<span class="read-time"></span>';
                     $featured_img_url = get_the_post_thumbnail_url($related_content, 'full');
-                    $inner_blocks_template = theme_main_get_slides_inner_block_template($related_content_title, $related_content_excerpt, $related_content_url, $placement, $positoning);
+                    $related_content_post_type = get_post_type($related_content);
+                    $inner_blocks_template = theme_main_get_slides_inner_block_template($related_content_title, $related_content_excerpt, $related_content_url, $placement, $positoning, $related_content_date_posted);
                     if ($featured_img_url) {
                         // $alt_text = get_post_meta($featured_img_url->ID, '_wp_attachment_image_alt', true);
 
@@ -561,12 +563,17 @@ if (!function_exists('theme_main_get_carousel_slides')) {
                             }
                             $slides .= '<li class="splide__slide ' . $slideClasses . '">';
 
+                            $blockClasses .= ' type-'. $related_content_post_type ;
 
-                            $slideMedia .= '<img src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
+                            $slideMedia .= '<img class="px-3" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
                             //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
                             $slideMedia .= ' />';
-
-                            $inner_block_content .= '<div class="carousel-block-editor-content content-slides ' . $blockClasses . ' py-5 my-3xl-5"';
+                            if($positoning != 'Outside') {
+                                $blockClasses .= ' py-5 my-3xl-5';
+                            } else {
+                                $blockClasses .= ' py-5 py-dlg-0';
+                            }
+                            $inner_block_content .= '<div class="carousel-block-editor-content content-slides ' . $blockClasses . '"';
                             
                             if($type_color){
                                 $inner_block_content .= ' ' . $type_color; 
@@ -592,8 +599,8 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
                                     $carousel_outside_slide_content .= $inner_block_content;
                                     $carousel_outside_slide_content .= $instance_card;
-                                    $carousel_outside_slide_content .= '<div class="col-dlg-4 order-2 order-dlg-1 carousel-captions--placement-left card bg-transparent inner-card">' . $inner_blocks_template . '</div>';
-                                    $carousel_outside_slide_content .= '<div class="col-dlg-8 order-1 order-dlg-2">' . $slideMedia . '</div>';
+                                    $carousel_outside_slide_content .= '<div class="col-dlg-4 order-2 order-dlg-1 carousel-captions--placement-left card bg-transparent inner-card py-dlg-5 my-3xl-5">' . $inner_blocks_template . '</div>';
+                                    $carousel_outside_slide_content .= '<div class="col-dlg-8 order-1 order-dlg-2 py-dlg-5 my-3xl-5">' . $slideMedia . '</div>';
                                     $carousel_outside_slide_content .= $instance_card_footer;
 
                                     break;
@@ -606,8 +613,8 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
                                     $carousel_outside_slide_content .= $inner_block_content;
                                     $carousel_outside_slide_content .= $instance_card;
-                                    $carousel_outside_slide_content .= '<div class="col-dlg-4 order-1 order-dlg-2   carousel-captions--placement-right card bg-transparent inner-card">' . $inner_blocks_template . '</div>';
-                                    $carousel_outside_slide_content .= '<div class="col-dlg-8 order-2 order-dlg-1">' . $slideMedia . '</div>';
+                                    $carousel_outside_slide_content .= '<div class="col-dlg-4 order-1 order-dlg-2 py-dlg-5 my-3xl-5 carousel-captions--placement-right card bg-transparent inner-card">' . $inner_blocks_template . '</div>';
+                                    $carousel_outside_slide_content .= '<div class="col-dlg-8 order-2 order-dlg-1 py-dlg-5 my-3xl-5">' . $slideMedia . '</div>';
                                     $carousel_outside_slide_content .= $instance_card_footer;
 
                                     break;
@@ -647,6 +654,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
                             $slides .= $carousel_slide_content;
                             $slides .= get_header_gradient();
+                            $slides .= '<div class="d-none estimate" id="estimate-'.$related_content.'">'.wp_strip_all_tags( get_the_content($related_content) ).'</div>';
                             $slides .= '</li>';
                         }
                         // <a href="echo get_permalink( $related_content ); ">echo get_the_title( $related_content ); </a>

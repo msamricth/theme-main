@@ -1,28 +1,18 @@
-.wp-block-group.full-width {
-    padding-right: calc(var(--bs-gutter-x)*.5);
-    padding-left: calc(var(--bs-gutter-x)*.5);
+//Display extensions
+@include responsive-display-classes((xs: inherit, smm: inherit, sm: inherit, md: inherit, lg: inherit, dlg: inherit, xl: inherit, extra: inherit, xxl: inherit, 3xl: inherit, 4xl: inherit), display);
+@include responsive-display-classes((xs: initial, smm: initial, sm: initial, md: initial, lg: initial, dlg: initial, xl: initial, extra: initial, xxl: initial, 3xl: initial, 4xl: initial), display);
 
-    .wp-block-group__inner-container {
-        @extend .container;
-    }
-}
 
-.full-height {
-    min-height: 100vh;
-}
-.bg-transparent {
-    background-color: transparent;
-}
-.fullscreen-element {}
-.wp-admin.block-editor-page {
-    .d-none {
-        display: inherit !important;
-    }
-}
+
 :root {
     --theme-main-container-max-width: calc(100% - (#{$offsetWidth} * 2));
     --theme-main-gutter: #{$offsetWidth} - #{$grid-gutter-width};
     --theme-main-dropdown-top: 105%;
+    --theme-main-navDdropdown-bg: #{$body-bg};
+	--theme-main-nav-link-color: #{$body-color};
+    --theme-main-nav-item-delay: 0.0s;
+    --theme-main-start-opacity:0;
+    --theme-main-end-opacity:1;
     @include media-breakpoint-up(md) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidthMD} * 2));
         --theme-main-gutter: #{$offsetWidthMD} - #{$grid-gutter-width};
@@ -61,6 +51,31 @@
     --theme-main-gutter-x: calc(var(--theme-main-gutter) + (#{$grid-gutter-width} *2));
 }
 
+
+.wp-block-group.full-width {
+    padding-right: calc(var(--bs-gutter-x)*.5);
+    padding-left: calc(var(--bs-gutter-x)*.5);
+
+    .wp-block-group__inner-container {
+        @extend .container;
+    }
+}
+
+.full-height {
+    min-height: 100vh;
+}
+.bg-transparent {
+    background-color: transparent;
+}
+.fullscreen-element {}
+.wp-admin.block-editor-page {
+    .d-none {
+        display: inherit !important;
+    }
+}
+.editor-styles-wrapper .d-none {
+    display: inherit !important;
+}
 .wp-admin .editor-styles-wrapper .full-width {}
 
 .container,

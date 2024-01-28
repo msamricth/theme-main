@@ -7,40 +7,43 @@
  */
 
 
-add_menu_page(
-    'Standalone Block Editor',         // Visible page name
-    'Block Editor',                    // Menu label
-    'edit_posts',                      // Required capability
-    'theme_main_footer',                      // Hook/slug of page
-    'theme_main_footer_render_block_editor', // Function to render the page
-    'dashicons-grid-view'  // Custom icon
-);
 
-function theme_main_footer_render_block_editor() {
-	?>
-	<div
-		id="theme-main-block-editor"
-		class="theme-main-block-editor"
-	>
-		Loading Editor...
-	</div>
-	<?php
-}
-function theme_main_footer_block_editor_init( $hook ) {
+if (!function_exists('theme_main_footer_get_options')):
 
-    // Exit if not the correct page.
-	if ( 'theme_main_footer' !== $hook ) {
-		return;
+    function theme_main_footer_get_options($classes)
+    {
+        $footer_options = '';
+        $footer_classes = $classes;
+        $footer_styles = '';
+        $footer_background_image = get_field("footer_background_image", "option");
+        $footer_background_color = get_field("footer_background_color", "option");
+        $footer_background_graident_top = get_field("footer_background_graident_top", "option");
+        $footer_background_graident_bottom = get_field("footer_background_graident_bottom", "option");
+
+
+        if ($footer_background_color) {
+            $footer_styles .= '--theme-main-footer-background-color: var(--bs-' . $footer_background_color . '); ';
+            $footer_styles .= '--theme-main-footer-color: var(--theme-main-contrasting-text-' . $footer_background_color . '); ';
+            
+            $footer_classes .= ' match-nav fold match_'.$footer_background_color;
+        }
+        if ($footer_background_image) {
+            $footer_classes .= ' has-background-image ';
+            $footer_styles .= 'background-image:url(' . $footer_background_image . '); ';
+
+        }
+        if ($footer_background_graident_top && $footer_background_graident_bottom) {
+            $footer_classes .= ' has-background-gradient ';
+            $footer_styles .= '--theme-main-footer-background-gradient-top: var(--bs-' . $footer_background_graident_top . '); ';
+            $footer_styles .= '--theme-main-footer-background-gradient-bottom: var(--bs-' . $footer_background_graident_bottom . '); ';
+            //	$footer_options =' has-background-image" style="background-image="url('.$footer_background_image.');';
+
+        }
+        $footer_options = 'class="' . $footer_classes.'"';
+        if($footer_styles ){
+            //$footer_options .= '" ';
+            $footer_options .= ' style="' . $footer_styles . '"';
+        }
+        return $footer_options;
     }
-    wp_enqueue_style( 'wp-format-library' );
-
-    // Enqueue custom styles.
-    wp_enqueue_style(
-        'getdave-sbe-styles',                       // Handle
-        plugins_url( 'build/index.css', __FILE__ ), // Block editor CSS
-        array( 'wp-edit-blocks' ),                  // Dependency to include the CSS after it
-        filemtime( __DIR__ . '/build/index.css' )
-    );
-}
-
-add_action( 'admin_enqueue_scripts', 'theme_main_footer_block_editor_init' );
+endif;

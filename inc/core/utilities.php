@@ -155,8 +155,29 @@ if (!function_exists('get_scheme')):
 	}
 
 endif;
+if (!function_exists('get_scheme_new')):
+	/**
+	 * "Theme posted on" pattern.
+	 *
+	 * @since v7.6
+	 */
+	function get_scheme_new($custom = null)
+	{
+		if (isset($custom)) {
+			$scheme = $custom;
+		} else {
+			$scheme = get_field('background_color', get_theme_main_postID());
+		}
+		if ($scheme) {
+		} else {
+			$scheme = 'light';
+		}
+		return $scheme;
+	}
+
+endif;
 // Define the function to append choices
-if (!function_exists('acf_append_color_choices')) {
+
 	function acf_append_color_choices($field)
 	{
 		// Get values from repeater field in Field Group A
@@ -181,7 +202,11 @@ if (!function_exists('acf_append_color_choices')) {
 	// Hook into acf/load_field and apply the function to your select fields
 	add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
 	add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
-}
+	add_filter('acf/load_field/name=footer_background_color', 'acf_append_color_choices');
+	add_filter('acf/load_field/name=footer_background_graident_top', 'acf_append_color_choices');
+	add_filter('acf/load_field/name=footer_background_graident_bottom', 'acf_append_color_choices');
+
+
 
 if (!function_exists('theme_main_load_more_posts')) {
 	function theme_main_load_more_posts()

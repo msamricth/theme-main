@@ -3,8 +3,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, $videoI } from "./identifiers.js";
 import { topTA, bottomTA, scrollActions } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
-import { playVimeo, pauseVimeo, playVideo, pauseVideo } from "./video.js";
-import { fadeintop, fadeOut } from "./extras.js";
+import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
 import { matchNav, animationOn, setFoldLegacy } from "./main.js";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -51,12 +50,12 @@ function vimeoGSAP() {
                         //onUpdate: updateVideo()
                     });
                 })
-                .catch(error => {
-                    // Auto-play was prevented
-                    // Show paused UI.
-                    video.classList.add('error');
-                    loadVideoErrorHandler(videoTitle, videoID, error, 'player.pause', 'Paused with error', sTIIV, sTPIV);
-                });
+                    .catch(error => {
+                        // Auto-play was prevented
+                        // Show paused UI.
+                        video.classList.add('error');
+                        loadVideoErrorHandler(videoTitle, videoID, error, 'player.pause', 'Paused with error', sTIIV, sTPIV);
+                    });
             }
         }
 
@@ -67,37 +66,38 @@ function vimeoGSAP() {
 
 
 function selfHostedGSAP() {
+    LazyLoad().then(() => {
+        gsap.utils.toArray(".videofx.selfhosted").forEach(function (video, i) {
+            const vimeoFrame = document.getElementById(video.id);
+            const videoID = video.id;
+            const player = video;
+            const videoTitle = video.getAttribute('data-videotitle');
+            var sTIIV = ScrollTrigger.isInViewport(video),
+                sTPIV = ScrollTrigger.positionInViewport(video, "center").toFixed(2);
 
-    gsap.utils.toArray(".videofx.selfhosted").forEach(function (video, i) {
-        const vimeoFrame = document.getElementById(video.id);
-        const videoID = video.id;
-        const player = video;
-        const videoTitle = video.getAttribute('data-videotitle');
-        var sTIIV = ScrollTrigger.isInViewport(video),
-            sTPIV = ScrollTrigger.positionInViewport(video, "center").toFixed(2);
-
-        ScrollTrigger.create({
-            trigger: video,
-            start: 'top 100%',
-            end: 'bottom 15%',
-            markers: videoMarker,
-            onEnter: () => (
-                playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV)
-            ),
-            onLeave: () => (
-                pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV)
-            ),
-            onLeaveBack: () => (
-                pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV)
-            ),
-            onEnterBack: () => (
-                playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV)
-            ),
-            //onUpdate: updateVideo()
+            ScrollTrigger.create({
+                trigger: video,
+                start: 'top 100%',
+                end: 'bottom 15%',
+                markers: videoMarker,
+                onEnter: () => (
+                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV)
+                ),
+                onLeave: () => (
+                    pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV)
+                ),
+                onLeaveBack: () => (
+                    pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV)
+                ),
+                onEnterBack: () => (
+                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV)
+                ),
+                //onUpdate: updateVideo()
+            });
         });
     });
 }
@@ -129,7 +129,7 @@ function theFoldScrollTrigger() {
                 onEnterBack: () => foldTriggered('onEnterBack')
             });
 
-            function foldTriggered(scrollAction){
+            function foldTriggered(scrollAction) {
                 setFold(elem, color);
                 //foldDebug(scrollAction, color, elemID, elemClassList, topTA, bottomTA, error, bg, txt);
             }
@@ -154,17 +154,17 @@ function theFoldScrollTrigger() {
         });
     }
 
-    function setFold(elem, color){
+    function setFold(elem, color) {
         let elemClassList = elem.classList;
 
         elem.getAttribute('data-class')
-        if(elemClassList.contains('match-nav')){
+        if (elemClassList.contains('match-nav')) {
             matchNav(elem);
         }
-        if(elemClassList.contains('animation-on')){
+        if (elemClassList.contains('animation-on')) {
             animationOn(elem);
         }
-        if(elem.hasAttribute('data-class')) {
+        if (elem.hasAttribute('data-class')) {
             setFoldLegacy(color);
         }
 

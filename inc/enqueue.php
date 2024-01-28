@@ -70,7 +70,7 @@ function my_scripts_modifier($tag, $handle, $src)
     return $tag;
 }
 
-function theme_main_black_editor_assets() {
+function theme_main_black_editor_scripts() {
     $screen = get_current_screen();
 
     // Check if we are on the widgets.php page in wp-admin
@@ -89,6 +89,12 @@ function theme_main_black_editor_assets() {
         filemtime(get_template_directory() . '/assets/js/editor.js'),
         true
     );
+
+}
+
+add_action('enqueue_block_editor_assets', 'theme_main_black_editor_scripts');
+function theme_main_black_editor_assets() {
+    $screen = get_current_screen();
 
     // Enqueue your 'theme-editor' styles
     wp_enqueue_style(

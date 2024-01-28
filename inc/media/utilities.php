@@ -95,14 +95,14 @@ function theme_main_get_slides_inner_block_template($related_content_title, $rel
         if ($related_content_position == 'Outside') {
 
 
-            $slideContent .= '<div class="card-body px-dlg-0 pt-dlg-0 pb-4">';
-            $slideContent .= '<h3 class="card-title">' . $related_content_title . '</h3>';
+            $slideContent .= '<div class="card-body pb-4">';
             if ($related_content_date) {
-                $slideContent .= '<strong class="text-muted">' . $related_content_date . '</strong>';
+                $slideContent .= '<span class="card-sub-title">' . $related_content_date . '</span>';
             }
+            $slideContent .= '<h3 class="card-title">' . $related_content_title . '</h3>';
             $slideContent .= '<p class="card-text mt-3">' . $related_content_excerpt . '</p>';
             $slideContent .= '</div>';
-            $slideContent .= '<div class="card-footer bg-transparent text-left p-dlg-0 me-auto ms-0">';
+            $slideContent .= '<div class="card-footer bg-transparent text-left me-auto ms-0">';
             $slideContent .= '<a href="' . $related_content_url . '" class="btn btn-primary">Learn More</a>';
             $slideContent .= '</div>';
 

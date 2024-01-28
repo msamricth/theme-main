@@ -57,12 +57,12 @@ if ( is_readable( $core_header ) ) {
 
 
 /**
- * The Fold
+ * The Footer options
  * @since v1.0
  */
-$core_fold = __DIR__ . '/core/the_fold.php';
-if ( is_readable( $core_fold ) ) {
-	require_once $core_fold;
+$core_footer = __DIR__ . '/core/footer.php';
+if ( is_readable( $core_footer ) ) {
+	require_once $core_footer;
 }
 
 

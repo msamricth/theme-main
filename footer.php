@@ -9,23 +9,10 @@ if( $footer_background_image ) {
 
 ?>
 </div>
+<?php echo get_the_fold(); ?>
 </main><!-- /#main -->
-<div class="pre-footer mt-gutter">
-	<?php if (is_active_sidebar('forth_widget_area')):
 
-		dynamic_sidebar('forth_widget_area');
-
-		if (current_user_can('manage_options')):
-			?>
-			<span class="edit-link"><a href="<?php echo esc_url(admin_url('widgets.php')); ?>" class="badge bg-secondary">
-					<?php esc_html_e('Edit', 'theme_main'); ?>
-				</a></span><!-- Show Edit Widget link -->
-			<?php
-		endif;
-
-	endif; ?>
-</div>
-<footer id="footer" class="footer py-5 <?php echo $footer_options; ?>">
+<footer id="footer" <?php echo theme_main_footer_get_options('footer mt-gutter py-gutter'); ?>>
 
 	<?php
 

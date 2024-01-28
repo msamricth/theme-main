@@ -3,7 +3,6 @@
  */
 
 body {
-	--theme-main-nav-link-color: #{$body-color};
 	#main {    
 		max-width: 100%;
 		overflow: clip;
@@ -81,20 +80,11 @@ img {
 /* Footer */
 
 #footer {
-	background-color: $dark;
-	color: $body-bg;
 
 	p {
 		margin-top: 10px;
 	}
 
-	.menu-item {
-		a {
-			&[aria-current='page'] {
-				color: $link-hover-color;
-			}
-		}
-	}
 }
 
 /* Sidebar */

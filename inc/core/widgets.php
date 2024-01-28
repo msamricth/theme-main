@@ -31,17 +31,7 @@ function theme_main_widgets_init() {
 		)
 	);
 
-	// Area 3.
-	register_sidebar(
-		array(
-			'name'          => 'Pre-Footer Area',
-			'id'            => 'forth_widget_area',
-			'before_widget' => '',
-			'after_widget'  => '',
-			'before_title'  => '<h3 class="widget-title">',
-			'after_title'   => '</h3>',
-		)
-	);
+
 	// Area 3.
 	register_sidebar(
 		array(

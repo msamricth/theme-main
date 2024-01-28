@@ -127,3 +127,11 @@ if (!function_exists('theme_main_primary_colors')) {
         return $colorScheme;
     }
 }
+if (!function_exists('get_the_fold')) {
+    function get_the_fold()
+    {
+        $classes = 'fold match-nav ';
+        $classes .= 'match_'.get_scheme_new();
+        return '<div class="'.$classes.'"></div>';
+    }
+}

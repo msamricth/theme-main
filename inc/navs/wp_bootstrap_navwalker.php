@@ -1,219 +1,177 @@
 <?php
-/**
- * WP Bootstrap Navwalker (customized)
- *
- * @package WP-Bootstrap-Navwalker
- */
-
-/**
- * Class Name: WP_Bootstrap_Navwalker
- * Plugin Name: WP Bootstrap Navwalker
- * Plugin URI:  https://github.com/wp-bootstrap/wp-bootstrap-navwalker
- * Description: A custom WordPress nav walker class to implement the Bootstrap 5 navigation style in a custom theme using the WordPress built in menu manager.
- * Author: Edward McIntyre - @twittem, WP Bootstrap, William Patton - @pattonwebz
- * Version: 3.0.1
- * Author URI: https://github.com/wp-bootstrap
- * GitHub Plugin URI: https://github.com/wp-bootstrap/wp-bootstrap-navwalker
- * GitHub Branch: master
- * License: GPL-3.0+
- * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
- */
-
-if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
-	/**
-	 * WP_Bootstrap_Navwalker class.
-	 *
-	 * @extends Walker_Nav_Menu
-	 */
-	class WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
-		/**
-		 * Start Level.
-		 *
-		 * @see Walker::start_lvl()
-		 * @since 1.0.0
-		 *
-		 * @param string   $output Used to append additional content (passed by reference).
-		 * @param int      $depth  Depth of menu item. Used for padding.
-		 * @param stdClass $args   An object of wp_nav_menu() arguments.
-		 */
-		public function start_lvl( &$output, $depth = 0, $args = null ) {
-			$output .= '<ul role="menu" class="dropdown-menu">';
+// bootstrap 5 wp_nav_menu walker
+class WP_Bootstrap_Navwalker extends Walker_Nav_menu
+{
+	private $current_item;
+	private $dropdown_menu_alignment_values = [
+		'dropdown-menu-start',
+		'dropdown-menu-end',
+		'dropdown-menu-sm-start',
+		'dropdown-menu-sm-end',
+		'dropdown-menu-md-start',
+		'dropdown-menu-md-end',
+		'dropdown-menu-lg-start',
+		'dropdown-menu-lg-end',
+		'dropdown-menu-xl-start',
+		'dropdown-menu-xl-end',
+		'dropdown-menu-xxl-start',
+		'dropdown-menu-xxl-end'
+	];
+	/* this version is a good starting point for a mega nav
+				  function start_lvl(&$output, $depth = 0, $args = null)
+				  {
+					$dropdown_menu_class[] = '';
+					foreach($this->current_item->classes as $class) {
+					  if(in_array($class, $this->dropdown_menu_alignment_values)) {
+						$dropdown_menu_class[] = $class;
+					  }
+					}
+					$indent = str_repeat("\t", $depth);
+					$submenu = ($depth > 0) ? ' sub-menu' : '';
+					if($depth === 0){
+						$output .= "\n$indent<ul class=\"megamenu justify-content-end dropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+					} else {
+						
+						$output .= "\n$indent<ul class=\"list-unstyled $submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+					}
+				  } */
+	public function start_lvl(&$output, $depth = 0, $args = null)
+	{
+		$dropdown_menu_class[] = '';
+		foreach ($this->current_item->classes as $class) {
+			if (in_array($class, $this->dropdown_menu_alignment_values)) {
+				$dropdown_menu_class[] = $class;
+			}
 		}
 
-		/**
-		 * Start El.
-		 *
-		 * @see Walker::start_el()
-		 * @since 1.0.0
-		 *
-		 * @param string   $output Used to append additional content (passed by reference).
-		 * @param WP_Post  $item   Menu item data object.
-		 * @param int      $depth  Depth of menu item. Used for padding.
-		 * @param stdClass $args   An object of wp_nav_menu() arguments.
-		 * @param int      $id     Current item ID.
-		 */
-		public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-			/**
-			 * Dividers, Headers or Disabled
-			 * =============================
-			 * Determine whether the item is a Divider, Header, Disabled or regular
-			 * menu item. To prevent errors we use the strcasecmp() function to so a
-			 * comparison that is not case sensitive. The strcasecmp() function returns
-			 * a 0 if the strings are equal.
+		//$this->current_item
+		$indent = str_repeat("\t", $depth);
+		$submenu = ($depth > 0) ? ' sub-menu' : '';
+		$output .= "\n$indent<ul role='menu' class=\"list-unstyled dropdown-menu $submenu " . esc_attr(implode(" ", $dropdown_menu_class)) . " depth_$depth\">\n";
+
+
+		//$sectionTitle = $this->current_item->title;
+
+		
+		if ($depth === 0 && $args->walker->has_children) {
+            $output .= $this->duplicateParentItem($this->current_item, $args);
+        }
+
+	}
+	private function duplicateParentItem($item, $args)
+    {
+        $indent = str_repeat("\t", 1); // Adjust the indentation as needed
+        $classes = 'nav-item  dropdown-item'; // You can modify the classes as needed
+
+        $output = "$indent<li class=\"$classes close-nav-dropdown-li d-lg-none\">\n";
+        $output .= '<a href="#" class="dropdown-toggle justify-content-between close-nav-dropdown"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>Back<span></span></a>';
+        $output .= "$indent</li>\n";
+
+        $classes .= ' dropdown-header'; // You can modify the classes as needed
+        $output .= "$indent<li class=\"$classes\">\n";
+        $output .= "$indent\t<a href=\"$item->url\" class=\"nav-header\">$item->title</a>\n";
+        $output .= "$indent</li>\n";
+
+        return $output;
+    }
+	function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
+	{
+		$nav_icon = get_field('icon');
+		$this->current_item = $item;
+
+		$indent = ($depth) ? str_repeat("\t", $depth) : '';
+
+		$li_attributes = '';
+		$class_names = $value = '';
+
+		$classes = empty($item->classes) ? array() : (array) $item->classes;
+
+		$enable_search_form = get_field('enable_search_form', $item);
+		$nav_icon = get_field('icon', $item);
+		$custom_nav_item_class = get_field('custom_nav_item_class', $item);
+
+		$classes[] = ($args->walker->has_children && $depth === 0) ? 'dropdown' : '';
+		$classes[] = 'nav-item';
+		$classes[] = 'nav-item-' . $item->ID;
+		if ($custom_nav_item_class) {
+			$classes[] = $custom_nav_item_class;
+		}
+		if ($depth === 2 && $args->walker->has_children) {
+			$classes[] = 'dropdown-menu dropdown-menu-end';
+		}
+
+		$class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+		$class_names = ' class="' . esc_attr($class_names) . '"';
+
+		$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
+		$id = strlen($id) ? ' id="' . esc_attr($id) . '"' : '';
+
+		$attributes = !empty($item->attr_title) ? ' title="' . esc_attr($item->attr_title) . '"' : '';
+		$attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
+		$attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
+		$attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
+		$sectionTitle = '';
+		$closeSection = '';
+		if ($args->walker->has_children && $depth === 0) {
+			$sectionTitle = apply_filters('the_title', $item->title, $item->ID);
+			$closeSection = '<a ' . $attributes . ' class="menu-item close-dropdown" aria-label="Close">' . $sectionTitle . '</a>';
+		}
+
+		if ($args->walker->has_children && $depth === 0) {
+		}
+		$output .= $indent . '<li ' . $id . $value . $class_names . $li_attributes . '>';
+
+
+		$active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current-post-ancestor", $item->classes, true)) ? '' : '';
+		if ($depth === 1) {
+			$nav_link_class = ($depth > 0) ? 'dropdown-item text-uppercase font-weight-bolder' : 'nav-link ';
+		} else if ($depth === 2) {
+			$nav_link_class = ($depth > 0) ? 'dropdown-item final_level' : 'nav-link ';
+		} else {
+
+			$nav_link_class = ($depth > 0) ? 'dropdown-item ' : 'nav-link ';
+		}
+
+		$attributes .= ($args->walker->has_children && $depth === 0) ? ' class="' . $nav_link_class . $active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : ' class="' . $nav_link_class . ' ' . $custom_nav_item_class . ' ' . $active_class . '"';
+
+		$item_output = $args->before;
+		if ($enable_search_form == 1):
+			$item_output = theme_main_nav_search();
+		else:
+			/*
+			 * Glyphicons/Font-Awesome
+			 * ===========
+			 * Since the the menu item is NOT a Divider or Header we check the see
+			 * if there is a value in the attr_title property. If the attr_title
+			 * property is NOT null we apply it as the class name for the glyphicon.
 			 */
-			if ( 0 === strcasecmp( $item->attr_title, 'divider' ) && 1 === $depth ) {
-				$output .= '<li role="presentation" class="divider">';
-			} elseif ( 0 === strcasecmp( $item->title, 'divider' ) && 1 === $depth ) {
-				$output .= '<li role="presentation" class="divider">';
-			} elseif ( 0 === strcasecmp( $item->attr_title, 'dropdown-header' ) && 1 === $depth ) {
-				$output .= '<li role="presentation" class="dropdown-header">' . esc_attr( $item->title );
-			} elseif ( 0 === strcasecmp( $item->attr_title, 'disabled' ) ) {
-				$output .= '<li role="presentation" class="disabled"><a href="#">' . esc_attr( $item->title ) . '</a>';
+			if (!empty($item->attr_title)) {
+				$pos = strpos(esc_attr($item->attr_title), 'glyphicon');
+				if (false !== $pos) {
+					$item_output .= '<a' . $attributes . '><span class="glyphicon ' . esc_attr($item->attr_title) . '" aria-hidden="true"></span>&nbsp;';
+				} else {
+					$item_output .= '<a' . $attributes . '><i class="fa ' . esc_attr($item->attr_title) . '" aria-hidden="true"></i>&nbsp;';
+				}
 			} else {
-				$atts        = array();
-
-				$classes     = empty( $item->classes ) ? array() : (array) $item->classes;
-				if ( 0 === $depth ) {
-					$classes[] = 'nav-item'; // First level.
-				}
-				$classes[]   = 'menu-item-' . $item->ID;
-				$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
-				if ( $args->has_children ) {
-					$class_names .= ' dropdown';
-				}
-				if ( preg_grep( '/^current/', $classes ) ) {
-					$atts['aria-current'] = 'page';
-				}
-				$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-
-				$id          = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args );
-				$id          = $id ? ' id="' . esc_attr( $id ) . '"' : '';
-
-				$output     .= '<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement"' . $id . $class_names . '>';
-
-				if ( empty( $item->attr_title ) ) {
-					$atts['title'] = ! empty( $item->title ) ? strip_tags( $item->title ) : '';
-				} else {
-					$atts['title'] = $item->attr_title;
-				}
-
-				$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-				$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
-				// If item has_children add atts to a.
-				if ( $args->has_children && 0 === $depth ) {
-					$atts['href']           = '#';
-					$atts['data-bs-toggle'] = 'dropdown';
-					$atts['class']          = 'nav-link dropdown-toggle';
-					$atts['aria-expanded']  = 'false';
-				} else {
-					$atts['href'] = ! empty( $item->url ) ? $item->url : '';
-					if ( $depth > 0 ) {
-						$atts['class'] = 'dropdown-item'; // Dropdown item.
-					} else {
-						$atts['class'] = 'nav-link'; // First level.
-					}
-					if ( in_array( 'current-menu-item', $classes ) ) {
-						$atts['class'] .= ' active';
-					}
-				}
-				$atts       = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
-				$attributes = '';
-				foreach ( $atts as $attr => $value ) {
-					if ( ! empty( $value ) ) {
-						$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-						$attributes .= ' ' . $attr . '="' . $value . '"';
-					}
-				}
-				$item_output = $args->before;
-
-				/*
-				 * Glyphicons/Font-Awesome
-				 * ===========
-				 * Since the the menu item is NOT a Divider or Header we check the see
-				 * if there is a value in the attr_title property. If the attr_title
-				 * property is NOT null we apply it as the class name for the glyphicon.
-				 */
-				if ( ! empty( $item->attr_title ) ) {
-					$pos = strpos( esc_attr( $item->attr_title ), 'glyphicon' );
-					if ( false !== $pos ) {
-						$item_output .= '<a' . $attributes . '><span class="glyphicon ' . esc_attr( $item->attr_title ) . '" aria-hidden="true"></span>&nbsp;';
-					} else {
-						$item_output .= '<a' . $attributes . '><i class="fa ' . esc_attr( $item->attr_title ) . '" aria-hidden="true"></i>&nbsp;';
-					}
-				} else {
-					$item_output .= '<a' . $attributes . '>';
-				}
-				//$item_underline = '<span class="nav-underline"></span>';
-				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-				$item_output .= ( $args->has_children && 0 === $depth ) ? ' <span class="caret"></span></a>' : '</a>';
-				$item_output .= $args->after;
-				$output      .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+				$item_output .= '<a' . $attributes . '>';
 			}
-		}
+			$item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+			if ($args->walker->has_children && $depth === 0) {
+				$item_output .= '<i class="fa fa-angle-right d-lg-none" aria-hidden="true"></i>';
+				$item_output .= '<i class="fa fa-angle-down d-none d-lg-inherit" aria-hidden="true"></i>';
+				$item_output_after = $closeSection;
 
-		/**
-		 * Traverse elements to create list from elements.
-		 *
-		 * Display one element if the element doesn't have any children otherwise,
-		 * display the element and its children. Will only traverse up to the max
-		 * depth and no ignore elements under that depth.
-		 *
-		 * This method shouldn't be called directly, use the walk() method instead.
-		 *
-		 * @see Walker::start_el()
-		 * @since 2.5.0
-		 *
-		 * @param object $element           Data object.
-		 * @param array  $children_elements List of elements to continue traversing (passed by reference).
-		 * @param int    $max_depth         Max depth to traverse.
-		 * @param int    $depth             Depth of current element.
-		 * @param array  $args              An array of arguments.
-		 * @param string $output            Used to append additional content (passed by reference).
-		 */
-		public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
-			if ( ! $element ) {
-				return;
 			}
-			$id_field = $this->db_fields['id'];
-			// Display this element.
-			if ( is_object( $args[0] ) ) {
-				$args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
+			if ($nav_icon) {
+				$item_output .= $nav_icon;
 			}
-			parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
-		}
+			$item_output .= '</a>';
+		endif;
+		$item_output .= $args->after;
 
-		/**
-		 * Menu Fallback
-		 * =============
-		 * If this function is assigned to the wp_nav_menu's fallback_cb variable
-		 * and a menu has not been assigned to the theme location in the WordPress
-		 * menu manager the function with display nothing to a non-logged in user,
-		 * and will add a link to the WordPress menu manager if logged in as an admin.
-		 *
-		 * @param array $args passed from the wp_nav_menu function.
-		 */
-		public static function fallback( $args ) {
-			if ( current_user_can( 'edit_theme_options' ) ) {
-				$container       = $args['container'];
-				$container_id    = $args['container_id'];
-				$container_class = $args['container_class'];
-				$menu_class      = $args['menu_class'];
-				$menu_id         = $args['menu_id'];
-
-				$output = '';
-
-				if ( $container ) {
-					$output .= '<' . esc_attr( $container ) . ( $container_id ? ' id="' . esc_attr( $container_id ) . '"' : '' ) . ( $container_class ? ' class="' . esc_attr( $container_class ) . '"' : '' ) . '>';
-				}
-				$output .= '<ul' . ( $menu_id ? ' id="' . esc_attr( $menu_id ) . '"' : '' ) . ( $menu_class ? ' class="' . esc_attr( $menu_class ) . '"' : '' ) . '>';
-					$output .= '<li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" title="">' . esc_html__( 'Add a menu', 'supply' ) . '</a></li>';
-				$output .= '</ul>';
-				if ( $container ) {
-					$output .= '</' . esc_attr( $container ) . '>';
-				}
-
-				echo $output;
-			}
-		}
+		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
 	}
 }
+// register a new menu
+
+register_nav_menu('bs-menu', 'bootstrap menu');

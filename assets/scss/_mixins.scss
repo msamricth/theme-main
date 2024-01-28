@@ -1,0 +1,29 @@
+// Define the mixin for generating responsive classes
+@mixin responsive-display-classes($values, $property: display) {
+    @each $breakpoint, $value in $values {
+        @include media-breakpoint-up($breakpoint) {
+            .d-#{$breakpoint}-#{$value} {
+                #{$property}: #{$value} !important;
+            }
+        }
+    }
+}
+@mixin responsive-properties($properties) {
+    @each $breakpoint, $values in $properties {
+      @include media-breakpoint-up($breakpoint) {
+        @each $property, $value in $values {
+          #{$property}: $value !important;
+        }
+      }
+    }
+  }
+  @mixin set-nav-item-delay($count) {
+    $item-delay: 0;
+  
+    @for $i from 1 through $count {
+      .nav-item:nth-child(#{$i}) {
+        --theme-main-nav-item-delay: #{$item-delay}s;
+        $item-delay: $item-delay + 0.09;
+      }
+    }
+  }
