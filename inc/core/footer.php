@@ -34,8 +34,7 @@ if (!function_exists('theme_main_footer_get_options')):
         }
         if ($footer_background_graident_top && $footer_background_graident_bottom) {
             $footer_classes .= ' has-background-gradient ';
-            $footer_styles .= '--theme-main-footer-background-gradient-top: var(--bs-' . $footer_background_graident_top . '); ';
-            $footer_styles .= '--theme-main-footer-background-gradient-bottom: var(--bs-' . $footer_background_graident_bottom . '); ';
+            $footer_styles .= ' --theme-main-footer-background-gradient: radial-gradient(at bottom right, var(--bs-' . $footer_background_graident_top . ') 0%, var(--bs-' . $footer_background_graident_bottom . ') 100%);';
             //	$footer_options =' has-background-image" style="background-image="url('.$footer_background_image.');';
 
         }

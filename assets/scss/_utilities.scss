@@ -1,18 +1,26 @@
-//Display extensions
+// Display extensions
 @include responsive-display-classes((xs: inherit, smm: inherit, sm: inherit, md: inherit, lg: inherit, dlg: inherit, xl: inherit, extra: inherit, xxl: inherit, 3xl: inherit, 4xl: inherit), display);
 @include responsive-display-classes((xs: initial, smm: initial, sm: initial, md: initial, lg: initial, dlg: initial, xl: initial, extra: initial, xxl: initial, 3xl: initial, 4xl: initial), display);
 
-
+// Colors
+$theme-main-navDdropdown-bg-color: #{$body-bg};
+$theme-main-nav-link-color: #{$body-color};
 
 :root {
     --theme-main-container-max-width: calc(100% - (#{$offsetWidth} * 2));
     --theme-main-gutter: #{$offsetWidth} - #{$grid-gutter-width};
     --theme-main-dropdown-top: 105%;
-    --theme-main-navDdropdown-bg: #{$body-bg};
-	--theme-main-nav-link-color: #{$body-color};
+    --theme-main-navDdropdown-bg: $theme-main-navDdropdown-bg-color;
+    --theme-main-nav-link-color: $theme-main-nav-link-color;
     --theme-main-nav-item-delay: 0.0s;
-    --theme-main-start-opacity:0;
-    --theme-main-end-opacity:1;
+    --theme-main-start-opacity: 0;
+    --theme-main-end-opacity: 1;
+    --theme-main-footer-background-color: #{$dark};
+    --theme-main-footer-color: #{$light};
+    --theme-main-footer-background-gradient-top: #{$primary};
+    --theme-main-footer-background-gradient-bottom: #{$dark};
+    --theme-main-footer-background-gradient: radial-gradient(at bottom right, var(--theme-main-footer-background-gradient-bottom) 10%, var(--theme-main-footer-background-gradient-top) 76%);
+
     @include media-breakpoint-up(md) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidthMD} * 2));
         --theme-main-gutter: #{$offsetWidthMD} - #{$grid-gutter-width};
@@ -48,134 +56,91 @@
         --theme-main-gutter: #{$offsetWidth4xl} - #{$grid-gutter-width};
     }
 
-    --theme-main-gutter-x: calc(var(--theme-main-gutter) + (#{$grid-gutter-width} *2));
+    --theme-main-gutter-x: calc(var(--theme-main-gutter) + (#{$grid-gutter-width} * 2));
 }
 
+// Other existing styles...
 
-.wp-block-group.full-width {
-    padding-right: calc(var(--bs-gutter-x)*.5);
-    padding-left: calc(var(--bs-gutter-x)*.5);
+// Mixin for Container Sizes
+@mixin container-max-width($max-width) {
+    max-width: $max-width;
+}
 
-    .wp-block-group__inner-container {
-        @extend .container;
+.container {
+    @include container-max-width(var(--theme-main-container-max-width));
+}
+
+@include media-breakpoint-up(lg) {
+    .container-lg {
+        @include container-max-width(var(--theme-main-container-max-width));
     }
 }
 
-.full-height {
-    min-height: 100vh;
+// Mixin for Gutter Spacing
+@mixin margin-spacing($property, $value) {
+    margin-#{$property}: $value;
 }
-.bg-transparent {
-    background-color: transparent;
-}
-.fullscreen-element {}
-.wp-admin.block-editor-page {
-    .d-none {
-        display: inherit !important;
-    }
-}
-.editor-styles-wrapper .d-none {
-    display: inherit !important;
-}
-.wp-admin .editor-styles-wrapper .full-width {}
-
-.container,
-.container-lg,
-.container-md,
-.container-sm,
-.container-xl,
-.container-xxl,
-.container-dlg,
-.container-3xl,
-.container-4xl {
-    max-width: var(--theme-main-container-max-width);
+@mixin padding-spacing($property, $value) {
+    padding-#{$property}: $value;
 }
 
-.block-supply-media,
-.full-width,
-.full-width-sm,
-.full-width-xxl,
-.full-width-dlg,
-.full-width-3xl,
-.full-width-md,
-.full-width-lg,
-.full-width-4xl {
-    @include media-breakpoint-down(md) {
-        margin-left: calc(0px - var(--theme-main-gutter) - 4px);
-        margin-right: calc(0px - var(--theme-main-gutter) - 4px);
-    }
-
-    margin-left: calc(0px - var(--theme-main-gutter));
-    margin-right: calc(0px - var(--theme-main-gutter));
-}
-
-.wp-admin .editor-styles-wrapper {
-    .full-width {
-        @include media-breakpoint-down(md) {
-            margin-left: auto !important;
-            margin-right: auto !important;
-        }
-
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-
-    .full-height {
-        min-height: 450px;
-    }
-}
-
+// Apply Gutter Spacing Mixin
 .mt-gutter {
-    margin-top: var(--theme-main-gutter-x);
+    @include margin-spacing(top, var(--theme-main-gutter-x));
 }
 
 .mb-gutter {
-    margin-bottom: var(--theme-main-gutter-x);
+    @include margin-spacing(bottom, var(--theme-main-gutter-x));
 }
 
 .my-gutter {
-    margin-top: var(--theme-main-gutter-x);
-    margin-bottom: var(--theme-main-gutter-x)
+    @include margin-spacing(top, var(--theme-main-gutter-x));
+    @include margin-spacing(bottom, var(--theme-main-gutter-x));
 }
 
 .m-gutter {
-    margin: var(--theme-main-gutter-x);
+    @include margin-spacing(all, var(--theme-main-gutter-x));
 }
 
 .ms-gutter {
-    margin-left: var(--theme-main-gutter-x);
+    @include margin-spacing(left, var(--theme-main-gutter-x));
 }
 
 .me-gutter {
-    margin-right: var(--theme-main-gutter-x);
+    @include margin-spacing(right, var(--theme-main-gutter-x));
 }
 
 .mx-gutter {
-    margin-left: var(--theme-main-gutter-x);
-    margin-right: var(--theme-main-gutter-x);
+    @include margin-spacing(left, var(--theme-main-gutter-x));
+    @include margin-spacing(right, var(--theme-main-gutter-x));
 }
 
 .pt-gutter {
-    padding-top: var(--theme-main-gutter-x);
+    @include padding-spacing(top, var(--theme-main-gutter-x));
 }
 
 .pb-gutter {
-    padding-bottom: var(--theme-main-gutter-x);
+    @include padding-spacing(bottom, var(--theme-main-gutter-x));
 }
 
 .py-gutter {
-    padding-top: var(--theme-main-gutter-x);
-    padding-bottom: var(--theme-main-gutter-x);
+    @include padding-spacing(top, var(--theme-main-gutter-x));
+    @include padding-spacing(bottom, var(--theme-main-gutter-x));
 }
 
-.pl-gutter {
-    padding-left: var(--theme-main-gutter-x);
+.p-gutter {
+    @include padding-spacing(all, var(--theme-main-gutter-x));
 }
 
-.pr-gutter {
-    padding-right: var(--theme-main-gutter-x);
+.ps-gutter {
+    @include padding-spacing(left, var(--theme-main-gutter-x));
+}
+
+.pe-gutter {
+    @include padding-spacing(right, var(--theme-main-gutter-x));
 }
 
 .px-gutter {
-    padding-left: var(--theme-main-gutter-x);
-    padding-right: var(--theme-main-gutter-x);
+    @include padding-spacing(left, var(--theme-main-gutter-x));
+    @include padding-spacing(right, var(--theme-main-gutter-x));
 }

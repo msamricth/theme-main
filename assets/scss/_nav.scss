@@ -1,3 +1,5 @@
+$hamburger-padding-x : 10px !default;
+$hamburger-padding-y : 10px !default;
 // Import Hamburgers
 @import "../../node_modules/hamburgers/_sass/hamburgers/hamburgers";
 
@@ -26,7 +28,13 @@ header .navbar {
 
     // Mobile view styles
     @include media-breakpoint-down(lg) {
-        .nav-link, .widget-area {
+        .navbar-toggler {
+            padding-right: 5px;
+            padding-bottom: 7px;
+        }
+
+        .nav-link,
+        .widget-area {
             text-align: center;
             animation: slide-out-blurred-left 0.6s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
             --theme-main-end-opacity: 0;
@@ -47,7 +55,7 @@ header .navbar {
                 overflow-y: overlay;
                 margin-right: calc(0% - var(--theme-main-gutter-x));
                 padding-right: var(--theme-main-gutter-x);
-                
+
                 .menu-item.dropdown {
                     position: static;
                 }
@@ -62,16 +70,22 @@ header .navbar {
                 }
 
                 &:not(.subnav-open) {
-                    a.nav-link, .widget-area {
+
+                    a.nav-link,
+                    .widget-area {
                         animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) var(--theme-main-nav-item-delay) both;
                         --theme-main-end-opacity: 0.76;
+
                         .fa {
                             padding-left: 0.2rem;
                             animation: bounce-right 0.8s var(--theme-main-nav-item-delay) both;
                         }
-                        &:hover, &:focus {
+
+                        &:hover,
+                        &:focus {
                             --theme-main-end-opacity: 1;
-                            & > .fa {
+
+                            &>.fa {
                                 animation: bounce-right-hover 0.8s both !important;
                             }
                         }
@@ -110,7 +124,8 @@ header .navbar {
                         display: flex;
                         color: var(--theme-main-nav-link-color);
 
-                        &:hover, &:focus {
+                        &:hover,
+                        &:focus {
                             --theme-main-end-opacity: 1;
                         }
                     }
@@ -154,11 +169,17 @@ header .navbar {
         box-shadow: none;
     }
 
-    .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after, .hamburger.is-active .hamburger-inner, .hamburger.is-active .hamburger-inner::before, .hamburger.is-active .hamburger-inner::after {
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after,
+    .hamburger.is-active .hamburger-inner,
+    .hamburger.is-active .hamburger-inner::before,
+    .hamburger.is-active .hamburger-inner::after {
         background-color: var(--theme-main-nav-link-color);
     }
 
-    .hamburger-inner::before, .hamburger-inner::after {
+    .hamburger-inner::before,
+    .hamburger-inner::after {
         transition: top .075s .075s ease-in, transform .075s 0s cubic-bezier(0.55, 0.055, 0.675, 0.19), -webkit-transform .075s 0s cubic-bezier(0.55, 0.055, 0.675, 0.19), background-color 0s .075s linear;
     }
 
@@ -220,7 +241,22 @@ header .navbar {
     .nav-item {
         --theme-main-end-opacity: .76;
 
-        .nav-link, .dropdown-item, .nav-header {
+
+        @include media-breakpoint-up(lg) {
+            .dropdown-header {
+                padding: 0;
+
+                .nav-header {
+                    --theme-main-end-opacity: 1;
+                    font-size: var(--bs-dropdown-font-size);
+                    padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+                }
+            }
+        }
+
+        .nav-link,
+        .dropdown-item,
+        .nav-header {
             width: 100%;
             text-transform: uppercase;
             opacity: var(--theme-main-end-opacity);
@@ -242,13 +278,16 @@ header .navbar {
                 animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) var(--theme-main-nav-item-delay) both;
             }
 
-            &.active, &.show, &:active {
+            &.active,
+            &.show,
+            &:active {
                 --theme-main-end-opacity: 1;
                 background-color: transparent;
                 color: var(--theme-main-nav-link-color);
             }
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                 color: var(--theme-main-nav-link-color);
                 --theme-main-end-opacity: 1;
 
@@ -265,10 +304,13 @@ header .navbar {
     }
 
     &:hover {
-        .nav-link, .dropdown-item {
+
+        .nav-link,
+        .dropdown-item {
             --theme-main-end-opacity: 0.55;
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                 --theme-main-end-opacity: 1;
             }
         }
@@ -288,7 +330,8 @@ header .navbar {
                     .dropdown-item {
                         --theme-main-end-opacity: 0.55;
 
-                        &:hover, &:focus {
+                        &:hover,
+                        &:focus {
                             --theme-main-end-opacity: 1;
                         }
                     }
@@ -335,16 +378,6 @@ header .navbar {
                 font-size: 24px;
             }
         }
-
-        @include media-breakpoint-up(dlg) {
-            &:first-child a {
-                padding-left: 0;
-            }
-
-            &:last-child a {
-                padding-right: 0;
-            }
-        }
     }
 
     &:hover {
@@ -373,6 +406,12 @@ header .navbar {
     &:not(.display-horizontal) {
         .social-nav {
             @include media-breakpoint-up(dlg) {
+
+                display: flex;
+                flex-direction: column;
+                align-content: end;
+                flex-wrap: wrap;
+
                 li {
                     a {
                         padding-right: 0px;

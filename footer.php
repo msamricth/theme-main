@@ -12,7 +12,7 @@ if( $footer_background_image ) {
 <?php echo get_the_fold(); ?>
 </main><!-- /#main -->
 
-<footer id="footer" <?php echo theme_main_footer_get_options('footer mt-gutter py-gutter'); ?>>
+<footer id="footer" <?php echo theme_main_footer_get_options('footer mt-gutter'); ?>>
 
 	<?php
 

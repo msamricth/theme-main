@@ -2,17 +2,12 @@
     min-height: 60vh;
     z-index: 0;
     position: relative;
-    --theme-main-footer-color: #{$light};
-    --theme-main-footer-background-gradient-top: #($primary);
-    --theme-main-footer-background-gradient-bottom: #($dark);
-    --theme-main-footer-background-gradient: radial-gradient(at bottom right, var(--theme-main-footer-background-gradient-bottom) 10%, var(--theme-main-footer-background-gradient-top) 76%);
+    background-color: var(--theme-main-footer-background-color);
+    padding-top: var(--theme-main-gutter-x);
+    padding-bottom: var(--theme-main-gutter-x);
 
     &.has-background-gradient {
         background: var(--theme-main-footer-background-gradient);
-    }
-
-    @include media-breakpoint-up(md) {
-        padding-bottom: 48px;
     }
 
     span.wpcf7-not-valid-tip {
@@ -59,7 +54,7 @@
             padding: 0rem 2rem .6rem;
             --theme-main-nav-link-color: var(--theme-main-footer-color);
             @include media-breakpoint-up(dlg) {
-                padding: 0 2.6rem 1rem 0;
+                padding: 0 2.6rem 0rem 0;
             }
         }
 
@@ -67,8 +62,12 @@
 
             .nav-link {
                 
+            transition: 0.6s opacity ease;
             --theme-main-nav-link-color: var(--theme-main-footer-color);
                 border-bottom: 1px solid var(--theme-main-footer-color);
+                @include media-breakpoint-up(lg) {
+                    border-bottom: 0;
+                }
             }
         }
 
@@ -78,6 +77,7 @@
             .dropdown-item {
                 line-height: 32px;
 
+                transition: 0.6s opacity ease;
                 --theme-main-nav-link-color: var(--theme-main-footer-color);
                 @include media-breakpoint-up(dlg) {
                     line-height: 28px;
