@@ -1,0 +1,26 @@
+{
+    "name": "acf/card-grid",
+    "title": "Card Grid",
+    "description": "A grid of card blocks",
+    "category": "Theme Main",
+    "icon": "images-alt2",
+    "keywords": ["Image", "content", "button", "paragraph", "action"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

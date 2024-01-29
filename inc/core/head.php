@@ -406,7 +406,7 @@ if (!function_exists('get_nav_attributes')):
     function get_nav_attributes()
     {
         $output = '';
-
+        $nav_default_color_scheme = get_field('nav_default_color_scheme', 'option');
         $navbar_page_scheme = get_field('navbar_color_settings', get_theme_main_postID());
         if ($navbar_page_scheme) {
             if (str_contains($navbar_page_scheme, 'transparent-dark') !== false) {
@@ -421,12 +421,14 @@ if (!function_exists('get_nav_attributes')):
                 $output .= '--theme-main-nav-drawer-open-bg: var(--bs-light);';
                 $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-light);';
             } else {
-                $output .= '--theme-main-nav-bg: var(--bs-' . $navbar_page_scheme . ' );';
-                $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
-                $output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $navbar_page_scheme . ' );';
-                $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
+                $output .= get_nav_style_attributes($navbar_page_scheme);
             }
             $output = 'data-og-scheme="'. $navbar_page_scheme .'" style="' . $output . '"';
+        } else {
+            if($nav_default_color_scheme){
+                $output .= get_nav_style_attributes($nav_default_color_scheme);
+                $output = 'data-og-scheme="'. $navbar_page_scheme .'" style="' . $output . '"';
+            }
         }
         return $output;
     }

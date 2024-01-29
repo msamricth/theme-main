@@ -46,8 +46,11 @@ if (!function_exists('get_block_settings')):
         }
         $classes = $classNames . ' ';
         // Create class attribute allowing for custom "className" and "align" values.
-        if (!empty($block['className']))
-            $classes .= array_merge($classes, explode(' ', $block['className']));
+      
+
+        if (!empty($block['className'])) {
+            $classes .= $block['className'];
+        }
         if (!empty($block['alignText'])) {
             $classes .= ' text-' . $block['alignText'];
         }
@@ -227,6 +230,9 @@ function theme_main_register_acf_blocks()
     register_block_type(get_stylesheet_directory() . '/inc/blocks/header-block');
     register_block_type(get_stylesheet_directory() . '/inc/blocks/media');
     register_block_type(get_stylesheet_directory() . '/inc/blocks/content-slider');
+    register_block_type(get_stylesheet_directory() . '/inc/blocks/floating-cta');
+    register_block_type(get_stylesheet_directory() . '/inc/blocks/cards');
+    register_block_type(get_stylesheet_directory() . '/inc/blocks/card-grid');
     //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
     //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-header');
     //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel');

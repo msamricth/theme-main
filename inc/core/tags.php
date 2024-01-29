@@ -71,10 +71,15 @@ if (!function_exists('theme_main_excrpt')):
      *
      * @since v1.0
      */
-    function theme_main_excerpt($limit)
+    function theme_main_excerpt($limit, $id = null)
     {
 
-        $excerpt = explode(' ', get_the_excerpt(), $limit);
+        if($id) {
+            $excerpt = explode(' ', get_the_excerpt($id), $limit);
+        } else {
+            $excerpt = explode(' ', get_the_excerpt(), $limit);
+        }
+        
 
         if (count($excerpt) >= $limit) {
             array_pop($excerpt);
@@ -85,7 +90,7 @@ if (!function_exists('theme_main_excrpt')):
 
         $excerpt = preg_replace('`\[[^\]]*\]`', '', $excerpt);
 
-        printf($excerpt);
+        return $excerpt;
     }
 endif;
 if (!function_exists('theme_main_alert')):

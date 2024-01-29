@@ -1,0 +1,36 @@
+{
+    "name": "acf/card",
+    "title": "Card",
+    "description": "Theme Cards that you can use to display content with a image",
+    "category": "Theme Main",
+    "icon": "format-aside",
+    "keywords": ["content", "Image", "paragraph", "picture", "link", "icon"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    },
+    "attributes": {
+        "alignContent": {
+            "type": "string",
+            "default": "center"
+        },
+        "alignText": {
+            "type": "string",
+            "default": "center"
+        }
+    }
+}

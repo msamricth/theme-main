@@ -1,9 +1,17 @@
+.card {
+    .card-sub-title {
+        opacity: .865;
+        text-align: justify;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2px;
+        font-size: 0.9rem;
+    }
 
-.card-sub-title {
-    opacity: .865;
-    text-align: justify;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2px;
-    font-size: 0.9rem;
+    .card-footer {
+        background-color: var(--bs-card-bg);
+    }
+}
+.card-grid .card {
+    height: 100%;
 }

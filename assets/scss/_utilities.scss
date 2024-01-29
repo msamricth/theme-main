@@ -60,19 +60,168 @@ $theme-main-nav-link-color: #{$body-color};
 }
 
 // Other existing styles...
+.full-width {
+    @include media-breakpoint-down(md) {
+        margin-left: calc(0px - var(--theme-main-gutter) - 4px);
+        margin-right: calc(0px - var(--theme-main-gutter) - 4px);
+    }
 
-// Mixin for Container Sizes
+    margin-left: calc(0px - var(--theme-main-gutter));
+    margin-right: calc(0px - var(--theme-main-gutter));
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+
+}
+
+@include media-breakpoint-up(sm) {
+    .full-width-sm {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(xxl) {
+    .full-width-xxl {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(dlg) {
+    .full-width-dlg {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(3xl) {
+    .full-width-3xl {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .full-width-md {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .full-width-lg {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+@include media-breakpoint-up(4xl) {
+    .full-width-4xl {
+        margin-left: calc(0px - var(--theme-main-gutter));
+        margin-right: calc(0px - var(--theme-main-gutter));
+
+        padding-right: calc(var(--bs-gutter-x) / 2);
+        padding-left: calc(var(--bs-gutter-x) / 2);
+    }
+}
+
+.wp-admin .editor-styles-wrapper {
+    .full-width {
+        @include media-breakpoint-down(md) {
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .full-height {
+        min-height: 450px;
+    }
+
+    .position-sticky {
+        z-index: 1 !important;
+    }
+}
+
 @mixin container-max-width($max-width) {
     max-width: $max-width;
 }
 
 .container {
-    @include container-max-width(var(--theme-main-container-max-width));
+    max-width: var(--theme-main-container-max-width);
+}
+.wp-block-group__inner-container {
+    max-width: var(--theme-main-container-max-width) !important;
+}
+.wp-block-group__inner-container {
+    @extend .container;
 }
 
 @include media-breakpoint-up(lg) {
     .container-lg {
-        @include container-max-width(var(--theme-main-container-max-width));
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .container-md {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    .container-sm {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .container-xl {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(xxl) {
+    .container-xxl {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(dlg) {
+    .container-dlg {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(3xl) {
+    .container-3xl {
+        max-width: var(--theme-main-container-max-width);
+    }
+}
+
+@include media-breakpoint-up(4xl) {
+    .container-4xl {
+        max-width: var(--theme-main-container-max-width);
     }
 }
 
@@ -80,6 +229,7 @@ $theme-main-nav-link-color: #{$body-color};
 @mixin margin-spacing($property, $value) {
     margin-#{$property}: $value;
 }
+
 @mixin padding-spacing($property, $value) {
     padding-#{$property}: $value;
 }

@@ -146,7 +146,83 @@ if (!function_exists('media_block_main')):
     }
 endif;
 
+if (!function_exists('get_basic_media')):
+    /**
+     * basic media format
+     *
+     * @since v0.9
+     * @modified v0.9
+     */
+    function get_basic_media($classes = null)
+    {
+        $media_type = get_field('media_type') ?: '';
+        $videoURL = get_field('media_video') ?: '';
+        $placerholder = get_field('media_image') ?: '';
+        $media_options_self_host_video = '';
+        $ratio = '';
+        $media = '';
 
+        if (have_rows('media_options')) {
+            while (have_rows('media_options')) {
+                the_row();
+                $media_options_self_host_video = (get_sub_field('self_host_video') == 1) ? 'true' : 'false';
+                $ratio = get_sub_field('video_ratio');
+            }
+        }
+
+        if (empty($ratio)) {
+            $ratio .= '16x9';
+        }
+        if (get_field('media_video_uploaded')) {
+            if ($media_options_self_host_video === 'true') {
+                $videoURL = esc_url(get_field('media_video_uploaded'));
+            }
+        }
+        switch ($media_type) {
+            case 'Image':
+                $media .= '<img class="' . $classes . '"';
+                if (is_array($placerholder) && isset($placerholder['url'])) {
+                    $media .= ' src="' . esc_url($placerholder['url']) . '" alt="' . esc_attr($placerholder['alt']) . '"';
+                } else {
+        
+                    // Check if imageObject is a valid attachment ID
+                    if (is_numeric($placerholder)) {
+                        $image_url = wp_get_attachment_image_src($placerholder, 'full');
+        
+                        if ($image_url) {
+                            $media .= ' src="' . esc_url($image_url[0]) . '" alt="' . esc_attr(get_post_meta($placerholder, '_wp_attachment_image_alt', true)) . '"';
+                        }
+                    }
+        
+        
+                }
+                $media .= ' />';
+                
+                break;
+
+            case 'Video':
+                if (empty($videoURL)) {
+                    if ($placerholder) {
+                        $media .= image_containers($placerholder, '', $ratio);
+                    } else {
+                        $media .= image_containers_URL('https://placehold.co/1440x750?text=Placeholder%20Image', 'placeholder image', '', $ratio, '');
+                    }
+                } else {
+                    $media = video_containers($videoURL, '', $ratio, '', $placerholder);
+                }
+                break;
+
+            case 'Icon':
+                // Code for Icon type
+                break;
+
+            default:
+                // Code for default type or handle other cases
+                break;
+        }
+        return $media;
+    }
+endif;
 
 if (!function_exists('get_header_media')):
     /**
@@ -174,9 +250,7 @@ if (!function_exists('get_header_media')):
         $header_gradient = '';
 
         $header_video_uploaded = get_field('header_video_uploaded');
-
         $header_video = get_field('header_video');
-
         $placerholder = get_field('header_image');
 
         if (have_rows('options')):
@@ -190,7 +264,6 @@ if (!function_exists('get_header_media')):
                     $video_ratio = get_sub_field('video_ratio');
                 }
                 $header_gradient = get_header_gradient();
-
                 if (get_sub_field('self_host_video') == 1):
                     $header_video = $header_video_uploaded;
                 endif;
@@ -288,7 +361,7 @@ if (!function_exists('theme_main_get_carousel')) {
                 endif;
 
                 $positoning = get_sub_field('caption_positioning');
-                if($positoning == 'Outside') {
+                if ($positoning == 'Outside') {
                     $extra_options .= ', "height":"--theme-main-medium-carousel-min-height"';
                 }
 
@@ -519,7 +592,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
         $classes = " splide__slide ";
 
-        $carousel_slide_content = ''; 
+        $carousel_slide_content = '';
         $inner_block_content = '';
         $inner_block_content_order = '';
         $carousel_outside_slide_content = '';
@@ -534,7 +607,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
         if (have_rows('slides')):
             while (have_rows('slides')):
                 the_row();
-                
+
                 $type_color = get_header_gradient_type_color();
                 $inner_block_instance = '';
                 $inner_block_content = '';
@@ -563,20 +636,20 @@ if (!function_exists('theme_main_get_carousel_slides')) {
                             }
                             $slides .= '<li class="splide__slide ' . $slideClasses . '">';
 
-                            $blockClasses .= ' type-'. $related_content_post_type ;
+                            $blockClasses .= ' type-' . $related_content_post_type;
 
-                            $slideMedia .= '<img class="px-3" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
+                            $slideMedia .= '<img class="" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
                             //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
                             $slideMedia .= ' />';
-                            if($positoning != 'Outside') {
+                            if ($positoning != 'Outside') {
                                 $blockClasses .= ' py-5 my-3xl-5';
                             } else {
                                 $blockClasses .= ' py-5 py-dlg-0';
                             }
                             $inner_block_content .= '<div class="carousel-block-editor-content content-slides ' . $blockClasses . '"';
-                            
-                            if($type_color){
-                                $inner_block_content .= ' ' . $type_color; 
+
+                            if ($type_color) {
+                                $inner_block_content .= ' ' . $type_color;
                             }
                             $inner_block_content .= '>';
 
@@ -654,7 +727,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
                             $slides .= $carousel_slide_content;
                             $slides .= get_header_gradient();
-                            $slides .= '<div class="d-none estimate" id="estimate-'.$related_content.'">'.wp_strip_all_tags( get_the_content($related_content) ).'</div>';
+                            $slides .= '<div class="d-none estimate" id="estimate-' . $related_content . '">' . wp_strip_all_tags(get_the_content($related_content)) . '</div>';
                             $slides .= '</li>';
                         }
                         // <a href="echo get_permalink( $related_content ); ">echo get_the_title( $related_content ); </a>

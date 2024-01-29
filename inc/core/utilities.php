@@ -109,7 +109,16 @@ if (!function_exists('RGBToHSL')):
 	}
 
 endif;
+if (!function_exists('get_nav_style_attributes')) :
+	function get_nav_style_attributes($color){
+		$output = '--theme-main-nav-bg: var(--bs-' . $color . ' );';
+		$output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $color . ' );';
+		$output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $color . ' );';
+		$output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $color . ' );';
 
+		return $output;
+	}
+endif;
 if (!function_exists('get_match_nav')):
 	/**
 	 * "Theme posted on" pattern.
@@ -205,6 +214,7 @@ endif;
 	add_filter('acf/load_field/name=footer_background_color', 'acf_append_color_choices');
 	add_filter('acf/load_field/name=footer_background_graident_top', 'acf_append_color_choices');
 	add_filter('acf/load_field/name=footer_background_graident_bottom', 'acf_append_color_choices');
+	add_filter('acf/load_field/name=button_background', 'acf_append_color_choices');
 
 
 

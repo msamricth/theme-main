@@ -95,7 +95,7 @@ function theme_main_get_slides_inner_block_template($related_content_title, $rel
         if ($related_content_position == 'Outside') {
 
 
-            $slideContent .= '<div class="card-body pb-4">';
+            $slideContent .= '<div class="card-body px-0 pb-4">';
             if ($related_content_date) {
                 $slideContent .= '<span class="card-sub-title">' . $related_content_date . '</span>';
             }
