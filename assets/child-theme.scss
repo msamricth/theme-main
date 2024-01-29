@@ -9,6 +9,7 @@
 */
 
 @import '/scss/bootstrap';
+@import '/scss/mixins';
 @import '/scss/utilities';
 @import '/scss/main';
 @import '/scss/header';
@@ -17,6 +18,8 @@
 @import '/scss/nav';
 @import '/scss/footer';
 @import '/scss/buttons';
+@import '/scss/ctas';
+@import '/scss/cards';
 
 @import "../node_modules/@splidejs/splide/src/css/core/index.scss";
 @import '/scss/carousel';
