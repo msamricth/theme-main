@@ -6,4 +6,3 @@ node_modules/
 *.sql
 *.sqlite
 .vscode/
-inc/acf/plugin/*

@@ -187,4 +187,4 @@ function theme_main_check_for_updates() {
 }
 
 // Hook the function to the 'wp_loaded' action
-add_action('wp_loaded', 'theme_main_check_for_updates');
+//add_action('wp_loaded', 'theme_main_check_for_updates');
