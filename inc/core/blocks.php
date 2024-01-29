@@ -224,18 +224,18 @@ function theme_main_register_acf_blocks()
      *
      * @link https://developer.wordpress.org/reference/functions/register_block_type/
      */
-    //register_block_type(get_stylesheet_directory() . '/inc/blocks/base');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/footer-nav');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/social-media-nav');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/header-block');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/media');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/content-slider');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/floating-cta');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/cards');
-    register_block_type(get_stylesheet_directory() . '/inc/blocks/card-grid');
-    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
-    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel-header');
-    //register_block_type(get_stylesheet_directory() . '/inc/blocks/carousel');
+    //register_block_type(get_template_directory() . '/inc/blocks/base');
+    register_block_type(get_template_directory() . '/inc/blocks/footer-nav');
+    register_block_type(get_template_directory() . '/inc/blocks/social-media-nav');
+    register_block_type(get_template_directory() . '/inc/blocks/header-block');
+    register_block_type(get_template_directory() . '/inc/blocks/media');
+    register_block_type(get_template_directory() . '/inc/blocks/content-slider');
+    register_block_type(get_template_directory() . '/inc/blocks/floating-cta');
+    register_block_type(get_template_directory() . '/inc/blocks/cards');
+    register_block_type(get_template_directory() . '/inc/blocks/card-grid');
+    //register_block_type(get_template_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
+    //register_block_type(get_template_directory() . '/inc/blocks/carousel-header');
+    //register_block_type(get_template_directory() . '/inc/blocks/carousel');
 
 }
 add_action('init', 'theme_main_register_acf_blocks');

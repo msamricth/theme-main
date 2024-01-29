@@ -26,7 +26,7 @@
  * require_once get_template_directory() . '/path/to/class-tgm-plugin-activation.php';
  *
  * Child Theme:
- * require_once get_stylesheet_directory() . '/path/to/class-tgm-plugin-activation.php';
+ * require_once get_template_directory() . '/path/to/class-tgm-plugin-activation.php';
  *
  * Plugin:
  * require_once dirname( __FILE__ ) . '/path/to/class-tgm-plugin-activation.php';
