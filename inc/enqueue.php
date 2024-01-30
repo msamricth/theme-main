@@ -53,9 +53,6 @@ function theme_main_scripts_loader()
         )
     );
 
-    if (check_if_block_exist('acf/supply-carousel-block')) {
-        // wp_enqueue_script('splide', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js', array(), $theme_version, true);
-    }
 }
 
 add_action('wp_enqueue_scripts', 'theme_main_scripts_loader', 100);
