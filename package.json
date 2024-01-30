@@ -9,8 +9,7 @@
 		"url": "https://github.com/msamricth/theme-main"
 	},
 	"scripts": {
-		"watch": "webpack serve && wp-scripts start",
-		"build": "wp-scripts build"
+		"watch": "gulp watch"
 	},
 	"browserslist": [
 		"last 2 versions"
@@ -19,14 +18,32 @@
 		"@popperjs/core": "^2.11.8",
 		"@splidejs/splide": "^4.1.4",
 		"@vimeo/player": "^2.21.0",
+		"autoprefixer": "^10.4.17",
 		"bootstrap": "^5.3.1",
+		"cssnano": "^6.0.3",
 		"gsap": "^3.12.4",
+		"gulp-minify": "^3.1.0",
+		"gulp-postcss": "^9.1.0",
+		"gulp-sourcemaps": "^3.0.0",
 		"hamburgers": "^1.2.1",
 		"jquery": "^3.7.0",
-		"video.js": "^8.9.0"
+		"postcss": "^8.4.33",
+		"sass": "^1.70.0",
+		"video.js": "^8.9.0",
+		"webpack": "^5.90.0",
+		"webpack-stream": "^7.0.0"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.11.0",
+		"browser-sync": "^3.0.2",
+		"cross-env": "^7.0.3",
+		"del": "^7.1.0",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^9.0.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-rename": "^2.0.0",
+		"gulp-sass": "^5.1.0",
+		"gulp-uglify": "^3.0.2",
 		"path": "^0.12.7",
 		"webpack-remove-empty-scripts": "^1.0.3"
 	}

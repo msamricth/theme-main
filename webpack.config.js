@@ -1,42 +1,27 @@
 const path = require('path'),
-	removeEmptyScriptsPlugin = require('webpack-remove-empty-scripts'),
-	webpackConfig = require('@wordpress/scripts/config/webpack.config');
+  webpack = require('webpack');
 
-// Extend the @wordpress webpack config and add the entry points.
 module.exports = {
-	...webpackConfig,
-	...{
-		mode: 'production',
-		devServer: {
-			static: {
-				directory: path.join(__dirname, 'assets'),
-			},
-			client: {
-				overlay: false,
-			},
-			allowedHosts: ['glt.local'],
-			hot: false,
-			compress: true,
-			devMiddleware: {
-				writeToDisk: true,
-			},
-		},
-		context: path.resolve(__dirname, 'assets'),
-		entry: ['./main.js', './main.scss'],
-		// jQuery support
-		/*externals: {
-			jquery: "jQuery",
-		},*/
-		plugins: [
-			...webpackConfig.plugins,
-			/*new webpack.ProvidePlugin({
-				$: "jquery",
-				jQuery: "jquery",
-				"window.jQuery": "jquery",
-			}),*/
-			new removeEmptyScriptsPlugin({
-				stage: removeEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
-			}),
-		],
-	},
+  context: path.resolve(__dirname, 'assets'),
+  entry: {
+    main: './main.js',
+    style: './main.scss',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'build'),
+  },
+  /* Uncomment if jQuery support is needed
+  externals: {
+    jquery: 'jQuery'
+  },
+  plugins: [
+    new webpack.ProvidePlugin( {
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    } ),
+  ],*/
+  devtool: 'source-map',
+  watch: true,
 };
