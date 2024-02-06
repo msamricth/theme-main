@@ -230,7 +230,7 @@ if (!function_exists('get_header_gradient')):
             if (empty($headerOverlayOpacity)) {
                 $headerOverlayOpacity = '0';
             }
-            return '<div class="header-overlay" style="--theme-main-header-overlay-color: rgba(var(' . $headerOverlayBG . '), 0.' . $headerOverlayOpacity . '); --theme-main-header-overlay-level: ' . $gradient_level . '%;"></div>';
+            return '<div class="theme-overlay" style="--theme-main-overlay-color: rgba(var(' . $headerOverlayBG . '), 0.' . $headerOverlayOpacity . '); --theme-main-overlay-level: ' . $gradient_level . '%;"></div>';
 
         }
     }

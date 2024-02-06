@@ -1,25 +1,14 @@
 
-import { Wrapper, bodyOG, scrollRoot, hasCustomBGColor } from "./identifiers.js";
-import {customOn} from "./utils.js";
+import { Wrapper, bodyOG, panelsSection} from "./identifiers.js";
+import { theFoldScrollTrigger, videoScrollTrigger, scrollingCarousel } from "./gsap.js";
+import { videoInit } from "./video.js"; 
 
-function initCustom(theme){
-    if(customOn){
-        if(theme != 'bg-custom') {
-            Wrapper.style.removeProperty('--supply-fold-color');
-            Wrapper.style.removeProperty('--bgcustom');
-        } else {
-            if(bodyOG != 'bg-custom ') {
-                Wrapper.style.removeProperty('--supply-fold-color');
-                Wrapper.style.removeProperty('--bgcustom');
-            }
-        }
-    }
-}
 
 function init() {
-    if(hasCustomBGColor){
-        if(bodyOG == 'bg-custom ') {customFold()};
-    }
+    if(panelsSection){scrollingCarousel();}
+	theFoldScrollTrigger();
+    videoInit();
+    videoScrollTrigger();
 }
 
-export{ init, initCustom };
+export{ init };

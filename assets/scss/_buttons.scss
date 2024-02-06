@@ -86,3 +86,25 @@
         }
     }
 }
+
+.btn-wide {
+    width: 100%;
+    display: block;
+
+    @include media-breakpoint-up(lg) {
+        width: 320px;
+    }
+
+}
+
+.cta-link {
+    .fa {
+        padding-left: 0.2rem;
+    }
+    &:hover,
+    &:focus {
+        .fa {
+            animation: bounce-right 0.8s var(--theme-main-nav-item-delay) both;
+        }
+    }
+}

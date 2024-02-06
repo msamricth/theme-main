@@ -9,6 +9,8 @@ const lazy_load_videos = document.body.classList.contains('lazy_load_videos');
 const lazy_loaded_video = document.querySelectorAll("video.selfhosted.lazy")
 const caseStudy = document.body.classList.contains('single-case-studies');
 const header = document.getElementById('header');
+const panelsSection = document.querySelector(".scroll-slider"),
+  panelsContainer = document.querySelector(".scroll-slider-container");
 const navOG = header.dataset.ogScheme;
 const navbarNav = header.querySelector('.navbar-nav');
 const sections = [...document.querySelectorAll('.fold')];
@@ -25,4 +27,4 @@ const isHeaderNavTransDark  = document.body.classList.contains('nav-bg-transpare
 const isHeaderNavTransLight  = document.body.classList.contains('nav-bg-transparent-light');
 let $videoI = 0;
 const videos = document.querySelectorAll(".videofx.vimeo");
-export { articleInteriorPage, sidebar, foldON, Wrapper, bodyOG, dotsON, lazy_load_videos, caseStudy, header, sections, selfhosted, scrollRoot, headerLinks, debuglog, hasCustomTxtColor, hasCustomBGColor, nav_compression, debugMarker, videoMarker, lazy_loaded_video, $videoI, videos, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, vimeoPlaceholder, navOG };
+export { articleInteriorPage, sidebar, foldON, Wrapper, bodyOG, dotsON, lazy_load_videos, caseStudy, header, sections, selfhosted, scrollRoot, headerLinks, debuglog, hasCustomTxtColor, hasCustomBGColor, nav_compression, debugMarker, videoMarker, lazy_loaded_video, $videoI, videos, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, vimeoPlaceholder, navOG, panelsSection, panelsContainer };

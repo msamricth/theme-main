@@ -71,15 +71,17 @@ if (!function_exists('theme_main_excrpt')):
      *
      * @since v1.0
      */
-    function theme_main_excerpt($limit, $id = null)
+    function theme_main_excerpt($limit, $id = null, $excerpt = null)
     {
-
-        if($id) {
-            $excerpt = explode(' ', get_the_excerpt($id), $limit);
+        if (empty($excerpt)) {
+            if ($id) {
+                $excerpt = explode(' ', get_the_excerpt($id), $limit);
+            } else {
+                $excerpt = explode(' ', get_the_excerpt(), $limit);
+            }
         } else {
-            $excerpt = explode(' ', get_the_excerpt(), $limit);
+            $excerpt = explode(' ', $excerpt, $limit);
         }
-        
 
         if (count($excerpt) >= $limit) {
             array_pop($excerpt);
@@ -285,3 +287,182 @@ if (!function_exists('theme_main_custom_edit_comment_link')):
     }
 endif;
 add_filter('edit_comment_link', 'theme_main_custom_edit_comment_link');
+
+
+if (!function_exists('theme_main_get_horizontal_card')):
+    function theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
+    {
+
+        if($classes) { $classes = $classes .' '; }
+        $classes .= 'card horizontal-card';
+        $output = '<div ';
+        if ($post_id) {
+            $output .= 'id="post-' . esc_attr($post_id) . '" ';
+        }
+        if(empty($column_classes)) { 
+            $column_classes = 'dlg';
+        }
+        $column_content = 'col-'.$column_classes.'-8'; 
+        $column_media = 'col-'.$column_classes.'-4'; 
+        $output .= 'class="' . $classes . '">';
+        $output .= '<div class="row g-0">';
+        $output .= '<div class="media-side '.$column_media.'">';
+
+        if ($thumbnail_url) {
+            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-'.$column_classes .'-none" alt="' . esc_attr($title) . '">';
+        }
+        if ($thumbnail_url) {
+            $output .= '<div class="has-background-image d-none d-'.$column_classes .'-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
+        }
+        $output .= '</div>';
+        $output .= '<div class="'.$column_content.' content-side">';
+        $output .= '<div class="card-body">';
+        if ($card_date) {
+            $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
+        }
+        $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
+        $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
+
+        $output .= '</div>';
+        
+        $output .= '<div class="card-footer">';
+
+        if ($read_more_toggle) {
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+        } else {
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link">Read More</a>';
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+endif;
+if (!function_exists('theme_main_get_horizontal_card_version_2')):
+    function theme_main_get_horizontal_card_version_2($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
+    {
+
+        if($classes) { $classes = $classes .' '; }
+        $classes .= 'card horizontal-card';
+        $output = '<div ';
+        if ($post_id) {
+            $output .= 'id="post-' . esc_attr($post_id) . '" ';
+        }
+        if(empty($column_classes)) { 
+            $column_content = 'col-dlg-6 col-xl-7'; 
+            $column_media = 'col-dlg-6 col-xl-5'; 
+        } else {
+            $column_content = 'col-'.$column_classes.'-8'; 
+            $column_media = 'col-'.$column_classes.'-4'; 
+        }        
+        if(empty($column_classes)) { 
+            $column_classes = 'dlg';
+        }
+        $output .= 'class="' . $classes . '">';
+        $output .= '<div class="row">';
+        $output .= '<div class="media-side pe-dlg-4 '.$column_media.'">';
+
+        if ($thumbnail_url) {
+            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-'.$column_classes .'-none" alt="' . esc_attr($title) . '">';
+        }
+        if ($thumbnail_url) {
+            $output .= '<div class="has-background-image d-none d-'.$column_classes .'-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
+        }
+        $output .= '</div>';
+        $output .= '<div class="'.$column_content.' content-side ps-dlg-4">';
+        $output .= '<div class="card-body">';
+        if ($card_date) {
+            $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
+        }
+        $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
+        $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
+
+        $output .= '</div>';
+        
+        $output .= '<div class="card-footer">';
+
+        if ($read_more_toggle) {
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+        } else {
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link">Read More</a>';
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+endif;
+
+if (!function_exists('theme_main_get_vertical_card')):
+    function theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $read_more_toggle = null)
+    {
+        if($classes) { $classes = $classes .' '; }
+        $classes .= 'card vertical-card';
+        $output = '<div ';
+        if ($post_id) {
+            $output .= 'id="post-' . esc_attr($post_id) . '" ';
+        }
+        $output .= 'class="' . $classes . '"  style="--theme-main-font-color: var(--theme-main-contrasting-text-dark);">';
+
+        if ($thumbnail_url) {
+            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top" alt="' . esc_attr($title) . '">';
+        }
+
+        $output .= '<div class="card-body">';
+        if ($card_date) {
+            $output .= '<strong class="theme-main-color">' . esc_html($card_date) . '</strong>';
+        }
+        $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
+        $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
+
+        $output .= '</div>';
+
+
+        $output .= '<div class="card-footer">';
+
+        if ($read_more_toggle) {
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+        } else {
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link stretched-link">Read More</a>';
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+endif;
+
+
+if (!function_exists('theme_main_get_overlay_card')):
+    function theme_main_get_overlay_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null)
+    {
+        if($classes) { $classes = $classes .' '; }
+        $excerpt = theme_main_excerpt('30', '', $excerpt);
+        $classes .= 'card card-overlay text-bg-dark postion-relative';
+        $output = '<div ';
+        if ($post_id) {
+            $output .= 'id="post-' . esc_attr($post_id) . '" ';
+        }
+        $output .= 'class="' . $classes . '">';
+        $output .= '<div class="card-img-overlay text-light'; 
+        if ($thumbnail_url) {
+            $output .= ' has-background-image" style="background-image: url(' . esc_url($thumbnail_url) . ');';
+        }
+        $output .= '">';
+        if ($card_date) {
+            $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
+        }
+        $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
+        $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
+
+        $output .= '<div class="theme-overlay" style="--theme-main-overlay-color: rgba(var(--bs-dark-rgb), 0.99); --theme-main-overlay-level: 65%;"></div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+endif;

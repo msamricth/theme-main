@@ -57,13 +57,13 @@
 }
 
 .entry-content {
-    &>*:not(.header-container) {
-        margin-top: 1.5rem;
+    &>*:not(.header-container):first-child {
+        margin-top: 5.5rem;
     }
 }
-.header-overlay {
-    background: var(--theme-main-header-overlay-color, rgba(0, 0, 0, 1));
-    background: linear-gradient(0deg, var(--theme-main-header-overlay-color, rgba(0, 0, 0, 1)) 0%, rgba(255, 255, 255, 0) var(--theme-main-header-overlay-level, 45%));
+.theme-overlay {
+    background: var(--theme-main-overlay-color, rgba(0, 0, 0, 1));
+    background: linear-gradient(0deg, var(--theme-main-overlay-color, rgba(0, 0, 0, 1)) 0%, rgba(255, 255, 255, 0) var(--theme-main-overlay-level, 45%));
     position: absolute;
     z-index: 1;
     top: 0;

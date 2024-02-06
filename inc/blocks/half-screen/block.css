@@ -1,0 +1,39 @@
+.half-screen {
+    position: relative;
+    overflow: clip;
+}
+
+.half-screen .half-screen-block-editor-content {
+    position: relative;
+    z-index: 2;
+}
+
+.half-screen .media-container.fullscreen_media {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.half-screen .media-container.fullscreen_media .theme-main-image {
+    height:100%;
+}
+
+
+.ratio> .ratio-fullw {
+    object-fit: cover;
+    height: min-content;
+    width: min-content;
+    min-width: 100%;
+    min-height: 100%;
+}
+.ratio.ratio-fullw {
+    position: static;
+}
+.header-container .ratio.ratio-fullw img, .header-container .ratio.ratio-fullw video {
+    -o-object-fit: cover;
+    object-fit: cover;
+}

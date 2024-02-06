@@ -8,20 +8,19 @@
 //the rest of your child themes scss/css
 
 
-@import '/scss/bootstrap';
-@import '/scss/mixins';
-@import '/scss/utilities';
-@import '/scss/main';
-@import '/scss/header';
-@import '/scss/animations';
-@import '/scss/block-settings';
-@import '/scss/nav';
-@import '/scss/footer';
-@import '/scss/buttons';
-@import '/scss/ctas';
-@import '/scss/cards';
-
+//@import 'scss/_bootstrap.scss';
+@import 'scss/_mixins.scss';
+@import 'scss/_utilities.scss';
+@import 'scss/_main.scss';
+@import 'scss/_header.scss';
+@import 'scss/_animations.scss';
+@import 'scss/_block-settings.scss';
+@import 'scss/_nav.scss';
+@import 'scss/_footer.scss';
+@import 'scss/_buttons.scss';
+@import 'scss/_ctas.scss';
+@import 'scss/_cards.scss';
+@import 'scss/media.scss';
 @import "../node_modules/@splidejs/splide/src/css/core/index.scss";
-@import '/scss/carousel';
-
+@import 'scss/_carousel.scss';
 */

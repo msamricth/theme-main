@@ -1,0 +1,18 @@
+.ratio {
+    &>.ratio-fullw {
+        object-fit: cover;
+        height: min-content;
+        width: min-content;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    &.ratio-fullw {
+        position: static;
+
+        & > video {
+            -o-object-fit: cover;
+            object-fit: cover;
+        }
+    }
+}

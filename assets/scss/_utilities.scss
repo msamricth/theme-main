@@ -70,6 +70,9 @@ $theme-main-nav-link-color: #{$body-color};
     margin-right: calc(0px - var(--theme-main-gutter));
     padding-right: calc(var(--bs-gutter-x) / 2);
     padding-left: calc(var(--bs-gutter-x) / 2);
+    &.wp-block-image img {
+        width: 100%;
+    }
 
 }
 
@@ -142,7 +145,9 @@ $theme-main-nav-link-color: #{$body-color};
         padding-left: calc(var(--bs-gutter-x) / 2);
     }
 }
-
+html .wp-admin .editor-styles-wrapper :where(.wp-block) {
+    max-width: 90% !important;
+}
 .wp-admin .editor-styles-wrapper {
     .full-width {
         @include media-breakpoint-down(md) {
@@ -153,13 +158,18 @@ $theme-main-nav-link-color: #{$body-color};
         margin-left: auto !important;
         margin-right: auto !important;
     }
-
+    .animation-on {
+        opacity: 1;
+    }
     .full-height {
         min-height: 450px;
     }
 
     .position-sticky {
         z-index: 1 !important;
+    }
+    .d-none, .d-md-none, .d-xl-none {
+        display: inherit !important;
     }
 }
 
@@ -184,6 +194,9 @@ $theme-main-nav-link-color: #{$body-color};
 }
 
 @include media-breakpoint-up(md) {
+    li.d-md-inherit {
+        display: list-item !important;
+    }
     .container-md {
         max-width: var(--theme-main-container-max-width);
     }
@@ -225,14 +238,6 @@ $theme-main-nav-link-color: #{$body-color};
     }
 }
 
-// Mixin for Gutter Spacing
-@mixin margin-spacing($property, $value) {
-    margin-#{$property}: $value;
-}
-
-@mixin padding-spacing($property, $value) {
-    padding-#{$property}: $value;
-}
 
 // Apply Gutter Spacing Mixin
 .mt-gutter {
@@ -249,7 +254,10 @@ $theme-main-nav-link-color: #{$body-color};
 }
 
 .m-gutter {
-    @include margin-spacing(all, var(--theme-main-gutter-x));
+    @include margin-spacing(left, var(--theme-main-gutter-x));
+    @include margin-spacing(right, var(--theme-main-gutter-x));
+    @include margin-spacing(top, var(--theme-main-gutter-x));
+    @include margin-spacing(bottom, var(--theme-main-gutter-x));
 }
 
 .ms-gutter {
@@ -279,7 +287,10 @@ $theme-main-nav-link-color: #{$body-color};
 }
 
 .p-gutter {
-    @include padding-spacing(all, var(--theme-main-gutter-x));
+    @include padding-spacing(top, var(--theme-main-gutter-x));
+    @include padding-spacing(bottom, var(--theme-main-gutter-x));
+    @include padding-spacing(left, var(--theme-main-gutter-x));
+    @include padding-spacing(right, var(--theme-main-gutter-x));
 }
 
 .ps-gutter {

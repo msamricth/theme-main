@@ -146,14 +146,14 @@ if (!function_exists('media_block_main')):
     }
 endif;
 
-if (!function_exists('get_basic_media')):
+if (!function_exists('get_card_media')):
     /**
      * basic media format
      *
      * @since v0.9
      * @modified v0.9
      */
-    function get_basic_media($classes = null)
+    function get_card_media($classes = null)
     {
         $media_type = get_field('media_type') ?: '';
         $videoURL = get_field('media_video') ?: '';
@@ -184,20 +184,20 @@ if (!function_exists('get_basic_media')):
                 if (is_array($placerholder) && isset($placerholder['url'])) {
                     $media .= ' src="' . esc_url($placerholder['url']) . '" alt="' . esc_attr($placerholder['alt']) . '"';
                 } else {
-        
+
                     // Check if imageObject is a valid attachment ID
                     if (is_numeric($placerholder)) {
                         $image_url = wp_get_attachment_image_src($placerholder, 'full');
-        
+
                         if ($image_url) {
                             $media .= ' src="' . esc_url($image_url[0]) . '" alt="' . esc_attr(get_post_meta($placerholder, '_wp_attachment_image_alt', true)) . '"';
                         }
                     }
-        
-        
+
+
                 }
                 $media .= ' />';
-                
+
                 break;
 
             case 'Video':
@@ -224,6 +224,26 @@ if (!function_exists('get_basic_media')):
     }
 endif;
 
+if (!function_exists('get_basic_media_components')):
+    function get_basic_media_components()
+    { {
+            $classes = 'fullscreen_media';
+            $media_video_uploaded = get_field('media_video_uploaded');
+            $media_video = get_field('media_video');
+            $placerholder = get_field('media_image');
+            if (get_field('self_host_video') == 1):
+                $media_video = $media_video_uploaded;
+            endif;
+            $video_ratio = 'fullw';
+            $basic_media_components = '<div class="media-container ' . $classes . '">';
+            $basic_media_components .= get_header_assets($media_video, '', $video_ratio, '', $placerholder, '');
+            $basic_media_components .= '</div>';
+            return $basic_media_components;
+
+        }
+    }
+endif;
+
 if (!function_exists('get_header_media')):
     /**
      * Header Media Frame work
@@ -233,9 +253,7 @@ if (!function_exists('get_header_media')):
      */
     function get_header_media()
     {
-        $post_id = '';
-        $current_post = get_queried_object();
-        $post_id = $current_post ? $current_post->ID : null;
+        $post_id = get_theme_main_postID();
         $header_media = '';
         $mobile_ratio = '';
         $video_ratio = '';
@@ -298,7 +316,14 @@ if (!function_exists('get_header_media')):
 
             endwhile;
         endif;
-
+        if (has_post_thumbnail(get_the_ID())) {
+            $featured_image_id = get_post_thumbnail_id(get_the_ID());
+            $featured_image = wp_get_attachment_image_src($featured_image_id, 'full');
+            $placerholder = array(
+                'url' => $featured_image[0],
+                'alt' => get_post_meta($featured_image_id, '_wp_attachment_image_alt', true),
+            );
+        }
         $header_media .= '<div class="header-container__media ' . $classes . ' fold" data-class="header">
         ';
 
@@ -314,7 +339,58 @@ if (!function_exists('get_header_media')):
     }
 endif;
 
+if (!function_exists('get_header_basic')):
+    /**
+     * Header Media Frame work
+     *
+     * @since v7.0
+     * @modified v9
+     */
+    function get_header_basic()
+    {
 
+
+        $header_gradient = '';
+        $classes = 'py-gutter';
+
+        if (have_rows('options')):
+            while (have_rows('options')):
+                the_row();
+
+                if (get_sub_field('turn_on_overlay')) {
+                    $headerOverlayBG = get_sub_field('overlay_color');
+                    $headerOverlayOpacity = get_sub_field('opacity_level');
+                    $gradient_level = get_sub_field('gradient_level');
+
+                    if (empty($headerOverlayOpacity)) {
+                        $headerOverlayOpacity = '0.85';
+                    }
+                    if (empty($headerOverlayBG)) {
+                        $headerOverlayBG = "--bs-primary-rgb";
+                    } else {
+                        $headerOverlayBG = "--bs-" . $headerOverlayBG . "-rgb";
+                    }
+                    if (empty($gradient_level)) {
+                        $gradient_level = '85';
+                    }
+                    $header_gradient .= '<div class="theme-overlay" style="--theme-main-overlay-color: rgba(var(' . $headerOverlayBG . '), 0.' . $headerOverlayOpacity . '); --theme-main-overlay-level: ' . $gradient_level . '%;"></div>';
+                }
+
+            endwhile;
+        endif;
+
+        $header_media .= '<div class="header-container__media ' . $classes . ' fold" data-class="header">
+        ';
+
+        $header_media .= $header_gradient;
+
+
+        $header_media .= '</div>';
+
+        return $header_media;
+
+    }
+endif;
 
 if (!function_exists('theme_main_get_carousel')) {
 

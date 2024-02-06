@@ -163,7 +163,7 @@
     &.carousel:not(.multiple-slides) {
         height: 100vh;
 
-        .header-overlay {
+        .theme-overlay {
             height: 100vh;
             bottom: auto;
         }
@@ -171,7 +171,44 @@
     }
 }
 
+.logo-carousel {
+    .sticky-header {
+        top: 90px;
+        &.slide-out-top {//, &.fadeTopOut {
+            top:0px;
+        }
+    }
+    .sticky-subheader {
+       // top:90vh;
+    }
+    .scroll-slider {
 
+        .scroll-slider-container {
+            height: 350px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            padding: 0;
+            overflow: hidden;
+
+            .scroll-slide {
+                flex-wrap: wrap;
+                display: flex;
+                align-content: center;
+                @include media-breakpoint-up(lg) {
+                    align-content: flex-end;
+                }
+
+                img {
+                    height: 150px;
+                    max-width: min-content;
+                }
+            }
+        }
+    }
+}
 
 .carousel:not(.multiple-slides) {
     overflow: clip;
@@ -219,6 +256,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
+
             .card-sub-title {
                 opacity: .865;
                 text-align: justify;
@@ -243,7 +281,7 @@
         }
 
         &.placement-top {
-            .header-overlay {
+            .theme-overlay {
                 transform: scaley(-1);
             }
 
@@ -264,15 +302,15 @@
         @include media-breakpoint-up(lg) {
 
             &.placement-left {
-                .header-overlay {
-                    background: linear-gradient(90deg, var(--theme-main-header-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-header-overlay-level, 95%));
+                .theme-overlay {
+                    background: linear-gradient(90deg, var(--theme-main-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-overlay-level, 95%));
                 }
 
             }
 
             &.placement-right {
-                .header-overlay {
-                    background: linear-gradient(270deg, var(--theme-main-header-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-header-overlay-level, 95%));
+                .theme-overlay {
+                    background: linear-gradient(270deg, var(--theme-main-overlay-color, rgb(0, 0, 0)) 20%, rgba(255, 255, 255, 0) var(--theme-main-overlay-level, 95%));
                 }
 
             }
@@ -295,7 +333,7 @@
             &.placement-top {
                 top: 0;
 
-                .header-overlay {
+                .theme-overlay {
                     transform: scaley(-1);
                 }
 
@@ -317,7 +355,7 @@
     }
 }
 
-.carousel-block-editor-content.placement-top+.header-overlay {
+.carousel-block-editor-content.placement-top+.theme-overlay {
     transform: scaley(-1);
 }
 

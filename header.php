@@ -10,12 +10,14 @@
 	<?php wp_head();
 	$bodyClasses = get_bodyclasses();
 
+	$nav_classes = '';
 	$nav_placement = get_field('nav_placement', 'option');
 
 	// Check if $nav_placement is empty
 	if (empty($nav_placement)) {
 		$nav_placement = 'ms-auto';
 	}
+	$nav_classes .= $nav_placement;
 
 	?>
 
@@ -49,7 +51,7 @@
 								array(
 									'theme_location' => 'main-menu',
 									'container' => '',
-									'menu_class' => 'navbar-nav ' . $nav_placement . ' mb-11 mb-md-0',
+									'menu_class' => 'navbar-nav ' . $nav_classes . ' mb-11 mb-md-0',
 									'fallback_cb' => 'WP_Bootstrap_Navwalker::fallback',
 									'walker' => new WP_Bootstrap_Navwalker(),
 								)

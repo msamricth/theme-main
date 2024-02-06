@@ -233,6 +233,10 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/floating-cta');
     register_block_type(get_template_directory() . '/inc/blocks/cards');
     register_block_type(get_template_directory() . '/inc/blocks/card-grid');
+    register_block_type(get_template_directory() . '/inc/blocks/stats');
+    register_block_type(get_template_directory() . '/inc/blocks/half-screen');
+    register_block_type(get_template_directory() . '/inc/blocks/content-loop');
+    register_block_type(get_template_directory() . '/inc/blocks/logo-carousel');
     //register_block_type(get_template_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
     //register_block_type(get_template_directory() . '/inc/blocks/carousel-header');
     //register_block_type(get_template_directory() . '/inc/blocks/carousel');
@@ -312,4 +316,4 @@ function acf_set_featured_image($post_id = null)
 }
 
 // acf/save_post - filter for all ACF fields
-add_action('acf/save_post', 'acf_set_featured_image', 20);
+//dd_action('acf/save_post', 'acf_set_featured_image', 20);

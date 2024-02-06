@@ -14,9 +14,47 @@ header .navbar {
     will-change: background-color, color, opacity, top;
     box-shadow: none;
 
-    .navbar-brand svg {
-        width: 90px;
-        height: 50px;
+    .navbar-brand {
+        position: relative;
+
+        svg {
+            width: 90px;
+            height: 50px;
+        }
+
+        .navbrand-placer {
+            opacity: 0;
+        }
+
+        .navbrand-light,
+        .navbrand-dark {
+            position: absolute;
+            left: 0;
+        }
+    }
+
+    &.light-scheme,
+    &[data-og-scheme="transparent-light"],
+    &[data-og-scheme="light"] {
+        @include navbrand-scheme(light);
+    }
+
+    &[data-og-scheme="transparent-light"],
+    &[data-og-scheme="light"] {
+        .navbar-brand {
+            // @include navbrand-scheme(light);
+        }
+    }
+
+    &.dark-scheme {
+        @include navbrand-scheme(dark);
+    }
+
+    &[data-og-scheme="transparent-dark"],
+    &[data-og-scheme="dark"] {
+        .navbar-brand {
+            //@include navbrand-scheme(dark);
+        }
     }
 
     &.mobile-nav-open {
@@ -55,6 +93,7 @@ header .navbar {
                 overflow-y: overlay;
                 margin-right: calc(0% - var(--theme-main-gutter-x));
                 padding-right: var(--theme-main-gutter-x);
+                ;
 
                 .menu-item.dropdown {
                     position: static;
@@ -67,6 +106,12 @@ header .navbar {
                     padding-top: 14vh;
                     --bs-nav-link-font-size: 1.9rem;
                     --bs-nav-link-font-weight: 700;
+
+                    .nav-link,
+                    .dropdown-item,
+                    .nav-header {
+                        justify-content: center;
+                    }
                 }
 
                 &:not(.subnav-open) {
@@ -123,6 +168,7 @@ header .navbar {
                         left: 0;
                         display: flex;
                         color: var(--theme-main-nav-link-color);
+                        align-items: baseline;
 
                         &:hover,
                         &:focus {
@@ -150,13 +196,13 @@ header .navbar {
 
                 &.show {
                     animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
-
+                    max-height: 92vh;
                     .close-nav-dropdown {
                         animation: fade-in 0.3s both;
                         --theme-main-end-opacity: 1;
 
                         i.fa {
-                            animation: bounce-right 0.8s 0.6s both;
+                            animation: bounce-left 0.8s 0.6s both;
                         }
                     }
                 }
@@ -188,7 +234,7 @@ header .navbar {
     }
 
     .dropdown-menu {
-        background-color: var(--theme-main-navDdropdown-bg);
+        background-color: var(--theme-main-nav-dropdown-bg);
         max-height: 0px;
         transition: max-height $navDropdownTransitionDuration ease;
         top: var(--theme-main-dropdown-top);
@@ -227,6 +273,20 @@ header .navbar {
     }
 }
 
+//loading styles 
+body:not(.page-loaded) {
+    .navbar-nav {
+
+        .nav-link,
+        .dropdown-item,
+        .nav-header {
+            @include media-breakpoint-up(lg) {
+                animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) var(--theme-main-nav-item-delay) both;
+            }
+        }
+    }
+}
+
 // Navbar Navigation Styles
 .navbar-nav {
     --bs-nav-link-padding-y: 1.5rem;
@@ -243,6 +303,10 @@ header .navbar {
 
 
         @include media-breakpoint-up(lg) {
+
+
+            --bs-dropdown-item-padding-y: 0.7rem;
+
             .dropdown-header {
                 padding: 0;
 
@@ -257,25 +321,25 @@ header .navbar {
         .nav-link,
         .dropdown-item,
         .nav-header {
+            border: none;
             width: 100%;
             text-transform: uppercase;
             opacity: var(--theme-main-end-opacity);
             background-color: transparent;
             color: var(--theme-main-nav-link-color);
-
-            @include media-breakpoint-up(lg) {
-                display: flex;
-            }
-
+            display: flex;
             align-items: center;
+            justify-content: center;
 
-            .fa.fa-angle-down {
+            .fa {
+                display: block;
                 padding-top: 4px;
                 padding-left: 4px;
             }
 
             @include media-breakpoint-up(lg) {
-                animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) var(--theme-main-nav-item-delay) both;
+                justify-content: left;
+                //    animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) var(--theme-main-nav-item-delay) both;
             }
 
             &.active,

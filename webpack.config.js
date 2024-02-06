@@ -4,8 +4,7 @@ const path = require('path'),
 module.exports = {
   context: path.resolve(__dirname, 'assets'),
   entry: {
-    main: './main.js',
-    style: './main.scss',
+    main: './main.js'
   },
   output: {
     filename: '[name].bundle.js',

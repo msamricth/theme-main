@@ -1,5 +1,4 @@
 // Compile "main.scss" as "css/main.css"
-
 /**
  * Import Bootstrap sources
  * https://getbootstrap.com/docs/5.2/customize/sass
@@ -7,9 +6,10 @@
 
 // @import "../node_modules/bootstrapscss/_bootstrap"; // Include all of Bootstrap
 
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/_functions.scss';
 
+@import '../node_modules/bootstrap/scss/variables';
+@import '../node_modules/bootstrap/scss/variables-dark';
 @import 'scss/_variables.scss';
 
 @import 'scss/_bootstrap.scss';
@@ -24,5 +24,6 @@
 @import 'scss/_buttons.scss';
 @import 'scss/_ctas.scss';
 @import 'scss/_cards.scss';
+@import 'scss/media.scss';
 @import "../node_modules/@splidejs/splide/src/css/core/index.scss";
 @import 'scss/_carousel.scss';

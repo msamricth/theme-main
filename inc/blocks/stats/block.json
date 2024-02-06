@@ -1,0 +1,26 @@
+{
+    "name": "acf/stats",
+    "title": "Stats",
+    "description": "A block for display statistics",
+    "category": "Theme Main",
+    "icon": "chart-bar",
+    "keywords": ["content", "graph", "stats", "statistics"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

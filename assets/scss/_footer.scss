@@ -5,7 +5,7 @@
     background-color: var(--theme-main-footer-background-color);
     padding-top: var(--theme-main-gutter-x);
     padding-bottom: var(--theme-main-gutter-x);
-
+    overflow: clip;
     &.has-background-gradient {
         background: var(--theme-main-footer-background-gradient);
     }
@@ -16,6 +16,10 @@
 
     a {
         text-decoration: none;
+
+        @include media-breakpoint-up(lg) {
+            justify-content: flex-start;
+        }
     }
 
     .footer-cta {
@@ -39,7 +43,7 @@
         }
 
     }
- 
+
 
     .nav {
         text-align: center;
@@ -53,6 +57,7 @@
 
             padding: 0rem 2rem .6rem;
             --theme-main-nav-link-color: var(--theme-main-footer-color);
+
             @include media-breakpoint-up(dlg) {
                 padding: 0 2.6rem 0rem 0;
             }
@@ -61,10 +66,11 @@
         .dropdown {
 
             .nav-link {
-                
-            transition: 0.6s opacity ease;
-            --theme-main-nav-link-color: var(--theme-main-footer-color);
+
+                transition: 0.6s opacity ease;
+                --theme-main-nav-link-color: var(--theme-main-footer-color);
                 border-bottom: 1px solid var(--theme-main-footer-color);
+
                 @include media-breakpoint-up(lg) {
                     border-bottom: 0;
                 }
@@ -79,9 +85,11 @@
 
                 transition: 0.6s opacity ease;
                 --theme-main-nav-link-color: var(--theme-main-footer-color);
+
                 @include media-breakpoint-up(dlg) {
                     line-height: 28px;
                 }
+
                 @include media-breakpoint-down(dlg) {
                     font-size: 0.9326rem;
                 }

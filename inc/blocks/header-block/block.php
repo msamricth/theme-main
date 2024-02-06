@@ -17,14 +17,14 @@ $anchor = 'header-' . get_theme_main_postID();
 if (!empty($block['anchor'])) {
     $anchor = $block['anchor'];
 }
-
+$fullHeight = '';
 
 $classes .= "header-container full-width mb-gutter ";
 if (have_rows('options')):
     while (have_rows('options')):
         the_row();
         if (get_sub_field('make_full_screen') == 1):
-            $classes .= "full-height ";
+            $fullHeight .= "full-height ";
         endif;
     endwhile;
 endif;
@@ -40,13 +40,22 @@ if (isset($args['page_title'])) {
 //Assets
 $headerMedia = '';
 $blockClasses = '';
-$header_media = get_header_media();
 //settings
 $header_type = get_field('header_type');
 $classes .= $header_type;
 
 
+if (($header_type === "image" || empty($header_type)) && !has_post_thumbnail(get_theme_main_postID())) {
 
+    $header_type = 'Basic';
+}
+
+if ($header_type === "Image" || $header_type === "Video" ) {
+    $header_media = get_header_media();
+}
+
+
+$classes .= $header_type;
 $inner_blocks_template = array(
     array(
         'core/columns',
@@ -122,6 +131,14 @@ $header_type = get_field('header_type');
 if ( $header_type == 'carousel') {
     $header_media = theme_main_get_legacy_carousel('carousel-'.$blockID, 1);
 }
+if ($header_type === 'Basic') {
+    $header_media = get_header_basic();
+    // Your code here
+    $fullHeight = '';
+    // This block will be executed when $header_type is "image" or empty
+    // and the featured image thumbnail is also empty
+}
+$classes .= ' ' . $fullHeight;
 ?>
 <header id="<?php echo esc_attr($anchor); ?>" class="<?php echo esc_attr(get_block_classes($block, $classes)); ?>">
     <?php

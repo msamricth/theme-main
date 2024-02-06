@@ -1,0 +1,26 @@
+
+/* add this import to your child theme's main.scss: 
+@import '../node_modules/bootstrap/scss/functions';
+@import '../../theme-main/assets/scss/variables';
+@import '/scss/variables'; //your child theme variables
+@import '../../theme-main/assets/child-theme.scss';
+
+//the rest of your child themes scss/css
+
+*/
+
+//@import 'scss/_bootstrap.scss';
+@import '../assets/scss/_mixins.scss';
+@import '../assets/scss/_utilities.scss';
+@import '../assets/scss/_main.scss';
+@import '../assets/scss/_header.scss';
+@import '../assets/scss/_animations.scss';
+@import '../assets/scss/_block-settings.scss';
+@import '../assets/scss/_nav.scss';
+@import '../assets/scss/_footer.scss';
+@import '../assets/scss/_buttons.scss';
+@import '../assets/scss/_ctas.scss';
+@import '../assets/scss/_cards.scss';
+@import '../assets/scss/media.scss';
+@import "../node_modules/@splidejs/splide/src/css/core/index.scss";
+@import '../assets/scss/_carousel.scss';

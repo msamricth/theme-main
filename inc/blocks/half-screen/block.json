@@ -1,0 +1,27 @@
+{
+    "name": "acf/half-screen",
+    "title": "Half Screen",
+    "description": "A Half screen block that lets you write text on one side, and a image on the other",
+    "category": "Theme Main",
+    "icon": "align-left",
+    "keywords": ["content", "Image", "paragraph", "container"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block.php"
+    },
+    "style": "file:./block.css",
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

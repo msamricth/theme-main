@@ -3,7 +3,7 @@
  */
 
 body {
-	#main {    
+	#main {
 		max-width: 100%;
 		overflow: clip;
 	}
@@ -75,6 +75,68 @@ img {
 /* Main */
 
 #main {
+
+	.wp-block-gallery .wp-block-image {
+		flex-wrap: wrap;
+		align-content: center;
+		min-height: 300px;
+
+		img {
+			max-width: 85% !important;
+			margin: auto;
+		}
+	}
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+	color: inherit;
+}
+
+h1,
+.h1 {
+	font-weight: 800;
+	font-style: italic;
+	font-size: 48px;
+
+	@include media-breakpoint-up(xxl) {
+		font-size: 70px;
+	}
+
+}
+
+h3,
+.h3 {
+	font-size: 36px;
+	font-weight: 700;
+	@include media-breakpoint-up(xxl) {
+		font-size: 42px;
+	}
+
+}
+
+h6,
+.h6 {
+	font-weight: 800;
+}
+
+.theme-main-color {
+	--theme-main-font-color: var(--theme-main-nav-link-color);
+	color: var(--theme-main-font-color);
+}
+
+a {
+	transition: .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+
+	&:hover,
+	&:focus,
+	&:active {
+		--bs-link-opacity: 0.65;
+	}
 }
 
 /* Footer */
@@ -128,6 +190,7 @@ img {
 }
 
 .single {
+
 	.post-navigation,
 	#comments-title {
 		margin: $grid-gutter-width 0;

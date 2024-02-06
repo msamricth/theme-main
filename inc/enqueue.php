@@ -36,7 +36,7 @@ function theme_main_scripts_loader()
 {
     $theme_version = wp_get_theme()->get('Version');
 
-    wp_enqueue_script('main', get_template_directory_uri() . '/build/main.js', array(), $theme_version, true);
+    wp_enqueue_script('main', get_template_directory_uri() . '/build/main.bundle.js', array(), $theme_version, true);
 
     wp_localize_script(
         'main',

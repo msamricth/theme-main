@@ -8,14 +8,15 @@ var scrollActions, foldColor, foldBG;;
 
 
 function setFoldLegacy(theme) {
-
+	let scheme = navOG;
+	let bgScheme = navOG;
 	switch (theme) {
 		case 'bg-header':
 			clearchemes();
 			Wrapper.classList = bodyOG + ' bg-header';
 
-			let scheme = navOG;
-			let bgScheme = scheme;
+
+			bgScheme = scheme;
 			if (isHeaderNavTransLight) {
 				bgScheme = 'transparent';
 				scheme = 'light';
@@ -101,6 +102,7 @@ function matchNav(elem) {
 		if (elemClass.includes('match_')) {
 			headerBG = elemClass.replace('match_', '');
 			setNavBG(headerBG)
+			Wrapper.classList = headerBG + '-color-scheme ' + bodyOG;
 			if (headerColor) { } else {
 				setNavcolor(headerBG);
 			}
@@ -119,9 +121,26 @@ function matchNav(elem) {
 }
 function setNavBGVar(headerBG) {
 	header.style.setProperty('--theme-main-nav-bg', headerBG);
-	
-	header.style.setProperty('--theme-main-navDdropdown-bg', headerBG);
-}
+	header.style.setProperty('--theme-main-nav-dropdown-bg', headerBG);
+	setTimeout(() => {
+	  const navBgColor = getComputedStyle(header).getPropertyValue('--theme-main-nav-bg');
+	  const isLight = isColorLight(navBgColor);
+  
+	  if (isLight) {
+		
+		if(header.classList.contains('dark-scheme')){
+			header.classList.remove('dark-scheme');
+		}
+		header.classList.add('light-scheme');
+	  } else {
+		if(header.classList.contains('light-scheme')){
+			header.classList.remove('light-scheme');
+		}
+		header.classList.add('dark-scheme');
+	  }
+	}, 800);
+  }
+  
 function setNavBG(headerBG) {
 	if (headerBG.includes('transparent')) {
 		setNavBGVar('transparent');
@@ -130,10 +149,10 @@ function setNavBG(headerBG) {
 	} else {
 		setNavBGVar('var(--bs-' + headerBG + ')');
 	}
+
 }
 function setNavcolor(headerColor) {
 	header.style.setProperty('--theme-main-nav-link-color', 'var(--theme-main-contrasting-text-' + headerColor + ')');
-	
 	header.style.setProperty('--theme-main-navDdropdown-color', 'var(--theme-main-contrasting-text-' + headerColor + ')');
 }
 function setNavDrawal(scheme) {
@@ -154,5 +173,18 @@ function animationOn(elem) {
 		}, 600);
 
 }
+function isColorLight(hexColor) {
+	// Convert hex to RGB
+	const r = parseInt(hexColor.slice(1, 3), 16);
+	const g = parseInt(hexColor.slice(3, 5), 16);
+	const b = parseInt(hexColor.slice(5, 7), 16);
+
+	// Calculate luminance
+	const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+	// Choose a threshold (0.5 is commonly used) and return true if light, false if dark
+	return luminance > 0.5;
+}
+
 
 export { matchNav, animationOn, setFoldLegacy };

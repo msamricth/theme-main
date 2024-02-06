@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, $videoI } from "./identifiers.js";
+import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, panelsSection, panelsContainer } from "./identifiers.js";
 import { topTA, bottomTA, scrollActions } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
 import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
@@ -11,6 +11,39 @@ function videoScrollTriggerFunction(video, player, videoTitle, videoID = null, s
 
 
 }
+
+
+
+function scrollingCarousel() {
+    let scrollingCarouselHeader = document.querySelector("#logo-carousel-header");
+
+    
+    let cont = document.querySelector(".scroll-slider-container");
+    gsap.to(".scroll-slide", {
+        ease: "none",
+        x: () => -(cont.scrollWidth - window.innerWidth),
+        scrollTrigger: {
+            trigger: cont,
+            pin: cont,
+            start: "center center",
+            end: () => "+=" + (cont.scrollWidth - window.innerWidth),
+            scrub: true,
+            invalidateOnRefresh: true,
+            onLeave: () => {
+                if (scrollingCarouselHeader) {
+                    scrollingCarouselHeader.classList.add("fadeTopOut");
+                }
+            },
+            onEnterBack: () => {
+                if (scrollingCarouselHeader) {
+                    
+                    scrollingCarouselHeader.classList.remove("fadeTopOut");
+                }
+            }
+        }
+    });
+}
+
 
 
 function vimeoGSAP() {
@@ -154,7 +187,7 @@ function theFoldScrollTrigger() {
         });
     }
 
-    function setFold(elem, color) {
+    function setFold(elem, color = null) {
         let elemClassList = elem.classList;
 
         elem.getAttribute('data-class')
@@ -181,4 +214,4 @@ function foldRefresh() {
 }
 
 
-export { theFoldScrollTrigger, foldRefresh, videoScrollTrigger }
+export { theFoldScrollTrigger, foldRefresh, videoScrollTrigger, scrollingCarousel }

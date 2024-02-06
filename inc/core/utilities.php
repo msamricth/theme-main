@@ -109,16 +109,7 @@ if (!function_exists('RGBToHSL')):
 	}
 
 endif;
-if (!function_exists('get_nav_style_attributes')) :
-	function get_nav_style_attributes($color){
-		$output = '--theme-main-nav-bg: var(--bs-' . $color . ' );';
-		$output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $color . ' );';
-		$output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $color . ' );';
-		$output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $color . ' );';
 
-		return $output;
-	}
-endif;
 if (!function_exists('get_match_nav')):
 	/**
 	 * "Theme posted on" pattern.
@@ -187,34 +178,34 @@ if (!function_exists('get_scheme_new')):
 endif;
 // Define the function to append choices
 
-	function acf_append_color_choices($field)
-	{
-		// Get values from repeater field in Field Group A
-		$repeater_values = get_field('extra_colors', 'option');
+function acf_append_color_choices($field)
+{
+	// Get values from repeater field in Field Group A
+	$repeater_values = get_field('extra_colors', 'option');
 
-		// Check if values exist
-		if ($repeater_values) {
-			// Loop through repeater values and add them as choices
-			foreach ($repeater_values as $color) {
-				// Replace white spaces with underscores in the color label
-				$label = slugify($color['color_label']);
+	// Check if values exist
+	if ($repeater_values) {
+		// Loop through repeater values and add them as choices
+		foreach ($repeater_values as $color) {
+			// Replace white spaces with underscores in the color label
+			$label = slugify($color['color_label']);
 
-				// Add color to choices array
-				$field['choices'][$label] = $color['color_label'];
-			}
+			// Add color to choices array
+			$field['choices'][$label] = $color['color_label'];
 		}
-
-		// Return the modified field
-		return $field;
 	}
 
-	// Hook into acf/load_field and apply the function to your select fields
-	add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
-	add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
-	add_filter('acf/load_field/name=footer_background_color', 'acf_append_color_choices');
-	add_filter('acf/load_field/name=footer_background_graident_top', 'acf_append_color_choices');
-	add_filter('acf/load_field/name=footer_background_graident_bottom', 'acf_append_color_choices');
-	add_filter('acf/load_field/name=button_background', 'acf_append_color_choices');
+	// Return the modified field
+	return $field;
+}
+
+// Hook into acf/load_field and apply the function to your select fields
+add_filter('acf/load_field/name=background_color', 'acf_append_color_choices');
+add_filter('acf/load_field/name=navbar_color_settings', 'acf_append_color_choices');
+add_filter('acf/load_field/name=footer_background_color', 'acf_append_color_choices');
+add_filter('acf/load_field/name=footer_background_graident_top', 'acf_append_color_choices');
+add_filter('acf/load_field/name=footer_background_graident_bottom', 'acf_append_color_choices');
+add_filter('acf/load_field/name=button_background', 'acf_append_color_choices');
 
 
 
@@ -340,6 +331,7 @@ function get_theme_main_postID()
 		return $output;
 	}
 }
+
 
 if (!function_exists('wp_body_open')) {
 	/**

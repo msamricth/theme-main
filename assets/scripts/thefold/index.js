@@ -4,16 +4,12 @@
  * --------------------------------------------------------------------------
  */
 
-import { theFoldScrollTrigger, videoScrollTrigger, foldRefresh } from "./src/gsap.js";
-import { videoInit } from "./src/video.js"; 
+import { theFoldScrollTrigger, foldRefresh } from "./src/gsap.js";
+import { init } from "./src/init.js";
 
 function theFold() {
 	theFoldScrollTrigger();
 }
-videoInit();
-//init();
-theFold();
-
-videoScrollTrigger();
+init();
 window.onresize = foldRefresh();
 export { theFold };

@@ -29,3 +29,22 @@
     }
   }
 }
+
+@mixin navbrand-scheme($scheme) {
+  .navbrand-light {
+    opacity: if($scheme == 'light', 0, 1);
+  }
+
+  .navbrand-dark {
+    opacity: if($scheme == 'dark', 0, 1);
+  }
+}
+
+// Mixin for Gutter Spacing
+@mixin margin-spacing($property, $value) {
+  margin-#{$property}: $value !important;
+}
+
+@mixin padding-spacing($property, $value) {
+  padding-#{$property}: $value !important;
+}

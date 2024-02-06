@@ -13,7 +13,7 @@ $blockName = "Theme Cards";
 $blockID = "theme-cards";
 $classes = $blockID . " ";
 
-$card_media = get_basic_media('card-img-top');
+$card_media = get_card_media('card-img-top');
 
 $make_card_horizontal = '';
 $card_options_reverse_layout = '';

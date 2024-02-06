@@ -1,6 +1,7 @@
 <?php 
 
 if (function_exists('theme_main_add_header_block_and_image')) {
+
     function theme_main_add_header_block_and_image()
     {
         // Check if the theme activation flag is set
@@ -20,12 +21,14 @@ if (function_exists('theme_main_add_header_block_and_image')) {
 
                     // Skip the post if header block is already present
                     $blocks = parse_blocks(get_the_content());
-                    if ($blocks && $blocks[0]['blockName'] === 'acf/header-block') {
+
+                    if ($blocks && is_array($blocks) && isset($blocks[0]['blockName']) && $blocks[0]['blockName'] === 'acf/header-block') {
                         continue;
                     }
 
                     // Add ACF header-block to the very top of the post
-                    array_unshift($blocks, array('blockName' => 'acf/header-block'));
+                    $newBlock = array('blockName' => 'acf/header-block');
+                    array_unshift($blocks, $newBlock);
                     $post_content = serialize_blocks($blocks);
                     wp_update_post(array('ID' => get_the_ID(), 'post_content' => $post_content));
 
@@ -46,6 +49,7 @@ if (function_exists('theme_main_add_header_block_and_image')) {
     // Run the function on theme activation
     add_action('after_switch_theme', 'theme_main_add_header_block_and_image');
 }
+
 /**
  * Activate Theme Main Theme.
  */

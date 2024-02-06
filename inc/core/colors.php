@@ -131,7 +131,30 @@ if (!function_exists('get_the_fold')) {
     function get_the_fold()
     {
         $classes = 'fold match-nav ';
-        $classes .= 'match_'.get_scheme_new();
-        return '<div class="'.$classes.'"></div>';
+        $classes .= 'match_' . get_scheme_new();
+        return '<div class="' . $classes . '"></div>';
+    }
+}
+if (!function_exists('get_theme_main_colors_depth')) {
+    function get_theme_main_colors_depth($color)
+    {
+        $primary_colors = theme_main_primary_colors();
+
+        foreach ($primary_colors as &$primary_color) {
+            $prefixColor = $primary_color['slug'];
+            $prefixHexcode = $primary_color['color'];
+
+            if (str_contains($prefixColor, $color)) {
+                $rgb = HTMLToRGBforComparison($prefixHexcode);
+                $hsl = RGBToHSL($rgb);
+                if ($hsl->lightness > 150) {
+                    $output = 'dark';
+                } else {
+                    $output = 'light';
+                }
+            }
+        }
+        return $output;
+
     }
 }

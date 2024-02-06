@@ -18,23 +18,23 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_menu
 		'dropdown-menu-xxl-end'
 	];
 	/* this version is a good starting point for a mega nav
-				  function start_lvl(&$output, $depth = 0, $args = null)
-				  {
-					$dropdown_menu_class[] = '';
-					foreach($this->current_item->classes as $class) {
-					  if(in_array($class, $this->dropdown_menu_alignment_values)) {
-						$dropdown_menu_class[] = $class;
-					  }
-					}
-					$indent = str_repeat("\t", $depth);
-					$submenu = ($depth > 0) ? ' sub-menu' : '';
-					if($depth === 0){
-						$output .= "\n$indent<ul class=\"megamenu justify-content-end dropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
-					} else {
-						
-						$output .= "\n$indent<ul class=\"list-unstyled $submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
-					}
-				  } */
+						function start_lvl(&$output, $depth = 0, $args = null)
+						{
+						  $dropdown_menu_class[] = '';
+						  foreach($this->current_item->classes as $class) {
+							if(in_array($class, $this->dropdown_menu_alignment_values)) {
+							  $dropdown_menu_class[] = $class;
+							}
+						  }
+						  $indent = str_repeat("\t", $depth);
+						  $submenu = ($depth > 0) ? ' sub-menu' : '';
+						  if($depth === 0){
+							  $output .= "\n$indent<ul class=\"megamenu justify-content-end dropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+						  } else {
+							  
+							  $output .= "\n$indent<ul class=\"list-unstyled $submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+						  }
+						} */
 	public function start_lvl(&$output, $depth = 0, $args = null)
 	{
 		$dropdown_menu_class[] = '';
@@ -52,28 +52,29 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_menu
 
 		//$sectionTitle = $this->current_item->title;
 
-		
+
 		if ($depth === 0 && $args->walker->has_children) {
-            $output .= $this->duplicateParentItem($this->current_item, $args);
-        }
+			$output .= $this->duplicateParentItem($this->current_item, $args);
+		}
 
 	}
 	private function duplicateParentItem($item, $args)
-    {
-        $indent = str_repeat("\t", 1); // Adjust the indentation as needed
-        $classes = 'nav-item  dropdown-item'; // You can modify the classes as needed
+	{
+		$indent = str_repeat("\t", 1); // Adjust the indentation as needed
+		$classes = 'nav-item  dropdown-item'; // You can modify the classes as needed
 
-        $output = "$indent<li class=\"$classes close-nav-dropdown-li d-lg-none\">\n";
-        $output .= '<a href="#" class="dropdown-toggle justify-content-between close-nav-dropdown"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>Back<span></span></a>';
-        $output .= "$indent</li>\n";
+		$output = "$indent<li class=\"$classes close-nav-dropdown-li d-lg-none\">\n";
+		$output .= '<a href="#" class="dropdown-toggle justify-content-between close-nav-dropdown"><i class="fa fa-angle-left fa-1x" aria-hidden="true"></i>Back<span></span></a>';
+		$output .= "$indent</li>\n";
 
-        $classes .= ' dropdown-header'; // You can modify the classes as needed
-        $output .= "$indent<li class=\"$classes\">\n";
-        $output .= "$indent\t<a href=\"$item->url\" class=\"nav-header\">$item->title</a>\n";
-        $output .= "$indent</li>\n";
-
-        return $output;
-    }
+		$classes .= ' dropdown-header'; // You can modify the classes as needed
+		if (!empty($item->url) && $item->url !== '#') {
+			$output .= "$indent<li class=\"$classes\">\n";
+			$output .= "$indent\t<a href=\"$item->url\" class=\"nav-header\">$item->title</a>\n";
+			$output .= "$indent</li>\n";
+		}
+		return $output;
+	}
 	function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
 	{
 		$nav_icon = get_field('icon');

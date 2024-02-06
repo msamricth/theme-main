@@ -118,6 +118,7 @@ if ( ! function_exists( 'get_navbrand' ) ) :
     function get_navbrand(){
         $nav_dark_image = '';
         $nav_light_image = '';
+        $nav_placer_image = '';
         $addtlAttr = '';
         if ( have_rows( 'nav_logos', 'option' ) ) : 
             while ( have_rows( 'nav_logos', 'option' ) ) : the_row(); 
@@ -129,6 +130,9 @@ if ( ! function_exists( 'get_navbrand' ) ) :
                 if ( $nav_light ) : 
                 $nav_light_image = '<img class="navbrand-light" src="'. esc_url( $nav_light['url'] ). '" alt="'. esc_attr( $nav_light['alt'] ).' " />';
                 endif; 
+                if ( $nav_light && $nav_dark) : 
+                $nav_placer_image = '<img class="navbrand-placer" src="'. esc_url( $nav_light['url'] ). '" alt="'. esc_attr( $nav_light['alt'] ).' " />';
+                endif; 
                 $nav_svg = get_sub_field( 'svg' ); 
             endwhile; 
         endif; 
@@ -138,7 +142,7 @@ if ( ! function_exists( 'get_navbrand' ) ) :
             if($nav_svg){
                 $output .= $nav_svg;
             } else {
-                $output .=  $nav_light_image . $nav_dark_image;
+                $output .=  $nav_light_image . $nav_dark_image. $nav_placer_image;
             }
         else :
             $output .=  esc_attr( get_bloginfo( 'name', 'display' ) );
@@ -157,6 +161,8 @@ if ( ! function_exists( 'get_nav_header' ) ) :
 	 */
     function get_nav_header($classes = null) {
         $navbar_position = get_theme_mod( 'navbar_position', 'static' ); // Get custom meta-value.
+        $nav_default_color_scheme = get_field('nav_default_color_scheme', 'option');
+        $navbar_page_scheme = get_field('navbar_color_settings', get_theme_main_postID());
         $output = '';
         if($classes) {
             $output .= $classes.' ';
@@ -165,6 +171,28 @@ if ( ! function_exists( 'get_nav_header' ) ) :
         elseif ( isset( $navbar_position ) && 'fixed_bottom' === $navbar_position ) : $output .= ' fixed-bottom'; endif; 
         if ( is_home() || is_front_page() ) : $output .= ' home'; endif;
 
+        if ($navbar_page_scheme) {
+            if (str_contains($navbar_page_scheme, 'transparent-dark') !== false) {
+                $output .= ' dark-scheme';
+
+            } elseif (str_contains($navbar_page_scheme, 'transparent-light') !== false) {
+                $output .= ' light-scheme';
+            } else {
+                if(get_theme_main_colors_depth($navbar_page_scheme) === 'light'){
+                    $output .= ' light-scheme';
+                }
+                if(get_theme_main_colors_depth($navbar_page_scheme) === 'dark'){
+                    $output .= ' dark-scheme';
+                }
+            }
+        } else {
+            if(get_theme_main_colors_depth($nav_default_color_scheme) === 'light'){
+                $output .= ' light-scheme';
+            }
+            if(get_theme_main_colors_depth($nav_default_color_scheme) === 'dark'){
+                $output .= ' dark-scheme';
+            }
+        }
         
         return $output;
     }

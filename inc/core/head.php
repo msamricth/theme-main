@@ -8,6 +8,13 @@
  * @package Bootstrap Base
  * @since v1
  */
+
+ if (!function_exists('get_theme_main_colors_is_light')) {
+    function get_theme_main_colors_is_light($color)
+    {
+
+    }
+ }
 if (!function_exists('get_theme_Colors_CSS_variables')) {
     /**
      *Base Color Css Variables
@@ -33,12 +40,12 @@ if (!function_exists('get_theme_Colors_CSS_variables')) {
             $contrast = $light_color;
         }
         return '
-        --bs-' . $prefixColor . ': ' . $prefixHexcode . ';
-        --bs-' . $prefixColor . '-rgb: ' . HTMLToRGB($prefixHexcode) . ';
-        --bs-' . $prefixColor . '-text-emphasis: ' . $text . ';
-        --bs-' . $prefixColor . '-bg-subtle: ' . $subtle . ';
-        --bs-' . $prefixColor . '-border-subtle: ' . $border . ';
-        --theme-main-contrasting-text-' . $prefixColor . ': ' . $contrast . ';
+        --bs-' . $prefixColor . ': ' . $prefixHexcode . ' !important;
+        --bs-' . $prefixColor . '-rgb: ' . HTMLToRGB($prefixHexcode) . ' !important;
+        --bs-' . $prefixColor . '-text-emphasis: ' . $text . ' !important;
+        --bs-' . $prefixColor . '-bg-subtle: ' . $subtle . ' !important;
+        --bs-' . $prefixColor . '-border-subtle: ' . $border . ' !important;
+        --theme-main-contrasting-text-' . $prefixColor . ': ' . $contrast . ' !important;
         ';
     }
 }
@@ -72,19 +79,19 @@ if (!function_exists('get_theme_Colors_Buttons')) {
 
         return '
         .wp-block-button .wp-block-button__link.has-' . $prefixColor . '-background-color, .wp-block-button.has-' . $prefixColor . '-background-color {
-        --bs-btn-color: ' . $prefixTextColor . ';
-        --bs-btn-hover-color: ' . $prefixTextColor . ';
-        --bs-btn-active-color: ' . $prefixTextColor . ';
-        --bs-btn-disabled-color: ' . $prefixTextColor . ';
-        --bs-btn-bg: ' . $prefixHexcode . ';
-        --bs-btn-border-color: ' . $prefixHexcode . ';
-        --bs-btn-disabled-bg: ' . $prefixHexcode . ';
-        --bs-btn-disabled-border-color: ' . $prefixHexcode . ';
-        --bs-btn-hover-bg: ' . $prefixhoverColor . ';
-        --bs-btn-hover-border-color: ' . $prefixhoverColor . ';
-        --bs-btn-focus-shadow-rgb: ' . HTMLToRGB($prefixActiveColor) . ';
-        --bs-btn-active-bg: ' . $prefixActiveColor . ';
-        --bs-btn-active-border-color: ' . $prefixActiveColor . ';
+        --bs-btn-color: ' . $prefixTextColor . ' !important;
+        --bs-btn-hover-color: ' . $prefixTextColor . ' !important;
+        --bs-btn-active-color: ' . $prefixTextColor . ' !important;
+        --bs-btn-disabled-color: ' . $prefixTextColor . ' !important;
+        --bs-btn-bg: ' . $prefixHexcode . ' !important;
+        --bs-btn-border-color: ' . $prefixHexcode . ' !important;
+        --bs-btn-disabled-bg: ' . $prefixHexcode . ' !important;
+        --bs-btn-disabled-border-color: ' . $prefixHexcode . ' !important;
+        --bs-btn-hover-bg: ' . $prefixhoverColor . ' !important;
+        --bs-btn-hover-border-color: ' . $prefixhoverColor . ' !important;
+        --bs-btn-focus-shadow-rgb: ' . HTMLToRGB($prefixActiveColor) . ' !important;
+        --bs-btn-active-bg: ' . $prefixActiveColor . ' !important;
+        --bs-btn-active-border-color: ' . $prefixActiveColor . ' !important;
         }
         ';
     }
@@ -427,7 +434,7 @@ if (!function_exists('get_nav_attributes')):
         } else {
             if($nav_default_color_scheme){
                 $output .= get_nav_style_attributes($nav_default_color_scheme);
-                $output = 'data-og-scheme="'. $navbar_page_scheme .'" style="' . $output . '"';
+                $output = 'data-og-scheme="'. $nav_default_color_scheme .'" style="' . $output . '"';
             }
         }
         return $output;
@@ -435,6 +442,16 @@ if (!function_exists('get_nav_attributes')):
 
 endif;
 
+if (!function_exists('get_nav_style_attributes')) :
+	function get_nav_style_attributes($color){
+		$output = '--theme-main-nav-bg: var(--bs-' . $color . ' );';
+		$output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $color . ' );';
+		$output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $color . ' );';
+		$output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $color . ' );';
+
+		return $output;
+	}
+endif;
 if (!function_exists('get_header_color')):
     function get_header_color()
     {

@@ -1,4 +1,8 @@
 .card {
+    @include media-breakpoint-up(dlg) {
+        height: 100%;
+    }
+
     .card-sub-title {
         opacity: .865;
         text-align: justify;
@@ -12,6 +16,90 @@
         background-color: var(--bs-card-bg);
     }
 }
+
 .card-grid .card {
     height: 100%;
+}
+
+.horizontal-card {
+    height: auto;
+    padding-bottom: 1rem;
+
+    @include media-breakpoint-up(lg) {
+        padding-bottom: 0;
+    }
+
+    &.count-2 {
+        border-bottom: 1px solid rgba(var(--bs-black-rgb), 0.25);
+
+        @include media-breakpoint-up(lg) {
+            border-bottom: none;
+        }
+    }
+
+    .content-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .card-body {
+            &>strong.theme-main-color {
+                display: block;
+                margin-top: var(--bs-card-title-spacer-y);
+            }
+
+            strong+.card-title {
+                margin-top: var(--bs-card-title-spacer-y);
+            }
+        }
+    }
+
+    .has-background-image {
+        height: 100%;
+        background-size: cover;
+        background-position: center center;
+
+    }
+
+    .media-side {
+        overflow: clip;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        a {
+            transition: .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+            --bs-link-opacity: 0.65;
+        }
+    }
+}
+
+.card-overlay {
+    min-height: 450px;
+    overflow: clip;
+
+    .card-img-overlay {
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        &:hover,
+        &:focus,
+        &:active {
+            .theme-overlay {
+                //animation: kenburns-top 2s ease-out both;
+            }
+        }
+
+        .theme-overlay {
+            z-index: -1;
+        }
+
+        &.has-background-image {
+            background-size: cover;
+            background-position: center center;
+        }
+    }
 }
