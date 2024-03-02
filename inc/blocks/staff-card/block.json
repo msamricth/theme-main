@@ -1,0 +1,26 @@
+{
+    "name": "acf/staff-card",
+    "title": "Staff Card",
+    "description": "A card for displaying information for a staff member",
+    "category": "Theme Main",
+    "icon": "businessman",
+    "keywords": ["card", "staff", "person", "picture", "leadership"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

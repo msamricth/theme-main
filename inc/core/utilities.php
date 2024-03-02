@@ -161,22 +161,25 @@ if (!function_exists('get_scheme_new')):
 	 *
 	 * @since v7.6
 	 */
-	function get_scheme_new($custom = null)
+	function get_scheme_new($custom = null, $postID = null)
 	{
+		
+		if (empty($postID)){
+			$postID = get_theme_main_postID();
+		}
 		if (isset($custom)) {
 			$scheme = $custom;
 		} else {
-			$scheme = get_field('background_color', get_theme_main_postID());
+			$scheme = get_field('background_color', $postID);
 		}
-		if ($scheme) {
-		} else {
+		if (empty($scheme)){
 			$scheme = 'light';
 		}
 		return $scheme;
 	}
 
 endif;
-// Define the function to append choices
+
 
 function acf_append_color_choices($field)
 {
@@ -228,19 +231,41 @@ if (!function_exists('theme_main_load_more_posts')) {
 				$query->the_post();
 
 
-				if ($i == 0) {
-					$row_class = 'horizontal-card';
-					// Display 1 post in the first row
-					get_template_part('templates/content/horizontal-card', null, ['row_class' => $row_class]);
-				} elseif ($i <= 3) {
+				/**
+				 * Include the Post-Format-specific template for the content.
+				 * If you want to overload this in a child theme then include a file
+				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
+				 */
+				$title = get_the_title();
+				$excerpt = theme_main_excerpt('40') . '...';
+				$permalink = get_the_permalink();
+				$post_id = get_the_ID();
+				$card_date = get_the_date('D, M j') . '<span class="read-time"></span>';
+				$thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+				$classes = 'p-4 bg-primary';
+				$column_classes = '';
+				$read_more_toggle = '';
+				$final = '<div class="d-none estimate" id="estimate-' . $post_id . '">' . wp_strip_all_tags(get_the_content()) . '</div>';
 
-					$row_class = 'vertical-card col-lg-4';
-					// Display 3 posts in the second row
-					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
-				} else {
-					$row_class = 'vertical-card col-lg-6';
-					// Display 2 posts in the third row
-					get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+				if ($i == 0) { ?>
+					<div class="col-dlg-12 col-md-6 mb-4 fold animation-on fade-in mb-xl-5">
+						<?php echo theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $column_classes, $read_more_toggle);
+						echo $final ?>
+					</div>
+				<?php } elseif ($i <= 3) { ?>
+					<div class="col-md-6 col-xl-4 mb-4 fold animation-on fade-in mb-xl-5">
+						<?php // Display 3 posts in the second row
+											//get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+											echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+											echo $final; ?>
+					</div>
+					<?php
+				} else { ?>
+					<div class="col-md-6 mb-4 fold animation-on fade-in mb-xl-5">
+						<?php echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+						echo $final; ?>
+					</div>
+					<?php
 				}
 				$i++; // Increment $i after each post
 			}
@@ -416,21 +441,28 @@ if (!function_exists('theme_main_content_nav')) {
 	function theme_main_content_nav($nav_id)
 	{
 		global $wp_query;
-
-		if ($wp_query->max_num_pages > 1) {
-			?>
-			<div id="<?php echo esc_attr($nav_id); ?>" class="d-flex mb-4 justify-content-between">
-				<div>
-					<?php next_posts_link('<span aria-hidden="true">&larr;</span> ' . esc_html__('Older posts', theme_namespace())); ?>
-				</div>
-				<div>
-					<?php previous_posts_link(esc_html__('Newer posts', theme_namespace()) . ' <span aria-hidden="true">&rarr;</span>'); ?>
-				</div>
-			</div><!-- /.d-flex -->
-			<?php
+		if ($nav_id === 'ajax') {
+			echo '<div id="posts-container" class="row"></div><button id="load-more" class="btn btn-wide mx-auto mt-5 mb-gutter btn-primary">Load More</button>';
 		} else {
-			echo '<div class="clearfix"></div>';
+			if ($wp_query->max_num_pages > 1) {
+				?>
+				<div id="<?php echo esc_attr($nav_id); ?>" class="d-flex mb-4 justify-content-between">
+					<div>
+						<?php next_posts_link('<span aria-hidden="true">&larr;</span> ' . esc_html__('Older posts', theme_namespace())); ?>
+					</div>
+					<div>
+						<?php previous_posts_link(esc_html__('Newer posts', theme_namespace()) . ' <span aria-hidden="true">&rarr;</span>'); ?>
+					</div>
+				</div><!-- /.d-flex -->
+				<?php
+			} else {
+				echo '<div class="clearfix"></div>';
+			}
+
 		}
+
+
+
 	}
 
 	/**
@@ -588,4 +620,3 @@ if (!function_exists('theme_main_duplicate_post')) {
 
 	add_action('admin_action_theme_main_duplicate_post', 'theme_main_duplicate_post');
 }
-

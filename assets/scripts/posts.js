@@ -1,3 +1,4 @@
+import { theFold } from './thefold/index';
 document.addEventListener('DOMContentLoaded', function () {
     // Check if required elements exist
     var loadMoreButton = document.getElementById('load-more');
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     postsContainer.insertAdjacentHTML('beforeend', xhr.responseText);
                     page++;
+
+                    theFold();
                 }
             };
 

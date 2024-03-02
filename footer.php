@@ -12,14 +12,14 @@ if( $footer_background_image ) {
 <?php echo get_the_fold(); ?>
 </main><!-- /#main -->
 
-<footer id="footer" <?php echo theme_main_footer_get_options('footer mt-gutter'); ?>>
+<footer id="footer" <?php echo theme_main_footer_get_options('footer '); ?>>
 
 	<?php
 
 
 	if (is_active_sidebar('third_widget_area')):
 		?>
-		<div class="col-md-12">
+		<div class="container">
 			<?php
 			dynamic_sidebar('third_widget_area');
 

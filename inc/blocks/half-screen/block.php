@@ -74,7 +74,7 @@ if (!empty($block['backgroundColor'])) {
 $blockContent = '<InnerBlocks class="half-screen-block-editor-content p-gutter ' . $contentColClasses . '" template="' . esc_attr(wp_json_encode($template)) . '"/>';
 $classes .= ""; // Add extra classes here.
 ?>
-<div <?php echo get_block_settings($block, $blockID, $classes); ?>>
+<div <?php echo get_block_settings_no_colors($block, $blockID, $classes); ?>>
     <div class="container-fluid">
         <div class="row">
             <?php echo $blockContent; ?>

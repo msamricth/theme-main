@@ -37,7 +37,7 @@ $theme_ACFProBlocks = __DIR__ . '/acf/acf_blocks.php';
 $theme_ACFProCPTS = __DIR__ . '/acf/acf_cpts.php';
 //$theme_ACFProDIR  = __DIR__ . '/acf/';
 
-if ( is_readable( $theme_ACFPUpgrades ) ) {	require_once $theme_ACFPUpgrades;}
+//if ( is_readable( $theme_ACFPUpgrades ) ) {	require_once $theme_ACFPUpgrades;}
 //if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
 if ( is_readable( $theme_ACFProBlocks ) ) {	require_once $theme_ACFProBlocks;}
 if ( is_readable( $theme_ACFProCPTS ) ) {	require_once $theme_ACFProCPTS;}
@@ -61,9 +61,8 @@ if ( is_readable( $theme_main_media_utilities ) ) {	require_once $theme_main_med
 $theme_main_media_video = __DIR__ . '/media/video.php';
 if ( is_readable( $theme_main_media_video ) ) {	require_once $theme_main_media_video;}
 
+//$theme_main_setup = __DIR__ . '/core/one-time-functions.php';
+//if ( is_readable( $theme_main_setup ) ) {	require_once $theme_main_setup;}
+
 $theme_main_core = __DIR__ . '/core.php';
 if ( is_readable( $theme_main_core ) ) {	require_once $theme_main_core;}
-
-
-$theme_main_setup = __DIR__ . '/core/one-time-functions.php';
-//if ( is_readable( $theme_main_setup ) ) {	require_once $theme_main_setup;}

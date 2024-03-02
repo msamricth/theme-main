@@ -16,17 +16,6 @@ function customTypeColorScheme(){
 const OGbg = customBackgroundColorScheme(); 
 const OGtxt = customTypeColorScheme();
 
-function scrollActionsSettingFunction(){
-    var scrollActionsSetting;
-    if (!scrollRoot.hasAttribute("scroll-actions")) {
-        // data attribute doesn't exist
-        scrollActionsSetting = 'onEnter onEnterBack';
-    } else {
-        scrollActionsSetting = scrollRoot.getAttribute('scroll-actions');
-    }
-    return scrollActionsSetting;
-}
-const scrollActions = scrollActionsSettingFunction();
 
 
 //Target area of window viewport for fold trigger
@@ -104,4 +93,4 @@ ScrollTrigger.create({
 
 
 
-export{OGbg, OGtxt, topTA, bottomTA, customOn, scrollActions}
+export{OGbg, OGtxt, topTA, bottomTA, customOn }

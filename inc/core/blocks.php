@@ -46,7 +46,7 @@ if (!function_exists('get_block_settings')):
         }
         $classes = $classNames . ' ';
         // Create class attribute allowing for custom "className" and "align" values.
-      
+
 
         if (!empty($block['className'])) {
             $classes .= $block['className'];
@@ -214,7 +214,89 @@ if (!function_exists('get_block_classes')):
         return $output;
     }
 endif;
+if (!function_exists('get_block_settings_no_colors')):
+    /**
+     *
+     * @since v1
+     * Make creating blocks as easy as possible.
+     */
+    function get_block_settings_no_colors($block, $blockID, $classNames)
+    {
+        $output = '';
+        $turnOnFold = '';
+        $anchor = $blockID . '-block-' . $block['id'];
+        if (!empty($block['anchor'])) {
+            $anchor = $block['anchor'];
+        }
+        $classes = $classNames . ' ';
+        // Create class attribute allowing for custom "className" and "align" values.
 
+
+        if (!empty($block['className'])) {
+            $classes .= $block['className'];
+        }
+        if (!empty($block['alignText'])) {
+            $classes .= ' text-' . $block['alignText'];
+        }
+        if (!empty($block['alignContent'])) {
+            $classes .= ' align-items-' . $block['alignContent'];
+        }
+        if (!empty($block['fullHeight'])) {
+            $classes .= ' full-height';
+        }
+        if (!empty($block['align'])) {
+            $classes .= ' align' . $block['align'];
+        }
+        if (!empty($block['topPadding'])) {
+            $classes .= ' ' . $block['topPadding'];
+        }
+        if (!empty($block['bottomPadding'])) {
+            $classes .= ' ' . $block['bottomPadding'];
+        }
+        if (!empty($block['topMargin'])) {
+            $classes .= ' ' . $block['topMargin'];
+        }
+        if (!empty($block['bottomMargin'])) {
+            $classes .= ' ' . $block['bottomMargin'];
+        }
+        if (!empty($block['fullWidth'])) {
+            $classes .= ' full-width';
+        }
+        if (!empty($block['blockAnimation'])) {
+            $classes .= ' ' . $block['blockAnimation'];
+        }
+
+
+        if (!empty($block['blockAnimation'])) {
+            $turnOnFold = 1;
+            $classes .= '  animation-on ' . $block['blockAnimation'];
+        }
+        if ($turnOnFold) {
+            $classes .= ' fold';
+        }
+        if (!empty($block['hideMobile'])) {
+            $classes .= ' d-none d-md-inherit';
+        }
+        if (!empty($block['hideTablet'])) {
+            $classes .= ' d-inherit d-md-none d-xl-inherit';
+        }
+        if (!empty($block['hideDesktop'])) {
+            $classes .= ' d-xl-none';
+        }
+
+
+        if (!empty($block['backgroundImage'])) {
+            $classes .= ' has-background-image';
+            $classes .= '" style="background-image:url(' . $block['backgroundImage'] . ');';
+        }
+
+        $anchor = 'id="' . $anchor . '"';
+        $classes = ' class="' . $classes . '"';
+        $output = $anchor . $classes;
+
+        return $output;
+    }
+endif;
 
 function theme_main_register_acf_blocks()
 {
@@ -237,12 +319,20 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/half-screen');
     register_block_type(get_template_directory() . '/inc/blocks/content-loop');
     register_block_type(get_template_directory() . '/inc/blocks/logo-carousel');
+    register_block_type(get_template_directory() . '/inc/blocks/staff-card');
+    register_block_type(get_template_directory() . '/inc/blocks/accordion-or-tabs');
+
+    if (class_exists('WPCF7')) {
+        register_block_type(get_template_directory() . '/inc/blocks/contact-form-7');
+    }
+
     //register_block_type(get_template_directory() . '/inc/blocks/carousel-slide-block'); these will be available in a future update.
     //register_block_type(get_template_directory() . '/inc/blocks/carousel-header');
     //register_block_type(get_template_directory() . '/inc/blocks/carousel');
 
 }
 add_action('init', 'theme_main_register_acf_blocks');
+
 
 function theme_main_carousel_blocks_slides($allowed_blocks, $post)
 {
@@ -280,6 +370,8 @@ add_filter('allowed_block_types_all', 'theme_main_carousel_blocks_slides', 10, 2
 function acf_set_featured_image($post_id = null)
 {
 
+    // acf/save_post - filter for all ACF fields
+//dd_action('acf/save_post', 'acf_set_featured_image', 20);
     $current_post = get_queried_object();
     if (empty($post_id)) {
         $post_id = $current_post ? $current_post->ID : null;
@@ -314,6 +406,3 @@ function acf_set_featured_image($post_id = null)
         }
     }
 }
-
-// acf/save_post - filter for all ACF fields
-//dd_action('acf/save_post', 'acf_set_featured_image', 20);

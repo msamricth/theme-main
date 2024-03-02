@@ -153,7 +153,7 @@ if (!function_exists('get_card_media')):
      * @since v0.9
      * @modified v0.9
      */
-    function get_card_media($classes = null)
+    function get_card_media($classes = null, $postID = null)
     {
         $media_type = get_field('media_type') ?: '';
         $videoURL = get_field('media_video') ?: '';
@@ -161,7 +161,7 @@ if (!function_exists('get_card_media')):
         $media_options_self_host_video = '';
         $ratio = '';
         $media = '';
-
+        $imageExists = '';
         if (have_rows('media_options')) {
             while (have_rows('media_options')) {
                 the_row();
@@ -191,10 +191,21 @@ if (!function_exists('get_card_media')):
 
                         if ($image_url) {
                             $media .= ' src="' . esc_url($image_url[0]) . '" alt="' . esc_attr(get_post_meta($placerholder, '_wp_attachment_image_alt', true)) . '"';
+                            $imageExists = 'true';
                         }
                     }
 
 
+                }
+                if (empty($imageExists)) {
+                    if ($postID) {
+                        $thumbnail_url = get_the_post_thumbnail_url($postID, 'full');
+
+                        // Check if a thumbnail is available
+                        if ($thumbnail_url) {
+                            $media .= ' src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr(get_post_meta($postID, '_wp_attachment_image_alt', true)) . '"';
+                        }
+                    }
                 }
                 $media .= ' />';
 
@@ -213,7 +224,10 @@ if (!function_exists('get_card_media')):
                 break;
 
             case 'Icon':
-                // Code for Icon type
+                // Code for Icon type media_icon
+                if (get_field('media_icon')) {
+                    $media = '<i class="'. get_field('media_icon') . ' fa-5x"></i>';
+                }
                 break;
 
             default:

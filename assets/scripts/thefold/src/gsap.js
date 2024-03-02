@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, panelsSection, panelsContainer } from "./identifiers.js";
-import { topTA, bottomTA, scrollActions } from "./utils.js";
+import { topTA, bottomTA } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
 import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
 import { matchNav, animationOn, setFoldLegacy } from "./main.js";
@@ -172,30 +172,26 @@ function theFoldScrollTrigger() {
 
     } else {
 
-        gsap.utils.toArray(".fold").forEach(function (elem) {
-
-            var color = elem.getAttribute('data-class');
-
-            ScrollTrigger.create({
-                trigger: elem,
-                start: 'top 15%',
-                end: 'bottom 35%',
-                markers: debugMarker,
-                onEnter: () => setFold(elem),
-                onEnterBack: () => setFold(elem),
-            });
-        });
     }
 
+    gsap.utils.toArray(".animation-on").forEach(function (elem) {
+
+        var color = elem.getAttribute('data-class');
+
+        ScrollTrigger.create({
+            trigger: elem,
+            start: 'top 65%',
+            end: 'bottom 35%',
+            markers: debugMarker,
+            onEnter: () => animationOn(elem)
+        });
+    });
     function setFold(elem, color = null) {
         let elemClassList = elem.classList;
 
         elem.getAttribute('data-class')
         if (elemClassList.contains('match-nav')) {
             matchNav(elem);
-        }
-        if (elemClassList.contains('animation-on')) {
-            animationOn(elem);
         }
         if (elem.hasAttribute('data-class')) {
             setFoldLegacy(color);

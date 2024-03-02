@@ -52,4 +52,3 @@ register_post_type('redirect', array(
     'acfe_admin_meta_key' => '',
     'acfe_admin_meta_type' => '',
 ));
-

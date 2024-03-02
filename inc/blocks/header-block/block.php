@@ -118,11 +118,11 @@ $inner_blocks_template = array(
 if (!empty($block['alignContent'])) {
     $blockClasses .= ' align-items-' . $block['alignContent'];
 }
-$header_content .= '<div class="page-header py-5 my-3xl-5 fold '.$blockClasses.'" data-class="header" '. get_header_color().'>';
+$header_content .= '<div class="page-header py-2 my-3xl-5 fold '.$blockClasses.'" data-class="header">';
 
 
 $header_content .= '<div class="container">';
-$header_content .= '<InnerBlocks class="header-block-editor-content" template="'. esc_attr( wp_json_encode( $inner_blocks_template ) ) .'"/>';
+$header_content .= '<InnerBlocks class="header-block-editor-content" '. get_header_color().' template="'. esc_attr( wp_json_encode( $inner_blocks_template ) ) .'"/>';
 $header_content .= '</div></div>';
 
 

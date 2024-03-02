@@ -1,7 +1,7 @@
 .card {
-    @include media-breakpoint-up(dlg) {
-        height: 100%;
-    }
+    //@include media-breakpoint-up(dlg) {
+    height: 100%;
+    // }
 
     .card-sub-title {
         opacity: .865;
@@ -20,6 +20,16 @@
 .card-grid .card {
     height: 100%;
 }
+
+.card-type-icon {
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+
+    .card-body {
+        padding-top: 1.3rem;
+    }
+}
+
 
 .horizontal-card {
     height: auto;
@@ -101,5 +111,49 @@
             background-size: cover;
             background-position: center center;
         }
+    }
+}
+
+.staff-card {
+    position: relative;
+    height: 450px;
+
+    .btn-floating {
+        padding-left: calc(var(--bs-btn-padding-x) + 15px);
+        left: 0;
+    }
+
+    .card-img {
+        position: absolute;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .card-overlay {
+        height: 100%;
+        min-height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: absolute;
+        background-color: transparent;
+        background-image: linear-gradient(180deg, #FFFFFF00 0%, #000000 100%);
+        opacity: 0.5;
+    }
+
+    .card-img-overlay {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 3rem;
+    }
+}
+
+.card.bg-primary {
+    --bs-card-bg: var(--bs-primary);
+
+    a {
+        --bs-link-color-rgb: var(--bs-dark-rgb);
     }
 }

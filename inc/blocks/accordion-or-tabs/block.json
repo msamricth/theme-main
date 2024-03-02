@@ -1,0 +1,26 @@
+{
+    "name": "acf/accordion-or-tabs",
+    "title": "Accordion or Tabs",
+    "description": "A block that allows you to display content in the form of Tabs or Accordions",
+    "category": "Theme Main",
+    "icon": "list-view",
+    "keywords": ["content", "menu", "engagement", "interaction", "Tabs", "Accordion"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

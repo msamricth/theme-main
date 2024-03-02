@@ -58,7 +58,7 @@ $title_type = get_field('type');
                 <div class="container text-center">
                     <div class="row">
                         <?php if ($secondary_cta): ?>
-                            <div class="col-md-6 col-sm-12 col-10 mx-auto">
+                            <div class="col-md-6 col-sm-10 col-11 mx-auto px-lg-5 px-xl-0">
                                 </a>
                                 <a href="<?php echo esc_url($secondary_cta['url']); ?>"
                                     target="<?php echo esc_attr($secondary_cta['target']); ?>"
@@ -69,7 +69,7 @@ $title_type = get_field('type');
                             </div>
                         <?php endif; ?>
                         <?php if ($primary_cta): ?>
-                            <div class="col-md-6 col-sm-12 col-10 mx-auto">
+                            <div class="col-md-6 col-sm-10 col-11 mx-auto px-lg-5">
                                 <a href="<?php echo esc_url($primary_cta['url']); ?>"
                                     target="<?php echo esc_attr($primary_cta['target']); ?>"
                                     class="h3 cta-link btn-link btn text-primary mb-3 my-md-0">

@@ -61,7 +61,8 @@ function my_scripts_modifier($tag, $handle, $src)
     return $tag;
 }
 
-function theme_main_black_editor_scripts() {
+function theme_main_black_editor_scripts()
+{
     $screen = get_current_screen();
 
     // Check if we are on the widgets.php page in wp-admin
@@ -75,16 +76,17 @@ function theme_main_black_editor_scripts() {
     // Enqueue your 'theme-editor' script with proper dependencies
     wp_enqueue_script(
         'theme-editor',
-        get_template_directory_uri() . '/assets/js/editor.js',
+        get_template_directory_uri() . '/build/editor.js',
         array('wp-blocks', 'wp-dom', 'wp-edit-post', 'acf', 'wp-editor'), // Add 'wp-editor' as a dependency
-        filemtime(get_template_directory() . '/assets/js/editor.js'),
+        filemtime(get_template_directory() . '/build/editor.js'),
         true
     );
 
 }
 
 add_action('enqueue_block_editor_assets', 'theme_main_black_editor_scripts');
-function theme_main_black_editor_assets() {
+function theme_main_black_editor_assets()
+{
     $screen = get_current_screen();
 
     // Enqueue your 'theme-editor' styles
@@ -109,8 +111,8 @@ function enqueue_splide_script()
 }
 
 // Hook the script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
-add_action('wp_enqueue_scripts', 'enqueue_splide_script');
-add_action('enqueue_block_editor_assets', 'enqueue_splide_script');
+//add_action('wp_enqueue_scripts', 'enqueue_splide_script');
+//add_action('enqueue_block_editor_assets', 'enqueue_splide_script');
 
 // Check if the function theme_main_get_legacy_carousel is called, and enqueue the script
 function enqueue_splide_script_on_page()
@@ -120,9 +122,21 @@ function enqueue_splide_script_on_page()
     // Check if the function is called and if it's in the block editor
     if (function_exists('theme_main_get_legacy_carousel') && (is_admin() || (isset($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_legacy_carousel')))) {
         enqueue_splide_script();
-    }
-}
+    } else {
+        if (function_exists('theme_main_get_carousel') && (is_admin() || (isset($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_carousel')))) {
 
+            wp_enqueue_script('jQuery', 'https://code.jquery.com/jquery-3.7.1.min.js', array('jquery'), null, true);
+
+            enqueue_splide_script();
+        } else {
+            if (check_if_block_exist('acf/content-slider')) {
+                enqueue_splide_script();
+            }
+        }
+
+    }
+
+}
 // Hook the conditional script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
 add_action('wp_enqueue_scripts', 'enqueue_splide_script_on_page');
 add_action('enqueue_block_editor_assets', 'enqueue_splide_script_on_page');

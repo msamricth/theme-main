@@ -9,12 +9,12 @@
  * @since v1
  */
 
- if (!function_exists('get_theme_main_colors_is_light')) {
+if (!function_exists('get_theme_main_colors_is_light')) {
     function get_theme_main_colors_is_light($color)
     {
 
     }
- }
+}
 if (!function_exists('get_theme_Colors_CSS_variables')) {
     /**
      *Base Color Css Variables
@@ -171,14 +171,16 @@ if (!function_exists('get_theme_head')) {
         $custom_styles .= '}
         ' . $cssButtonVariables;
 
-        wp_add_inline_style('global-styles', $custom_styles);
+        if (is_admin()) {
+            return $custom_styles;
+        } else {
+            wp_add_inline_style('global-styles', $custom_styles);
+        }
     }
 }
 
 // Hook the function to an action using its name without parentheses
 add_action('wp_enqueue_scripts', 'get_theme_head');
-
-
 if (!function_exists('bg_images')):
     /**
      * Background images
@@ -269,6 +271,8 @@ if (!function_exists('get_bodyclasses')):
                 $navbar_scheme .= 'navbar-transparent  nav-bg-transparent-dark';
             } elseif (str_contains($navbar_page_scheme, 'transparent-light') !== false) {
                 $navbar_scheme .= 'navbar-transparent nav-bg-transparent-light';
+            } elseif (str_contains($navbar_page_scheme, 'transparent-primary') !== false) {
+                $navbar_scheme .= 'navbar-transparent nav-bg-transparent-primary';
             } else {
 
                 // $navbar_scheme .= 'navbar-' . $navbar_page_scheme;
@@ -295,7 +299,7 @@ if (!function_exists('get_bodyclasses')):
         if (get_field('make_dropdown_menus_horizontal', 'option') == 1):
             $bodyClasses .= 'make_dropdown_menus_horizontal ';
         endif;
-        
+
         return $bodyClasses;
     }
 endif;
@@ -360,9 +364,11 @@ if (!function_exists('get_wrapper')):
         $wrapperClasses = '';
         $ogClass = '';
         $addtlAttr = '';
-
+        $page_background_image = get_field('page_background_image');
         $scheme = get_scheme();
-
+        if ($page_background_image) {
+            $scheme = $scheme . ' has-background-image';
+        }
         if (str_contains($scheme, 'bg-custom') !== false) {
             $customBG = get_field('custom_bg_color');
             $customColorVar = get_field('custom_text_color');
@@ -384,6 +390,10 @@ if (!function_exists('get_wrapper')):
         $output .= 'class="' . $wrapperClasses . '" ';
         $output .= 'data-og_class="' . $ogClass . '" ';
         $output .= $addtlAttr;
+
+        if ($page_background_image) {
+            $output .= ' style="background-image: url(' . $page_background_image['url'] . ');"';
+        }
 
         return $output;
     }
@@ -427,14 +437,20 @@ if (!function_exists('get_nav_attributes')):
                 $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-light);';
                 $output .= '--theme-main-nav-drawer-open-bg: var(--bs-light);';
                 $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-light);';
+
+            } elseif (str_contains($navbar_page_scheme, 'transparent-primary') !== false) {
+                $output .= '--theme-main-nav-bg: var(--theme-main-translucent);';
+                $output .= '--theme-main-nav-link-color: var(--bs-dark);';
+                $output .= '--theme-main-nav-drawer-open-bg: var(--theme-main-translucent);';
+                $output .= '--theme-main-nav-drawer-open-color: var(--bs-dark);';
             } else {
                 $output .= get_nav_style_attributes($navbar_page_scheme);
             }
-            $output = 'data-og-scheme="'. $navbar_page_scheme .'" style="' . $output . '"';
+            $output = 'data-og-scheme="' . $navbar_page_scheme . '" style="' . $output . '"';
         } else {
-            if($nav_default_color_scheme){
+            if ($nav_default_color_scheme) {
                 $output .= get_nav_style_attributes($nav_default_color_scheme);
-                $output = 'data-og-scheme="'. $nav_default_color_scheme .'" style="' . $output . '"';
+                $output = 'data-og-scheme="' . $nav_default_color_scheme . '" style="' . $output . '"';
             }
         }
         return $output;
@@ -442,15 +458,16 @@ if (!function_exists('get_nav_attributes')):
 
 endif;
 
-if (!function_exists('get_nav_style_attributes')) :
-	function get_nav_style_attributes($color){
-		$output = '--theme-main-nav-bg: var(--bs-' . $color . ' );';
-		$output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $color . ' );';
-		$output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $color . ' );';
-		$output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $color . ' );';
+if (!function_exists('get_nav_style_attributes')):
+    function get_nav_style_attributes($color)
+    {
+        $output = '--theme-main-nav-bg: var(--bs-' . $color . ' );';
+        $output .= '--theme-main-nav-link-color: var(--theme-main-contrasting-text-' . $color . ' );';
+        $output .= '--theme-main-nav-drawer-open-bg: var(--bs-' . $color . ' );';
+        $output .= '--theme-main-nav-drawer-open-color: var(--theme-main-contrasting-text-' . $color . ' );';
 
-		return $output;
-	}
+        return $output;
+    }
 endif;
 if (!function_exists('get_header_color')):
     function get_header_color()
@@ -464,6 +481,8 @@ if (!function_exists('get_header_color')):
 
             } elseif (str_contains($navbar_page_scheme, 'transparent-light') !== false) {
                 $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-light);';
+            } elseif (str_contains($navbar_page_scheme, 'transparent-primary') !== false) {
+                $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-primary);';
             } else {
                 $output .= '--theme-main-page-header-color: var(--theme-main-contrasting-text-' . $navbar_page_scheme . ' );';
             }

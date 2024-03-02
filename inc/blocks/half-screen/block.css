@@ -12,16 +12,15 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: 100%;
-    top: 0;
+    height: calc(100% - 2px);
+    top: 1px;
     bottom: 0;
-    width: 100%;
+    width: calc(100% - 2px);
 }
 
 .half-screen .media-container.fullscreen_media .theme-main-image {
     height:100%;
 }
-
 
 .ratio> .ratio-fullw {
     object-fit: cover;

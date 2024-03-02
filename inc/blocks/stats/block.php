@@ -26,10 +26,19 @@ $classes .= ""; // Add extra classes here.
         while (have_rows('stats')):
             the_row();
             $blockContent .= '<div class="col-md-4 px-gutter px-gutter mb-5 mb-md-0 text-center">';
-            $blockContent .= '<h4 class="stats display-3 pb-3 mb-3">';
+            $blockContent .= '<h4 class="stats display-3 pb-3 mb-3';
+            if (!empty($block['blockAnimation'])) {
+                $blockContent .= ' animate fade-in';
+            }
+            $blockContent .= '" data-stat="';
             $blockContent .= get_sub_field('number');
-            $blockContent .= '</h4>';
-            $blockContent .= '<p class="pt-1 text-uppercase"><strong>' . get_sub_field('statement') . '</strong></p>';
+            $blockContent .= '">0</h4>';
+            $blockContent .= '<p class="pt-1 text-uppercase';
+
+            if (!empty($block['blockAnimation'])) {
+                $blockContent .= ' swing-in-bottom-bck';
+            }
+            $blockContent .= '"><strong>' . get_sub_field('statement') . '</strong></p>';
             $blockContent .= '</div>';
         endwhile;
         $blockContent .= '</div>';

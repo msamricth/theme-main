@@ -13,6 +13,9 @@
         right: 0;
         bottom: 0;
         color: var(--theme-main-page-header-color);
+        .header-block-editor-content {
+            color: var(--theme-main-page-header-color);
+        }
     }
 
 
@@ -59,6 +62,10 @@
 .entry-content {
     &>*:not(.header-container):first-child {
         margin-top: 5.5rem;
+        &.wp-block-group {
+            margin-top:0px;
+            padding-top: 8rem;            
+        }
     }
 }
 .theme-overlay {

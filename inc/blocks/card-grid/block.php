@@ -12,7 +12,10 @@
 $blockName = "Card Grid";
 $blockID = "card-grid";
 $classes = $blockID . " ";
-$allowed_blocks = array('acf/card');
+$allowed_blocks = array(
+    'acf/card',
+    'acf/staff-card'
+);
 $template = array(
     array(
         'acf/card',

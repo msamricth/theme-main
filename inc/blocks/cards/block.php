@@ -40,14 +40,8 @@ if (have_rows('card_options')) {
         $card_options_call_to_action = (get_sub_field('call_to_action') == 1) ? 'true' : 'false';
 
         if ($card_options_content_postID) {
+            $card_media = get_card_media('card-img-top', $card_options_content_postID);
             $card_options_card_content_link = ($card_options_content_postID) ? '<a href="' . esc_url(get_permalink($card_options_content_postID)) . '">' . get_the_title($card_options_content_postID) . '</a>' : '';
-
-            $thumbnail_url = get_the_post_thumbnail_url($card_options_content_postID, 'full');
-
-            // Check if a thumbnail is available
-            if ($thumbnail_url) {
-                $card_media = '<img class="card-img-top" src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr(get_post_meta($card_options_content_postID, '_wp_attachment_image_alt', true)) . '" />';
-            }
             $placeholder_title = get_the_title($card_options_content_postID);
             $placeholder_text = theme_main_excerpt('25', $card_options_content_postID);
             $template = array(
@@ -69,7 +63,7 @@ if (have_rows('card_options')) {
             );
 
             if ($card_options_call_to_action === 'true') {
-                $card_footer .= '<div class="card-footer">';
+                $card_footer .= '<div class="card-footer  bg-transparent">';
 
                 $cta_text = get_sub_field('cta_text');
                 if (empty($cta_text)) {
@@ -104,7 +98,7 @@ if (have_rows('card_options')) {
                 )
             );
             if ($card_options_call_to_action === 'true') {
-                $card_footer .= '<div class="card-footer">';
+                $card_footer .= '<div class="card-footer bg-transparent">';
 
                 $card_options_cta_format = get_sub_field('cta_format');
                 if ($card_options_cta_format === 'Button') {
@@ -127,11 +121,19 @@ if (have_rows('card_options')) {
 
 $card_media_container = '';
 $card_markup = '';
-$card_body = '<InnerBlocks class="card-body" template="' . esc_attr(wp_json_encode($template)) . '" />';
+$media_type = get_field('media_type') ?: '';
+$cardClasses = ' card-type-' . slugify($media_type);
 
+$card_body = '<InnerBlocks class="card-body" template="' . esc_attr(wp_json_encode($template)) . '" />';
+if (!empty($block['backgroundColor'])) {
+    $cardClasses .= ' has-' . $block['backgroundColor'] . '-background-color';
+}
+if (!empty($block['textColor'])) {
+    $cardClasses .= ' has-' . $block['textColor'] . '-color';
+}
 ?>
-<div <?php echo get_block_settings($block, $blockID, $classes); ?>>
-    <div class="card mb3">
+<div <?php echo get_block_settings_no_colors($block, $blockID, $classes); ?>>
+    <div class="card mb3 <?php echo $cardClasses; ?>">
         <?php if ($make_card_horizontal === 'true') {
             $card_markup = '<div class="row g-0 ' . $rowClasses . '">';
 

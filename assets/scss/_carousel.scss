@@ -173,14 +173,24 @@
 
 .logo-carousel {
     .sticky-header {
-        top: 90px;
-        &.slide-out-top {//, &.fadeTopOut {
-            top:0px;
+        @media only screen and (min-width: 390px) {
+            top: 60px;
+        }
+
+        @media only screen and (min-width: 420px) {
+            top: 90px;
+        }
+
+        &.slide-out-top {
+            //, &.fadeTopOut {
+            top: 0px;
         }
     }
+
     .sticky-subheader {
-       // top:90vh;
+        // top:90vh;
     }
+
     .scroll-slider {
 
         .scroll-slider-container {
@@ -197,6 +207,7 @@
                 flex-wrap: wrap;
                 display: flex;
                 align-content: center;
+
                 @include media-breakpoint-up(lg) {
                     align-content: flex-end;
                 }

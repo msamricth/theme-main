@@ -156,6 +156,9 @@ add_action('init', 'theme_main_load_header_page_block', 20);
 
 function theme_main_check_for_updates() {
     // Your GitHub repository information
+
+// Hook the function to the 'wp_loaded' action
+//add_action('wp_loaded', 'theme_main_check_for_updates');
     $github_user = 'msamricth';
     $github_repo = 'theme-main';
     $github_api_url = "https://api.github.com/repos/$github_user/$github_repo/releases/latest";
@@ -185,6 +188,3 @@ function theme_main_check_for_updates() {
         echo '<div class="notice notice-info is-dismissible"><p>New theme version available: ' . esc_html($github_version) . '</p></div>';
     }
 }
-
-// Hook the function to the 'wp_loaded' action
-//add_action('wp_loaded', 'theme_main_check_for_updates');

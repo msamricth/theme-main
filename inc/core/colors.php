@@ -154,7 +154,9 @@ if (!function_exists('get_theme_main_colors_depth')) {
                 }
             }
         }
-        return $output;
+        if (isset($output)) {
+            return $output;
+        }
 
     }
 }

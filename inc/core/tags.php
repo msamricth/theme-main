@@ -247,6 +247,135 @@ if (!function_exists('theme_main_nav_search')):
 endif;
 
 
+if (!function_exists('get_theme_main_accordion')):
+
+    function get_theme_main_accordion($blockID, $accordion_open_icon, $accordion_close_icon = null, $accordion_always_open = null)
+    {
+        $i = 0;
+        $accordionID = 'accordion-'.$blockID;
+        $output='<div class="accordion accordion-flush" id="'.$accordionID.'">';
+        if (have_rows('accordion_tabs_block_content')) {
+            while (have_rows('accordion_tabs_block_content')) {
+                the_row();
+                $i++;
+                $contentID = $accordionID.'-item-'.$i;
+                $type = get_sub_field('type');
+                $blockTitle = get_sub_field('title');
+                $basic_editor = get_sub_field('basic_editor');
+                if($type === 'Block Editor') {
+                    $blockContent = '<InnerBlocks class="accordion-editor-content '.$contentID.'"/>';
+                }
+
+                if($type === 'Basic Content') {
+                    $blockContent = $basic_editor;
+                }
+                $output .= '<div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button';
+                    if($i === 1) {
+                        $output .= '" aria-expanded="true"';
+                    } else {
+                        $output .= ' collapsed" aria-expanded="false"';
+                    }
+                    $output .= ' type="button" data-bs-toggle="collapse" data-bs-target="#'.$contentID.'" aria-controls="'.$contentID.'">
+                        '.$blockTitle.'
+                    </button>
+                </h2> 
+                <div id="'.$contentID.'" class="accordion-collapse';
+                if($i === 1) {
+                    $output .=' show';
+                }
+                
+                $output .= ' collapse"';
+                if(empty($accordion_always_open)){
+                    $output .= 'data-bs-parent="#'.$accordionID.'"';
+                }
+                $output .= '>
+                    <div class="accordion-body">'.$blockContent.'</div>
+                </div>';
+            }
+        } else {
+            $output .= '<h2 class="accordion-header">No rows found</h2>';
+        }
+            
+        $output .=' </div>';
+        return $output;
+    }
+endif;
+
+if (!function_exists('get_theme_main_tabs')):
+
+    function get_theme_main_tabs($blockID, $tab_placement, $nav_styles, $nav_fill_on = null)
+    {
+        $i = 0;
+        $tabsID = 'tabs-'.$blockID;
+        $blockTitle = '';
+        $blockContent = '';
+        $alignment = 'horizontal'; // Replace this with your actual variable
+        $nav_classes = 'nav nav-'.$nav_styles;
+        
+        $output = '<div class="tabs tabbed-content"';
+        if ($tab_placement == 'left' || $tab_placement == 'right') {
+            $alignment = 'vertical';
+        } 
+        if($alignment === 'vertical') {
+            $nav_classes .= ' flex-column';
+            $output .= ' d-flex align-items-start';
+        }
+        if($tab_placement == 'right') {
+            $nav_classes .= ' order-last ms-4';
+        }
+        if($tab_placement == 'left') {
+            $nav_classes .= ' me-4';
+        }
+        if($nav_fill_on) {
+            $nav_classes .= ' nav-fill';
+        }
+        $output .= '" id="'.$tabsID.'">';
+
+        if (have_rows('accordion_tabs_block_content')) {
+            while (have_rows('accordion_tabs_block_content')) {
+                the_row();
+                $i++;
+                $contentID = $tabsID.'-item-'.$i;
+                $type = get_sub_field('type');
+                $basic_editor = get_sub_field('basic_editor');
+
+
+                $blockTitle .= '<button class="nav-link';
+                if($i === 1) {
+                    $blockTitle .= ' active" aria-selected="true"';
+                } else {
+                    $blockTitle .= '" aria-selected="false"';
+                }
+                $blockTitle .= 'id="'.$contentID.'" data-bs-toggle="tab" data-bs-target="#'.$contentID.'-pane" type="button" role="tab" aria-controls="'.$contentID.'-pane">'.get_sub_field('title').'</button>';
+
+                $blockContent .= '<div class="tab-pane fade';
+                if($i === 1) {
+                    $blockContent .='show active';
+                }
+                $blockContent .='" id="'.$contentID.'-pane" role="tabpanel" aria-labelledby="'.$contentID.'" tabindex="'.$i.'">';
+                if($type === 'Block Editor') {
+                    $blockContent .= '<InnerBlocks class="tabs-editor-content '.$contentID.'"/>';
+                }
+
+                if($type === 'Basic Content') {
+                    $blockContent .= $basic_editor;
+                }
+                $blockContent .='</div>';
+
+            }
+        } else {
+            $output .= '<h2 class="tabs-header">No rows found</h2>';
+        }
+        $output .='<nav class="'. $nav_classes .'">'.$blockTitle.'</nav>';
+        $output .='<div class="tab-content" id="TabContent-'.$tabsID.'">' . $blockContent .'</div>';
+        $output .=' </div>';
+        return $output;
+    }
+endif;
+
+
 if (!function_exists('theme_main_article_posted_on')):
     /**
      * "Theme posted on" pattern.
@@ -293,38 +422,40 @@ if (!function_exists('theme_main_get_horizontal_card')):
     function theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
     {
 
-        if($classes) { $classes = $classes .' '; }
+        if ($classes) {
+            $classes = $classes . ' ';
+        }
         $classes .= 'card horizontal-card';
         $output = '<div ';
         if ($post_id) {
             $output .= 'id="post-' . esc_attr($post_id) . '" ';
         }
-        if(empty($column_classes)) { 
+        if (empty($column_classes)) {
             $column_classes = 'dlg';
         }
-        $column_content = 'col-'.$column_classes.'-8'; 
-        $column_media = 'col-'.$column_classes.'-4'; 
+        $column_content = 'col-' . $column_classes . '-8';
+        $column_media = 'col-' . $column_classes . '-4';
         $output .= 'class="' . $classes . '">';
         $output .= '<div class="row g-0">';
-        $output .= '<div class="media-side '.$column_media.'">';
+        $output .= '<div class="media-side ' . $column_media . '">';
 
         if ($thumbnail_url) {
-            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-'.$column_classes .'-none" alt="' . esc_attr($title) . '">';
+            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-' . $column_classes . '-none" alt="' . esc_attr($title) . '">';
         }
         if ($thumbnail_url) {
-            $output .= '<div class="has-background-image d-none d-'.$column_classes .'-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
+            $output .= '<div class="has-background-image d-none d-' . $column_classes . '-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
         }
         $output .= '</div>';
-        $output .= '<div class="'.$column_content.' content-side">';
+        $output .= '<div class="' . $column_content . ' content-side">';
         $output .= '<div class="card-body">';
         if ($card_date) {
-            $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
+            $output .= '<strong class="theme-main-color text-uppercase">' . $card_date . '</strong>';
         }
         $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
         $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
 
         $output .= '</div>';
-        
+
         $output .= '<div class="card-footer">';
 
         if ($read_more_toggle) {
@@ -344,43 +475,45 @@ if (!function_exists('theme_main_get_horizontal_card_version_2')):
     function theme_main_get_horizontal_card_version_2($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
     {
 
-        if($classes) { $classes = $classes .' '; }
+        if ($classes) {
+            $classes = $classes . ' ';
+        }
         $classes .= 'card horizontal-card';
         $output = '<div ';
         if ($post_id) {
             $output .= 'id="post-' . esc_attr($post_id) . '" ';
         }
-        if(empty($column_classes)) { 
-            $column_content = 'col-dlg-6 col-xl-7'; 
-            $column_media = 'col-dlg-6 col-xl-5'; 
+        if (empty($column_classes)) {
+            $column_content = 'col-dlg-6 col-xl-7';
+            $column_media = 'col-dlg-6 col-xl-5';
         } else {
-            $column_content = 'col-'.$column_classes.'-8'; 
-            $column_media = 'col-'.$column_classes.'-4'; 
-        }        
-        if(empty($column_classes)) { 
+            $column_content = 'col-' . $column_classes . '-8';
+            $column_media = 'col-' . $column_classes . '-4';
+        }
+        if (empty($column_classes)) {
             $column_classes = 'dlg';
         }
         $output .= 'class="' . $classes . '">';
         $output .= '<div class="row">';
-        $output .= '<div class="media-side pe-dlg-4 '.$column_media.'">';
+        $output .= '<div class="media-side pe-dlg-4 ' . $column_media . '">';
 
         if ($thumbnail_url) {
-            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-'.$column_classes .'-none" alt="' . esc_attr($title) . '">';
+            $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top d-' . $column_classes . '-none" alt="' . esc_attr($title) . '">';
         }
         if ($thumbnail_url) {
-            $output .= '<div class="has-background-image d-none d-'.$column_classes .'-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
+            $output .= '<div class="has-background-image d-none d-' . $column_classes . '-block" style="background-image: url(' . esc_url($thumbnail_url) . ');"></div>';
         }
         $output .= '</div>';
-        $output .= '<div class="'.$column_content.' content-side ps-dlg-4">';
+        $output .= '<div class="' . $column_content . ' content-side ps-dlg-4">';
         $output .= '<div class="card-body">';
         if ($card_date) {
-            $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
+            $output .= '<strong class="theme-main-color text-uppercase">' . $card_date . '</strong>';
         }
         $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
         $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
 
         $output .= '</div>';
-        
+
         $output .= '<div class="card-footer">';
 
         if ($read_more_toggle) {
@@ -398,9 +531,11 @@ if (!function_exists('theme_main_get_horizontal_card_version_2')):
 endif;
 
 if (!function_exists('theme_main_get_vertical_card')):
-    function theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $read_more_toggle = null)
+    function theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $read_more_toggle = null, $column_classes = null)
     {
-        if($classes) { $classes = $classes .' '; }
+        if ($classes) {
+            $classes = $classes . ' ';
+        }
         $classes .= 'card vertical-card';
         $output = '<div ';
         if ($post_id) {
@@ -412,9 +547,9 @@ if (!function_exists('theme_main_get_vertical_card')):
             $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top" alt="' . esc_attr($title) . '">';
         }
 
-        $output .= '<div class="card-body">';
+        $output .= '<div class="card-body '.$column_classes .'">';
         if ($card_date) {
-            $output .= '<strong class="theme-main-color">' . esc_html($card_date) . '</strong>';
+            $output .= '<strong class="theme-main-color">' . $card_date . '</strong>';
         }
         $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
         $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
@@ -435,12 +570,51 @@ if (!function_exists('theme_main_get_vertical_card')):
         return $output;
     }
 endif;
+if (!function_exists('theme_main_loading_animation')):
+
+    function theme_main_loading_animation($text = null)
+    {
+        ob_start(); // Start output buffering
+
+        if(empty($text)){
+            $text = 'loading';
+        }
+        $output = '<div class="d-flex justify-content-between w-75 mx-auto">';
+        $output .= '<h4 class="me-2">'.$text.'</h4>';
+        $output .= '<div class="spinner-grow text-dark" role="status">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '<div class="spinner-grow text-dark" role="status" style="--bs-spinner-animation-name: 0.15s spinner-grow;">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '<div class="spinner-grow text-dark" role="status" style="--bs-spinner-animation-name: 0.2s spinner-grow;">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '<div class="spinner-grow text-dark" role="status" style="--bs-spinner-animation-name: 0.25s spinner-grow;">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '<div class="spinner-grow text-dark" role="status"  style="--bs-spinner-animation-name: 0.3s spinner-grow;">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '<div class="spinner-grow text-dark" role="status"  style="--bs-spinner-animation-name: 0.35s spinner-grow;">';
+        $output .= '<span class="visually-hidden">Loading...</span>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        ob_end_clean(); // Clean (erase) the output buffer
+
+        return $output;
+    }
+
+endif;
 
 
 if (!function_exists('theme_main_get_overlay_card')):
     function theme_main_get_overlay_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null)
     {
-        if($classes) { $classes = $classes .' '; }
+        if ($classes) {
+            $classes = $classes . ' ';
+        }
         $excerpt = theme_main_excerpt('30', '', $excerpt);
         $classes .= 'card card-overlay text-bg-dark postion-relative';
         $output = '<div ';
@@ -448,7 +622,7 @@ if (!function_exists('theme_main_get_overlay_card')):
             $output .= 'id="post-' . esc_attr($post_id) . '" ';
         }
         $output .= 'class="' . $classes . '">';
-        $output .= '<div class="card-img-overlay text-light'; 
+        $output .= '<div class="card-img-overlay text-light';
         if ($thumbnail_url) {
             $output .= ' has-background-image" style="background-image: url(' . esc_url($thumbnail_url) . ');';
         }

@@ -234,7 +234,7 @@ header .navbar {
     }
 
     .dropdown-menu {
-        background-color: var(--theme-main-nav-dropdown-bg);
+        background-color: var(--theme-main-nav-drawer-open-bg);
         max-height: 0px;
         transition: max-height $navDropdownTransitionDuration ease;
         top: var(--theme-main-dropdown-top);

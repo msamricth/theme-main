@@ -18,23 +18,23 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_menu
 		'dropdown-menu-xxl-end'
 	];
 	/* this version is a good starting point for a mega nav
-						function start_lvl(&$output, $depth = 0, $args = null)
-						{
-						  $dropdown_menu_class[] = '';
-						  foreach($this->current_item->classes as $class) {
-							if(in_array($class, $this->dropdown_menu_alignment_values)) {
-							  $dropdown_menu_class[] = $class;
-							}
-						  }
-						  $indent = str_repeat("\t", $depth);
-						  $submenu = ($depth > 0) ? ' sub-menu' : '';
-						  if($depth === 0){
-							  $output .= "\n$indent<ul class=\"megamenu justify-content-end dropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
-						  } else {
-							  
-							  $output .= "\n$indent<ul class=\"list-unstyled $submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
-						  }
-						} */
+						   function start_lvl(&$output, $depth = 0, $args = null)
+						   {
+							 $dropdown_menu_class[] = '';
+							 foreach($this->current_item->classes as $class) {
+							   if(in_array($class, $this->dropdown_menu_alignment_values)) {
+								 $dropdown_menu_class[] = $class;
+							   }
+							 }
+							 $indent = str_repeat("\t", $depth);
+							 $submenu = ($depth > 0) ? ' sub-menu' : '';
+							 if($depth === 0){
+								 $output .= "\n$indent<ul class=\"megamenu justify-content-end dropdown-menu$submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+							 } else {
+								 
+								 $output .= "\n$indent<ul class=\"list-unstyled $submenu " . esc_attr(implode(" ",$dropdown_menu_class)) . " depth_$depth\">\n";
+							 }
+						   } */
 	public function start_lvl(&$output, $depth = 0, $args = null)
 	{
 		$dropdown_menu_class[] = '';

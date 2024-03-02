@@ -3,7 +3,7 @@ const gulp = require( 'gulp' ),
 	browserSync = require( 'browser-sync' ),
 	server = browserSync.create(),
 	minify = require('gulp-minify'),
-	dev_url = 'http://glt.local/';
+	dev_url = 'https://glt.local/';
 
 
 /**
@@ -17,6 +17,10 @@ var paths = {
 	},
 	script: {
 		src: './assets/*.js',
+		dest: './build'
+	},
+	editorScript: {
+		src: './assets/js/editor.js',
 		dest: './build'
 	},
 	scripts: {
@@ -49,15 +53,44 @@ function build_js() {
 				compiler
 			)
 		)
-		/* lets not minify it in development .pipe(minify()) */
 		.pipe(
 			gulp.dest( paths.script.dest )
+			//.pipe(minify())
 		)
-		/*.pipe(
-			server.stream() // Browser Reload
-		)*/;
 }
+function build_editor_js() {
+	const compiler = require('webpack');
+	const webpackStream = require('webpack-stream');
 
+	return gulp.src(paths.editorScript.src)
+		.pipe(
+			webpackStream({
+				mode: 'production',
+				entry: {
+					editor: './assets/js/editor.js', // Include the new entry point for editor.js
+				},
+				output: {
+					filename: 'editor.js',
+				},
+				module: {
+					rules: [
+						{
+							test: /\.js$/,
+							exclude: /node_modules/,
+							use: {
+								loader: 'babel-loader',
+								options: {
+									presets: ['@babel/preset-env'],
+								},
+							},
+						},
+					],
+				},
+			})
+		)
+		//.pipe(minify())
+		.pipe(gulp.dest(paths.script.dest));
+}
 /**
  * SASS-CSS compilation: https://www.npmjs.com/package/gulp-sass
  * 
@@ -107,10 +140,11 @@ function build_css() {
 gulp.task( 'watch',
 	function () {
 		// Modify "dev_url" constant and uncomment "server.init()" to use browser sync
-	server.init({
-			proxy: dev_url,
-		} );
+	//server.init({
+		//	proxy: dev_url,
+		//} );
 		gulp.watch( [ paths.script.src, paths.scripts.src, paths.theFold.src, paths.theFold.inc], build_js );
+		gulp.watch( [ paths.script.src, paths.editorScript.src, paths.scripts.src, paths.theFold.src, paths.theFold.inc], build_editor_js );
 		gulp.watch( [ paths.styles.src, './assets/scss/*.scss' ], build_css );
 	}
 );

@@ -1,0 +1,82 @@
+.wpcf7 {
+    .form-floating {
+
+        &>.form-control-plaintext~label,
+        &>.form-control:focus~label,
+        &>.form-control:not(:placeholder-shown)~label,
+        &>.form-select~label {
+            font-size: 12px;
+            left: -3px;
+
+            @include media-breakpoint-up(md) {
+                font-size: 14px;
+            }
+        }
+
+        &>label {
+          //  padding-left: 0;
+            display: none;
+        }
+
+        &>.form-control:focus+label {
+            display: initial;
+        }
+        &>.form-control:not(:placeholder-shown)+label {
+            display: initial;
+        }
+        &>.form-control,
+        &>.form-control-plaintext {
+           // padding-left: 0;
+        }
+    }
+
+    .form-control {
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+            transition: background-color 5000s ease-in-out 0s !important;
+        }
+
+        &::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: currentColor;
+            opacity: 0.50;
+        }
+
+        &:-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: currentColor;
+            opacity: 0.50;
+        }
+
+        &::-ms-input-placeholder {
+            /* Microsoft Edge */
+            color: currentColor;
+            opacity: 0.50;
+        }
+
+        &:focus,
+        &:-internal-autofill-selected {
+            opacity: 1;
+            border-color: currentColor;
+            background-color: transparent !important;
+
+            &::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: currentColor;
+                opacity: 0.95;
+            }
+
+            &::-ms-input-placeholder {
+                /* Microsoft Edge */
+                color: currentColor;
+                opacity: 0.95;
+            }
+        }
+    }
+    .wpcf7-response-output, .wpcf7-spinner {
+        display: none;
+    }
+}

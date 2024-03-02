@@ -1,5 +1,5 @@
 
-import { Wrapper, bodyOG, scrollRoot, hasCustomBGColor, header, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, navOG } from "./identifiers.js";
+import { Wrapper, bodyOG, header, isHeaderNavTransLight, isHeaderNavTransDark, navOG, isHeaderNavTransprimary } from "./identifiers.js";
 // import {OGbg, OGtxt, topTA, bottomTA, customOn} from "./utils.js";
 import { clearchemes, playFoldAnimation } from "./extras.js";
 import { initCustom } from "./init.js";
@@ -17,6 +17,10 @@ function setFoldLegacy(theme) {
 
 
 			bgScheme = scheme;
+			if(isHeaderNavTransprimary){
+				bgScheme = 'var(--theme-main-translucent)';
+				scheme = 'primary';
+			}
 			if (isHeaderNavTransLight) {
 				bgScheme = 'transparent';
 				scheme = 'light';
@@ -39,6 +43,11 @@ function setFoldLegacy(theme) {
 			Wrapper.classList = bodyOG + ' bg-header';
 			scheme = navOG;
 			bgScheme = scheme;
+			
+			if(isHeaderNavTransprimary){
+				bgScheme = 'var(--theme-main-translucent)';
+				scheme = 'primary';
+			}
 			if (isHeaderNavTransLight) {
 				bgScheme = 'transparent';
 				scheme = 'light';

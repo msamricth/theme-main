@@ -67,12 +67,17 @@ if ( is_readable( $core_footer ) ) {
 
 
 /**
- * Load Nav functions
- * @since v1.0
+ * Load Nav functions on the front end
+ * @since v1.6
+ * 
+ * WHile it seems unlikely, this file is causing a issue for the medit edit stuff in wordpress.
  */
-$core_nav = __DIR__ . '/navs/nav.php';
-if ( is_readable( $core_nav ) ) {	require_once $core_nav; }
-
+if ( ! is_admin() ) {
+    $core_nav = __DIR__ . '/navs/nav.php';
+    if ( is_readable( $core_nav ) ) {
+        require_once $core_nav;
+    }
+}
 
 
 /**
@@ -89,10 +94,6 @@ if ( is_readable( $core_widgets ) ) {
  * Sidebar
  * @since v1.0
  */
-$core_sidebar = __DIR__ . '/core/sidebar.php';
-if ( is_readable( $core_sidebar ) ) {
-	require_once $core_sidebar;
-}
 
 /**
  * Blocks and Block settings

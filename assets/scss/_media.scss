@@ -1,4 +1,4 @@
-.ratio {
+.ratio, .media-container .ratio {
     &>.ratio-fullw {
         object-fit: cover;
         height: min-content;
