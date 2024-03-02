@@ -72,12 +72,12 @@ if ( is_readable( $core_footer ) ) {
  * 
  * WHile it seems unlikely, this file is causing a issue for the medit edit stuff in wordpress.
  */
-if ( ! is_admin() ) {
+//if ( ! is_admin() ) {
     $core_nav = __DIR__ . '/navs/nav.php';
     if ( is_readable( $core_nav ) ) {
         require_once $core_nav;
     }
-}
+//}
 
 
 /**
