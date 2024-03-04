@@ -238,6 +238,6 @@ function get_slider() {
     }
 
 }
-get_slider();
 
+get_slider();
 export { get_slider }

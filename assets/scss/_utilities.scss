@@ -151,6 +151,10 @@ $theme-main-nav-link-color: #{$body-color};
 html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     max-width: 90% !important;
 }
+
+.full-height {
+    min-height: 100vh;
+}
 .wp-admin .editor-styles-wrapper {
     .full-width {
         @include media-breakpoint-down(md) {

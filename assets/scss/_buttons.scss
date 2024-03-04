@@ -4,11 +4,6 @@
         .wp-block-button__link {
             @extend .btn;
             @extend .btn-outline-primary;
-            &:hover, &:focus {
-                .fa-solid {
-                    animation: bounce-right 0.8s var(--theme-main-nav-item-delay) both;
-                }
-            }
         }
     }
 
@@ -60,7 +55,11 @@
         @extend .btn;
         @extend .btn-primary;
         text-decoration: none;
-
+        &:hover, &:focus {
+            .fa-solid {
+                animation: bounce-right 0.8s var(--theme-main-nav-item-delay) both;
+            }
+        }
         &.has-primary--background-color {
             @extend .btn-primary;
         }
@@ -118,7 +117,7 @@
 
     &:hover,
     &:focus {
-        .fa {
+        .fa, .fa-solid {
             animation: bounce-right 0.8s var(--theme-main-nav-item-delay) both;
         }
     }

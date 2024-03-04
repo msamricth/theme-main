@@ -163,8 +163,8 @@ if (!function_exists('get_scheme_new')):
 	 */
 	function get_scheme_new($custom = null, $postID = null)
 	{
-		
-		if (empty($postID)){
+
+		if (empty($postID)) {
 			$postID = get_theme_main_postID();
 		}
 		if (isset($custom)) {
@@ -172,7 +172,7 @@ if (!function_exists('get_scheme_new')):
 		} else {
 			$scheme = get_field('background_color', $postID);
 		}
-		if (empty($scheme)){
+		if (empty($scheme)) {
 			$scheme = 'light';
 		}
 		return $scheme;
@@ -388,7 +388,7 @@ function is_blog()
 	global $post;
 	$posttype = get_post_type($post);
 
-	return ((is_archive() || is_author() || is_category() || is_home() || is_single() || (is_tag() && ('post' === $posttype))) ? true : false);
+	return((is_archive() || is_author() || is_category() || is_home() || is_single() || (is_tag() && ('post' === $posttype))) ? true : false);
 }
 
 /**
@@ -619,4 +619,23 @@ if (!function_exists('theme_main_duplicate_post')) {
 	}
 
 	add_action('admin_action_theme_main_duplicate_post', 'theme_main_duplicate_post');
+}
+
+
+if (!function_exists('theme_main_seperate_characters')) {
+	function theme_main_seperate_characters($inputString)
+	{
+	    // Check if the input string is null or empty
+		//if ($inputString === null || $inputString === '') {
+			//return;
+		//}
+	
+		// Split the input string into an array of characters
+		$characters = preg_split('/(?<!^)(?!$)/u', $inputString);
+	
+		// Print each character wrapped in a <span>
+		foreach ($characters as $character) {
+			echo "<span>$character</span>";
+		}
+	}
 }

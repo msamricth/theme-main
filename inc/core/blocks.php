@@ -321,6 +321,7 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/logo-carousel');
     register_block_type(get_template_directory() . '/inc/blocks/staff-card');
     register_block_type(get_template_directory() . '/inc/blocks/accordion-or-tabs');
+    register_block_type(get_template_directory() . '/inc/blocks/word-fumbler');
 
     if (class_exists('WPCF7')) {
         register_block_type(get_template_directory() . '/inc/blocks/contact-form-7');

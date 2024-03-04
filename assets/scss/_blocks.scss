@@ -1,0 +1,192 @@
+.word-fumbler {
+    height: 42px;
+    position: relative;
+
+    .logo-container {
+        text-align: center;
+
+        img {
+            margin: 0 auto;
+            width: 206px !important;
+
+            @include media-breakpoint-up(xl) {
+                width: 246px !important;
+            }
+
+            @include media-breakpoint-up(3xl) {
+                width: 329px !important;
+            }
+        }
+    }
+}
+
+.word-fumbler,
+.word-fumbler-second-version {
+
+    .box {
+        list-style: none;
+        display: block;
+        position: relative;
+        margin-bottom: 60px;
+        min-width: 100%;
+        height: 100%;
+        overflow: clip;
+        transition-duration: .5s;
+
+
+        li {
+            position: absolute;
+            top: 0;
+            min-width: 100%;
+            left: 0;
+            // opacity: 0;
+            white-space: nowrap;
+            transition-property: opacity;
+            transition-duration: 0.4s;
+        }
+    }
+}
+.word-fumbler-first-version {
+    .box {
+        li {
+
+            border-radius: .2em;
+            padding: .2em .5em;
+            animation: slide-out-blurred-top .45s cubic-bezier(.755, .05, .855, .06) both;
+
+            &.visible {
+                opacity: 1;
+            }
+
+            &.animate {
+                animation: slide-in-blurred-bottom .6s cubic-bezier(.23, 1.000, .32, 1.000) both //opacity: 1;
+            }
+        }
+    }
+}
+
+
+.word-fumbler-second-version {
+    margin: 0;
+    height: 20vw;
+    .box {
+        li {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin:0;
+            & > * {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0px;
+            }
+
+            animation: bounce-out-bottom .145s .09s cubic-bezier(.755, .05, .855, .06) both;
+            span {
+                display: block;
+                &:nth-child(0) {
+                    animation: bounce-out-bottom 1.1s both;
+                }
+                &:nth-child(1) {
+                    animation: bounce-out-bottom 1.1s 0.05s both;
+                }
+                &:nth-child(2) {
+                    animation: bounce-out-bottom 1.1s 0.1s both;
+                }
+                &:nth-child(3) {
+                    animation: bounce-out-bottom 1.1s 0.15s both;
+                }
+                &:nth-child(4) {
+                    animation: bounce-out-bottom 1.1s 0.2s both;
+                }
+                &:nth-child(5) {
+                    animation: bounce-out-bottom 1.1s 0.25s both;
+                }
+                &:nth-child(6) {
+                    animation: bounce-out-bottom 1.1s 0.3s both;
+                }
+                &:nth-child(7) {
+                    animation: bounce-out-bottom 1.1s 0.35s both;
+                }
+                &:nth-child(8) {
+                    animation: bounce-out-bottom 1.1s 0.4s both;
+                }
+                &:nth-child(9) {
+                    animation: bounce-out-bottom 1.1s 0.45s both;
+                }
+                &:nth-child(10) {
+                    animation: bounce-out-bottom 1.1s 0.5s both;
+                }
+                &:nth-child(11) {
+                    animation: bounce-out-bottom 1.1s 0.55s both;
+                }
+                &:nth-child(12) {
+                    animation: bounce-out-bottom 1.1s 0.6s both;
+                }
+                &:nth-child(13) {
+                    animation: bounce-out-bottom 1.1s 0.65s both;
+                }
+                &:nth-child(14) {
+                    animation: bounce-out-bottom 1.1s 0.7s both;
+                }
+                &:nth-child(15) {
+                    animation: bounce-out-bottom 1.1s 0.75s both;
+                }
+            }
+            &.animate {
+                animation: slide-in-blurred-bottom .12s cubic-bezier(.23, 1.000, .32, 1.000) both; //opacity: 1;
+                span {
+                    &:nth-child(0) {
+                        animation: bounce-in-top 1.1s both;
+                    }
+                    &:nth-child(1) {
+                        animation: bounce-in-top 1.1s 0.05s both;
+                    }
+                    &:nth-child(2) {
+                        animation: bounce-in-top 1.1s 0.1s both;
+                    }
+                    &:nth-child(3) {
+                        animation: bounce-in-top 1.1s 0.15s both;
+                    }
+                    &:nth-child(4) {
+                        animation: bounce-in-top 1.1s 0.2s both;
+                    }
+                    &:nth-child(5) {
+                        animation: bounce-in-top 1.1s 0.25s both;
+                    }
+                    &:nth-child(6) {
+                        animation: bounce-in-top 1.1s 0.3s both;
+                    }
+                    &:nth-child(7) {
+                        animation: bounce-in-top 1.1s 0.35s both;
+                    }
+                    &:nth-child(8) {
+                        animation: bounce-in-top 1.1s 0.4s both;
+                    }
+                    &:nth-child(9) {
+                        animation: bounce-in-top 1.1s 0.45s both;
+                    }
+                    &:nth-child(10) {
+                        animation: bounce-in-top 1.1s 0.5s both;
+                    }
+                    &:nth-child(11) {
+                        animation: bounce-in-top 1.1s 0.55s both;
+                    }
+                    &:nth-child(12) {
+                        animation: bounce-in-top 1.1s 0.6s both;
+                    }
+                    &:nth-child(13) {
+                        animation: bounce-in-top 1.1s 0.65s both;
+                    }
+                    &:nth-child(14) {
+                        animation: bounce-in-top 1.1s 0.7s both;
+                    }
+                    &:nth-child(15) {
+                        animation: bounce-in-top 1.1s 0.75s both;
+                    }
+                }
+            }
+        }
+    }
+}
