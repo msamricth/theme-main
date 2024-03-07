@@ -66,5 +66,5 @@ $font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetic
 $font-family-serif: Georgia, 'Times New Roman', Times, serif;
 $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 $font-family-base: $font-family-sans-serif;
-
+$enable-negative-margins: true !default;
 $link-decoration: none;

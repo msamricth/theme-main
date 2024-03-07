@@ -2,6 +2,7 @@
 /**
  * Template Name: Redirect
  * The Template for displaying all Redirect pages.
+ * //move to GLT Child theme next update
  */
 
 

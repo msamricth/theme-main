@@ -10,23 +10,34 @@ function LazyLoad() {
 
             if ("IntersectionObserver" in window) {
                 var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+
+
                     entries.forEach(function (video) {
                         if (video.isIntersecting) {
-                            for (var source in video.target.children) {
-                                var videoSource = video.target.children[source];
-                                if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-                                    videoSource.src = videoSource.dataset.src;
-
-                                    loadVideo(video.target).then(() => {
-                                        video.target.classList.remove("lazy");
-                                        lazyVideoObserver.unobserve(video.target);
-                                    }).catch(error => {
-                                        loadVideoErrorHandler('Video with error', video.id, error, 'PlayVideo', `Error playing video for ${videoSource.src}: ${error.message}`, sTIIV, sTPIV);
-                                    });
-                                }
+                            let source = null;
+                            var videoSource = video.target.dataset.src;
+                    
+                            if (source) {
+                                loadVideoErrorHandler("Not loaded yet", "No ID loaded yet", "Yikes!!!!", 'playPromise (Previously played)', 'loaded with error', 'sTIIV', 'sTPIV');
+                            } else {
+                                video.target.classList.remove("lazy");
+                                lazyVideoObserver.unobserve(video.target);
+                                source = document.createElement("source");
+                                source.setAttribute(
+                                    "src",
+                                    videoSource,
+                                  );
+                                  source.setAttribute("type", "video/mp4");
+                                  video.target.appendChild(source);
+                                  
+                                  video.target.classList.add("first-load");
                             }
                         }
+                    
                     });
+
+
+
                     resolve(); // Resolve the promise once lazy loading is complete
                 });
 
@@ -40,40 +51,9 @@ function LazyLoad() {
     });
 }
 
-function loadVideo(video, videoTitle, videoID, sTIIV, sTPIV) {
-    return new Promise(function (resolve, reject) {
-        video.load();
-
-        video.addEventListener('canplaythrough', function onCanPlayThrough() {
-            video.play().then(() => {
-                resolve();
-                video.removeEventListener('canplaythrough', onCanPlayThrough);
-            }).catch(error => {
-                loadVideoErrorHandler(videoTitle, videoID, error, 'PlayVideo', `Error playing video for ${video.currentSrc}: ${error.message}`, sTIIV, sTPIV);
-                reject(error);
-            });
-        });
-
-        video.addEventListener('error', function onError(event) {
-            if (event.target.error && event.target.error.code === 4) {
-                // Media decode error
-                loadVideoErrorHandler(videoTitle, videoID, event.target.error, 'LoadVideo', `Video decode error for ${event.target.currentSrc}: ${event.target.error.message}`, sTIIV, sTPIV);
-            } else {
-                // Other loading errors
-                loadVideoErrorHandler(videoTitle, videoID, event, 'LoadVideo', `Error loading video for ${event.target.currentSrc}: ${event.message}`, sTIIV, sTPIV);
-                reject(event);
-            }
-        });
-    });
-}
-
-
-
-
 function videoInit() {
     LazyLoad();
 }
-
 
 function fetchAndPlay(video) {
     let videoURL;
@@ -185,27 +165,42 @@ function playVimeo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = nul
     }
 }
 function playVideo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = null) {
-    // Show loading animation.
-    var playPromise = video.play();
-    if (video.classList.contains('paused')) {
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                if (video.classList.contains('error')) {
-                    video.classList.remove('error');
-                }
-                video.classList.remove('paused');
-                video.classList.add('playing');
-            })
-                .catch(error => {
-                    video.classList.add('error');
-                    loadVideoErrorHandler(videoTitle, videoID, error, 'playPromise (Previously played)', 'loaded with error', sTIIV, sTPIV);
-                });
+
+    if (!video.classList.contains("lazy")) {
+        var playPromise = video.play();
+        if (video.classList.contains('paused')) {
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    if (video.classList.contains('error')) {
+                        video.classList.remove('error');
+                    }
+                    video.classList.remove('paused');
+                    video.classList.add('playing');
+                })
+                    .catch(error => {
+                        video.classList.add('error');
+                        loadVideoErrorHandler(videoTitle, videoID, error, 'playPromise (Previously played)', 'loaded with error', sTIIV, sTPIV);
+                    });
+            }
         }
     }
 }
-
-
-
+function loadVideo(video, videoTitle, videoID, sTIIV, sTPIV) {
+    return new Promise(function (resolve, reject) {
+        var isPlaying = video.currentTime > 0 && !video.paused && !video.ended
+            && video.readyState > video.HAVE_CURRENT_DATA;
+        video.onemptied = (event) => {
+            if (video.classList.contains("first-load")) {
+                //if (!isPlaying) {
+                if (video.readyState === 0) {
+                    video.load();
+                    video.classList.remove("first-load");
+                }
+                // }
+            }
+        }
+    });
+}
 
 
 

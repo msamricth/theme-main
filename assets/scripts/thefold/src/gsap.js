@@ -4,7 +4,7 @@ import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, pa
 import { topTA, bottomTA } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
 import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
-import { matchNav, animationOn, setFoldLegacy } from "./main.js";
+import { matchNav, animationOn, setFoldLegacy, isElemInView } from "./main.js";
 gsap.registerPlugin(ScrollTrigger);
 
 function videoScrollTriggerFunction(video, player, videoTitle, videoID = null, sTIIV = null, sTPIV = null, vimeoFrame = null) {
@@ -99,7 +99,7 @@ function vimeoGSAP() {
 
 
 function selfHostedGSAP() {
-    LazyLoad().then(() => {
+   // LazyLoad().then(() => {
         gsap.utils.toArray(".videofx.selfhosted").forEach(function (video, i) {
             const vimeoFrame = document.getElementById(video.id);
             const videoID = video.id;
@@ -132,7 +132,7 @@ function selfHostedGSAP() {
                 //onUpdate: updateVideo()
             });
         });
-    });
+  //  });
 }
 function videoScrollTrigger() {
     vimeoGSAP();
@@ -163,7 +163,7 @@ function theFoldScrollTrigger() {
             });
 
             function foldTriggered(scrollAction) {
-                setFold(elem, color);
+                setFold(elem, color, scrollAction);
                 //foldDebug(scrollAction, color, elemID, elemClassList, topTA, bottomTA, error, bg, txt);
             }
 
@@ -186,7 +186,7 @@ function theFoldScrollTrigger() {
             onEnter: () => animationOn(elem)
         });
     });
-    function setFold(elem, color = null) {
+    function setFold(elem, color = null, scrollAction = null) {
         let elemClassList = elem.classList;
 
         elem.getAttribute('data-class')
@@ -195,6 +195,10 @@ function theFoldScrollTrigger() {
         }
         if (elem.hasAttribute('data-class')) {
             setFoldLegacy(color);
+        }
+        
+        if (elemClassList.contains('view-type')) {
+            isElemInView(elem, scrollAction);
         }
 
     }

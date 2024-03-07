@@ -1,0 +1,26 @@
+{
+    "name": "acf/big-list",
+    "title": "Big List",
+    "description": "Big list of content",
+    "category": "Theme Main",
+    "icon": "editor-ol",
+    "keywords": ["link", "call to action", "content", "list"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block.php"
+    },
+    "supports": {
+        "align": [ "left", "right", "wide", "full" ],
+        "anchor": false,
+        "alignContent": true,
+        "jsx": true,
+        "color": {
+            "text": true,
+            "background": true,
+            "link": true
+        },
+        "alignText": true,
+        "fullHeight": false,
+        "alignWide": true
+    }
+}

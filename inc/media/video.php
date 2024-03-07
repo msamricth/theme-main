@@ -109,11 +109,13 @@ if (!function_exists('selfHostVideo')):
             $output .= 'poster="' . esc_url($placerholder['url']) . '"';
             $output .= 'data-videotitle="' . $placerholder['alt'] . '" title="' . $placerholder['alt'] . '" ';
         }
-        $output .= '  autoplay muted playsinline loop background  allow="picture-in-picture">';
+        $output .= '  autoplay muted playsinline loop background  allow="picture-in-picture" data-src="' . $videoURL . '">';
+
         if (is_admin()) {
             $output .= '<source src="' . $videoURL . '" type="video/mp4"></video>';
         } else {
-            $output .= '<source data-src="' . $videoURL . '" type="video/mp4"></video>';
+            //$output .= '<source data-src="' . $videoURL . '" type="video/mp4">';
+            $output .= '</video>';
         }
 
         return $output;

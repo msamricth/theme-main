@@ -17,7 +17,7 @@ function setFoldLegacy(theme) {
 
 
 			bgScheme = scheme;
-			if(isHeaderNavTransprimary){
+			if (isHeaderNavTransprimary) {
 				bgScheme = 'var(--theme-main-translucent)';
 				scheme = 'primary';
 			}
@@ -43,8 +43,8 @@ function setFoldLegacy(theme) {
 			Wrapper.classList = bodyOG + ' bg-header';
 			scheme = navOG;
 			bgScheme = scheme;
-			
-			if(isHeaderNavTransprimary){
+
+			if (isHeaderNavTransprimary) {
 				bgScheme = 'var(--theme-main-translucent)';
 				scheme = 'primary';
 			}
@@ -132,24 +132,24 @@ function setNavBGVar(headerBG) {
 	header.style.setProperty('--theme-main-nav-bg', headerBG);
 	header.style.setProperty('--theme-main-nav-dropdown-bg', headerBG);
 	setTimeout(() => {
-	  const navBgColor = getComputedStyle(header).getPropertyValue('--theme-main-nav-bg');
-	  const isLight = isColorLight(navBgColor);
-  
-	  if (isLight) {
-		
-		if(header.classList.contains('dark-scheme')){
-			header.classList.remove('dark-scheme');
+		const navBgColor = getComputedStyle(header).getPropertyValue('--theme-main-nav-bg');
+		const isLight = isColorLight(navBgColor);
+
+		if (isLight) {
+
+			if (header.classList.contains('dark-scheme')) {
+				header.classList.remove('dark-scheme');
+			}
+			header.classList.add('light-scheme');
+		} else {
+			if (header.classList.contains('light-scheme')) {
+				header.classList.remove('light-scheme');
+			}
+			header.classList.add('dark-scheme');
 		}
-		header.classList.add('light-scheme');
-	  } else {
-		if(header.classList.contains('light-scheme')){
-			header.classList.remove('light-scheme');
-		}
-		header.classList.add('dark-scheme');
-	  }
 	}, 800);
-  }
-  
+}
+
 function setNavBG(headerBG) {
 	if (headerBG.includes('transparent')) {
 		setNavBGVar('transparent');
@@ -194,6 +194,43 @@ function isColorLight(hexColor) {
 	// Choose a threshold (0.5 is commonly used) and return true if light, false if dark
 	return luminance > 0.5;
 }
+function isElemInView(elem, ScrollAction) {
+	let elemID = elem.id;
+	function elemInView() {
+		if (elemID) {
+			document.body.classList.add(elemID + '-inView')
+		}
+	}
+	function elemOutView() {
+		if (elemID) {
+			document.body.classList.remove(elemID + '-inView')
+		}
+	}
 
+	if (ScrollAction) {
+		switch (ScrollAction) {
+			case 'undefined':
+				break;
+			case 'onEnter':
+				elem.classList.add('is-in-view'),elemInView();
+				break;
+			case 'onEnterBack':
+				elem.classList.add('is-in-view'),elemInView();
+				break;
+			case 'onLeave':
+				elem.classList.remove('is-in-view');
+				elemOutView();
+				break;
+			case 'onLeaveBack':
+				elem.classList.remove('is-in-view');
+				elemOutView();
+				break;
+			//case 'bg-custom':
+			//foldSwitch(theme, bg, txt, foldBG = null, foldColor = null);
+			//break;
+			default:
+		}
+	}
+}
 
-export { matchNav, animationOn, setFoldLegacy };
+export { matchNav, animationOn, setFoldLegacy, isElemInView };

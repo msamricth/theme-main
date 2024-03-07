@@ -190,3 +190,12 @@
         }
     }
 }
+.big-list-item {
+    border-bottom: 1px solid var(--bs-gray-700);
+    margin-bottom: 3.5rem;
+    svg {
+        path {
+            fill: currentColor;
+        }
+    }
+}

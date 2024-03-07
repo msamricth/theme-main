@@ -180,24 +180,30 @@ if (!function_exists('get_theme_head')) {
 }
 
 add_action('admin_footer', function () {
-	$post_id = get_the_ID() ? get_the_ID() : $_POST['post_id'];
-	$scheme = get_field('background_color', $post_id);
-	?>
-    <style>
-        <?php echo get_theme_head(); ?>
-    </style>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			setTimeout(
-				function () {
-					let editorWrapper = document.querySelector('.editor-styles-wrapper'),
-					editorInner = editorWrapper.querySelector('.block-editor-block-list__layout');
-					editorInner.classList.add('has-<?php echo $scheme; ?>-background-color');
-				}, 1000);
-		});
-	</script>
-	<?php
+    $current_screen = get_current_screen();
+    if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+        $post_id = get_the_ID() ? get_the_ID() : (isset($_POST['post_id']) ? $_POST['post_id'] : null);
+        if ($post_id) {
+            $scheme = get_field('background_color', $post_id);
+            ?>
+            <style>
+                <?php echo get_theme_head(); ?>
+            </style>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    setTimeout(
+                        function () {
+                            let editorWrapper = document.querySelector('.editor-styles-wrapper'),
+                                editorInner = editorWrapper.querySelector('.block-editor-block-list__layout');
+                            editorInner.classList.add('has-<?php echo $scheme; ?>-background-color');
+                        }, 1000);
+                });
+            </script>
+            <?php
+        }
+    }
 });
+
 // Hook the function to an action using its name without parentheses
 add_action('wp_enqueue_scripts', 'get_theme_head');
 if (!function_exists('bg_images')):
