@@ -135,7 +135,15 @@ function enqueue_splide_script_on_page()
         }
 
     }
+    if (!is_admin()) {
+        $blocks = parse_blocks($post->post_content);
 
+        foreach ($blocks as $block) {
+            if (has_block('acf/content-slider')) {
+                enqueue_splide_script();
+            }
+        }
+    }
 }
 // Hook the conditional script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
 add_action('wp_enqueue_scripts', 'enqueue_splide_script_on_page');

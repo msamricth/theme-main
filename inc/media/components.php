@@ -226,7 +226,7 @@ if (!function_exists('get_card_media')):
             case 'Icon':
                 // Code for Icon type media_icon
                 if (get_field('media_icon')) {
-                    $media = '<i class="'. get_field('media_icon') . ' fa-5x"></i>';
+                    $media = '<i class="' . get_field('media_icon') . ' fa-5x"></i>';
                 }
                 break;
 
@@ -418,6 +418,9 @@ if (!function_exists('theme_main_get_carousel')) {
         $options_gap = '';
         $slides = '';
         $videoRatio = '';
+        $options_arrows = '';
+        $positoning = '';
+        $positoningCS = '';
         $slideClasses = '';
         $finalContent = '';
         $type_color = '';
@@ -425,7 +428,7 @@ if (!function_exists('theme_main_get_carousel')) {
         if (have_rows('options')) {
             while (have_rows('options')) {
                 the_row();
-                $blockContent = '<div id="' . $blockID . '" class="splide"';
+                $blockContent = '<div id="' . $blockID . '" class="splide fold view-type"';
 
                 $options_type = get_sub_field('type');
                 $options_interval = get_sub_field('interval');
@@ -462,13 +465,14 @@ if (!function_exists('theme_main_get_carousel')) {
                 }
                 $options_scroll__drag = get_sub_field('scroll__drag');
                 $options_arrows = get_sub_field('arrows');
-
                 $options_same_height = get_sub_field('same_height');
                 $options_custom_height = get_sub_field('custom_height');
                 $options_per_move = get_sub_field('per_move');
-                $options_gap = get_sub_field('gap');
+                $options_per_move = get_sub_field('per_move');
+                $options_position = get_sub_field('positioning');
                 if ($options_position) {
-                    $classes .= 'd-flex justify-content-bottom ';
+                    //$classes .= 'd-flex justify-content-bottom ';
+                    $classes .= 'options-positioning ';
                 }
                 if (empty($options_gap)) {
                     $options_gap = '40';
@@ -493,6 +497,7 @@ if (!function_exists('theme_main_get_carousel')) {
                 $placement = get_sub_field('caption_placement');
                 if (get_sub_field('multiple_slides') == 1):
                     $blockContent .= theme_main_get_slides_options($options_same_height, $options_custom_height, $options_gap, $options_per_move, $multiple_slides) . ' ';
+
                 else:
                     //  $classes .= "full-width";
                 endif;
@@ -502,18 +507,35 @@ if (!function_exists('theme_main_get_carousel')) {
                 $blockContent .= ' data-arrows="' . $options_arrows . '">';
             }
         }
+        $slide_type = get_field('slide_type');
+        if (empty($slide_type)) {
+            $slide_type = 'related';
+        }
+        if ($slide_type == 'related') {
+            $slides .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
+        } else {
+            $slides .= theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses);
 
-        $slides .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
+        }
+        if (!empty($options_arrows)) {
+            if (!empty($options_position)) {
+                $blockContent .= '<div class="splide__arrows"><button class="splide__arrow splide__arrow--prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>';
+                $blockContent .= '<button class="splide__arrow splide__arrow--next"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div>';
+            }
 
-
+        }
         $blockContent .= '<div class="splide__track">';
-        $blockContent .= '<ul class="splide__list">';
-        $blockContent .= $slides;
-        $blockContent .= '</ul>';
-        $blockContent .= '</div>';
+        if ($slide_type == 'related') {
+            $blockContent .= '<ul class="splide__list">';
+            $blockContent .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
+            $blockContent .= '</ul>';
+        } else {
+            $blockContent .= theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses);
+        }
         $blockContent .= '</div>';
 
 
+        $blockContent .= '</div>';
         $finalContent .= '<div class="container__media ' . $classes . '">';
 
         $finalContent .= $blockContent;
@@ -694,10 +716,10 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
         $classes .= ""; // Add extra classes here.
         $slides = '';
+
         if (have_rows('slides')):
             while (have_rows('slides')):
                 the_row();
-
                 $type_color = get_header_gradient_type_color();
                 $inner_block_instance = '';
                 $inner_block_content = '';
@@ -792,6 +814,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
 
                                     $carousel_outside_slide_content .= $slideMedia;
                                     $carousel_outside_slide_content .= $inner_block_content;
+                                    $carousel_outside_slide_content .= $inner_block_instance;
                                     break;
                                 default:
                                     $carousel_inside_slide_content .= $inner_block_instance;
@@ -834,3 +857,21 @@ if (!function_exists('theme_main_get_carousel_slides')) {
         return $slides;
     }
 }
+
+//if (!function_exists('theme_main_get_gutenberg_slides')) {
+function theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses)
+{
+    $allowed_blocks = array(
+        'acf/content-slider-gutenberg-slide'
+    );
+    $template = array(
+        array(
+            'acf/content-slider-gutenberg-slide',
+            array()
+        )
+    );
+    return '<InnerBlocks class="splide__list" allowedBlocks="' .
+        esc_attr(wp_json_encode($allowed_blocks)) . '" template="' . esc_attr(wp_json_encode($template)) . '" />';
+
+}
+//}

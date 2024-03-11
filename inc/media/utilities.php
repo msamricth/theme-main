@@ -51,7 +51,6 @@ if (!function_exists('theme_main_limit_inner_blocks')):
     }
 endif;
 
-//if (function_exists('theme_main_get_slides_inner_block_template')) {
 function theme_main_get_slides_inner_block_template($related_content_title, $related_content_excerpt, $related_content_url, $related_content_placement, $related_content_position, $related_content_date = null)
 {
     $slideContent = '';
@@ -125,7 +124,6 @@ function theme_main_get_slides_inner_block_template($related_content_title, $rel
 
     return $inner_blocks_template;
 }
-//}
 
 
 if (function_exists('theme_main_get_slides_inner_block_basic_template')) {
@@ -177,7 +175,7 @@ if (function_exists('theme_main_get_slides_inner_block_basic_template')) {
 }
 
 
-if (function_exists('theme_main_get_slides_options')) {
+//if (function_exists('theme_main_get_slides_options')) {
     function theme_main_get_slides_options($options_same_height, $options_custom_height, $options_gap, $options_per_move, $multiple_slides)
     {
         $blockContent = '';
@@ -193,14 +191,14 @@ if (function_exists('theme_main_get_slides_options')) {
                 $blockContent .= ' data-s2400="' . get_sub_field('2400') . '"';
             endwhile;
         endif;
-        $blockContent .= ' ' . $options_same_height;
+        if ($options_same_height) { $blockContent .= ' ' . $options_same_height; }
         if ($options_custom_height) {
-            $blockContent .= ' data-custom_height="' . $options_custom_height . '"';
+            $blockContent .= ' data-custom_height="' . $options_custom_height . '" ';
         }
-        $blockContent .= 'data-multiple-slides=' . $multiple_slides . '" data-gap="' . $options_gap . '" ' . ' data-per_move="' . $options_per_move . '" ';
+        $blockContent .= 'data-multiple-slides="' . $multiple_slides . '" data-gap="' . $options_gap . '" ' . ' data-per_move="' . $options_per_move . '" ';
         return $blockContent;
     }
-}
+//}
 
 
 if (!function_exists('get_header_gradient_type_color')):

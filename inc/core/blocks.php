@@ -318,6 +318,7 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/stats');
     register_block_type(get_template_directory() . '/inc/blocks/half-screen');
     register_block_type(get_template_directory() . '/inc/blocks/content-loop');
+    register_block_type(get_template_directory() . '/inc/blocks/content-slider-gutenberg-slide');
     register_block_type(get_template_directory() . '/inc/blocks/logo-carousel');
     register_block_type(get_template_directory() . '/inc/blocks/staff-card');
     register_block_type(get_template_directory() . '/inc/blocks/accordion-or-tabs');

@@ -107,27 +107,26 @@ function selfHostedGSAP() {
             const videoTitle = video.getAttribute('data-videotitle');
             var sTIIV = ScrollTrigger.isInViewport(video),
                 sTPIV = ScrollTrigger.positionInViewport(video, "center").toFixed(2);
-
             ScrollTrigger.create({
                 trigger: video,
                 start: 'top 100%',
                 end: 'bottom 15%',
                 markers: videoMarker,
                 onEnter: () => (
-                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV)
+                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV), //player, video <- code debt
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV, video)
                 ),
                 onLeave: () => (
                     pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV)
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV, video)
                 ),
                 onLeaveBack: () => (
                     pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV)
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV, video)
                 ),
                 onEnterBack: () => (
                     playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV)
+                    loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV, video)
                 ),
                 //onUpdate: updateVideo()
             });

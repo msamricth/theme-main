@@ -229,6 +229,10 @@ header .navbar {
         transition: top .075s .075s ease-in, transform .075s 0s cubic-bezier(0.55, 0.055, 0.675, 0.19), -webkit-transform .075s 0s cubic-bezier(0.55, 0.055, 0.675, 0.19), background-color 0s .075s linear;
     }
 
+    .hamburger-inner {
+        transition: top 75ms ease-in 75ms,transform 75ms cubic-bezier(.55,.055,.675,.19) 0s,-webkit-transform 75ms cubic-bezier(.55,.055,.675,.19) 0s,background-color 0s linear 75ms;
+    }
+
     .navbar-nav {
         --bs-nav-link-color: var(--theme-main-nav-link-color);
     }

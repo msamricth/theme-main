@@ -14,7 +14,7 @@ function LazyLoad() {
 
                     entries.forEach(function (video) {
                         if (video.isIntersecting) {
-                            let source = null;
+                            let source = null, videoID = video.target.id, videoTitle = video.target.getAttribute('data-videotitle');
                             var videoSource = video.target.dataset.src;
                     
                             if (source) {
@@ -30,7 +30,8 @@ function LazyLoad() {
                                   source.setAttribute("type", "video/mp4");
                                   video.target.appendChild(source);
                                   
-                                  video.target.classList.add("first-load");
+                                  //video.target.classList.add("first-load");
+                                  pauseVideo(video.target, video.target, videoTitle, videoID,'','');
                             }
                         }
                     
@@ -226,7 +227,7 @@ function pauseVimeo(player, video) {
 
 function pauseVideo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = null) {
 
-    var playPromise = video.play();
+   // var playPromise = video.play();
 
     if (video.classList.contains('playing')) {
         if (playPromise !== undefined) {

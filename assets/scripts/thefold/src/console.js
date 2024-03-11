@@ -35,7 +35,7 @@ function foldDebug(action, color, elemID = null, elemClassList = null, topTA = n
 }
 
 
-function loadVideoErrorHandler(videoTitle, videoID, errorMessage=null, action=null, vaction=null, sTIIV=null, sTPIV=null) {
+function loadVideoErrorHandler(videoTitle, videoID, errorMessage=null, action=null, vaction=null, sTIIV=null, sTPIV=null, video = null) {
     if(debuglog){
         let handlerMessage = "Video Var Dump: ";
         if(errorMessage){
@@ -46,9 +46,25 @@ function loadVideoErrorHandler(videoTitle, videoID, errorMessage=null, action=nu
 
         if(vaction) handlerMessage = handlerMessage + ' - ' + vaction + '\n';
         if(action) handlerMessage = handlerMessage + ' - Action:' + action + '\n';
+
+        if(video){
+            let videoStatus,
+            isPlaying = video.currentTime > 0 && !video.paused && !video.ended
+            && video.readyState > video.HAVE_CURRENT_DATA;
+            if(video.paused){
+                videoStatus = "Video is Paused";
+            }
+            if (isPlaying) {
+                videoStatus = "Video is Playing";
+            }
+            handlerMessage = handlerMessage + ' - What this video is actually doing: ' + videoStatus + '\n';
+
+        }
+
         if(sTIIV) handlerMessage = handlerMessage + ' - Is video in viewport:' + sTIIV + '\n';
         if(sTPIV) handlerMessage = handlerMessage + ' - video|scroll position:' + sTPIV + '\n';
         if(errorMessage) handlerMessage = handlerMessage + ' - Error Message:' + errorMessage;
+       
 
         console.log(handlerMessage);
     }

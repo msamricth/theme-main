@@ -20,7 +20,7 @@ function get_slider() {
         if (slidrArrows == 'false') {
             slidrArrows = false;
         }
-
+        //let multipleSlides = 'false'; // tempoary until we finish addressing the php bug
         if (multipleSlides == 'false') {
             slideOptions = {
                 arrows: slidrArrows,
@@ -33,7 +33,7 @@ function get_slider() {
                 let slidrPerMoveDefault = 1;
                 slidrPerMove = slidrPerMove ? slidrPerMove : slidrPerMoveDefault;
 
-                slidrGap = parseInt(slidrGap);
+                //slidrGap = parseInt(slidrGap);
 
                 var $largePaging = 3,
                     $mediumPaging = 2,
@@ -188,6 +188,30 @@ function get_slider() {
             // Other initialization code
 
             splide.mount();
+
+            splide.on('moved', function () {
+                var activeSlide = splide.Components.Elements.slides[splide.index];
+
+                if (activeSlide) {
+                    if (slider.classList.contains('is-in-view')) {
+                        var classList = Array.from(activeSlide.classList);
+                        var backgroundColorClass = classList.find(function (className) {
+                            // return className.startsWith('has-') && className.endsWith('-background-color');
+                        });
+
+                        var textColorClass = classList.find(function (className) {
+                            return className.startsWith('has-') && className.endsWith('-color');
+                        });
+                        textColorClass = textColorClass ? textColorClass.replace(/^has-|-color$/g, '') : null;
+                        if (textColorClass) {
+                            header.style.setProperty('--theme-main-nav-link-color', 'var(--bs-' + textColorClass + ')');
+                            header.style.setProperty('--theme-main-navDdropdown-color', 'var(--bs-' + textColorClass + ')');
+                            slider.style.setProperty('--theme-main-arrow-color', 'var(--bs-' + textColorClass + ')');
+                        }
+                    }
+                }
+            });
+
         });
     }
 
