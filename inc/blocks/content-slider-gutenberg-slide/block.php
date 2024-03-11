@@ -46,8 +46,8 @@ endif;
     <?php
 
     // add template stuff here
-    $inner_blocks_template = '<InnerBlocks />';
-
+    // $inner_blocks_template = '<InnerBlocks />';
+    
     if ($related_content):
 
         //for a future update
@@ -55,6 +55,9 @@ endif;
         $related_content_url = get_permalink($related_content);
         $related_content_title = get_the_title($related_content);
         $related_content_excerpt = get_the_excerpt($related_content);
+        if(! empty($related_content_excerpt)){
+            $related_content_excerpt .='...';
+        }
         $related_content_date_posted = get_the_date('D, M j', $related_content) . '<span class="read-time"></span>';
 
         $template = array(
@@ -62,60 +65,40 @@ endif;
                 'core/heading',
                 array(
                     'level' => 4,
-                    'innerHTML' => $related_content_title
+                    'content' => $related_content_title
                 )
             ),
             array(
                 'core/paragraph',
                 array(
-                    'innerHTML' => $related_content_excerpt
+                    'content' => $related_content_excerpt
                 )
             ),
             array(
-                'core/buttons',
+                'core/button',
                 array(
-                    'className' => 'order-3 mt-auto mt-xl-0',
+                    'backgroundColor' => 'primary',
+                    'className' => 'btn-icon mt-auto mt-xl-0',
+                    'fontSize' => 'regular',
+                    'blockAnimation' => 'fade-in',
+                    'content' => $related_content_title . ' <i class="fa-solid ms-3 fa-chevron-right"></i>',
+                    'text' => $related_content_title . ' <i class="fa-solid ms-3 fa-chevron-right"></i>',
+                    'title' => $related_content_title . ' <i class="fa-solid ms-3 fa-chevron-right"></i>',
+                    'url' => $related_content_url,
                     'layout' => array(
                         'type' => 'flex',
                         'justifyContent' => 'left'
-                    ),
-                    'innerBlocks' => array(
-                        array(
-                            'core/button',
-                            array(
-                                'backgroundColor' => 'persuasion',
-                                'className' => 'btn-icon',
-                                'fontSize' => 'regular',
-                                'blockAnimation' => 'fade-in',
-                                'innerBlocks' => array(
-                                    array(
-                                        'core/button',
-                                        array(
-                                            'innerHTML' => array(
-                                                $related_content_title.' ',
-                                                array(
-                                                    'fa-solid/fa-chevron-right',
-                                                    array(
-                                                        'className' => 'ms-3'
-                                                    )
-                                                )
-                                            ),
-                                            'href' => $related_content_url
-                                        )
-                                    )
-                                )
-                            )
-                        )
                     )
+
                 )
             )
         );
-        
+
         $inner_blocks_template = '<InnerBlocks template="' . esc_attr(wp_json_encode($template)) . '" />';
 
 
         $related_content_post_type = get_post_type($related_content);
-    
+
         //end for a future update
     
 
@@ -151,7 +134,7 @@ endif;
                 //$inner_block_content .= '<div class="container">';
                 $instance_card = '<div class="card bg-transparent"><div class="row">';
                 //$instance_card_footer = '</div></div>';
-                $instance_card_footer = '</div>';
+                $instance_card_footer = '</div></div>';
 
                 $inner_block_instance = '<div class="carousel-block-editor-content carousel-captions">' . $inner_blocks_template . '</div>';
 
@@ -161,8 +144,8 @@ endif;
                         $carousel_inside_slide_content .= '<div class="row"><div class="col-dlg-4 order-2 order-dlg-1  carousel-captions--placement-left">';
                         $carousel_inside_slide_content .= $inner_block_instance;
                         $carousel_inside_slide_content .= '</div>';
-                       // $carousel_inside_slide_content .= '</div>';
-
+                        // $carousel_inside_slide_content .= '</div>';
+    
 
 
                         $carousel_outside_slide_content .= $inner_block_content;
@@ -178,7 +161,7 @@ endif;
                         $carousel_inside_slide_content .= $inner_block_instance;
                         $carousel_inside_slide_content .= '</div>';
                         //$carousel_inside_slide_content .= '</div>';
-
+    
                         $carousel_outside_slide_content .= $inner_block_content;
                         $carousel_outside_slide_content .= $instance_card;
                         $carousel_outside_slide_content .= '<div class="col-dlg-4 order-1 order-dlg-2 py-dlg-5 my-3xl-5 carousel-captions--placement-right card bg-transparent inner-card">' . $inner_blocks_template . '</div>';

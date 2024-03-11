@@ -101,7 +101,7 @@ function theme_main_get_slides_inner_block_template($related_content_title, $rel
             $slideContent .= '<h3 class="card-title">' . $related_content_title . '</h3>';
             $slideContent .= '<p class="card-text mt-3">' . $related_content_excerpt . '</p>';
             $slideContent .= '</div>';
-            $slideContent .= '<div class="card-footer bg-transparent text-left me-auto ms-0">';
+            $slideContent .= '<div class="card-footer bg-transparent text-left me-auto ms-0 ps-0">';
             $slideContent .= '<a href="' . $related_content_url . '" class="btn btn-primary">Learn More</a>';
             $slideContent .= '</div>';
 

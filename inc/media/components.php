@@ -733,6 +733,7 @@ if (!function_exists('theme_main_get_carousel_slides')) {
                     $related_content_url = get_permalink($related_content);
                     $related_content_title = get_the_title($related_content);
                     $related_content_excerpt = get_the_excerpt($related_content);
+                    if(! empty($related_content_excerpt)){$related_content_excerpt .= '...';}
                     $related_content_date_posted = get_the_date('D, M j', $related_content) . '<span class="read-time"></span>';
                     $featured_img_url = get_the_post_thumbnail_url($related_content, 'full');
                     $related_content_post_type = get_post_type($related_content);
