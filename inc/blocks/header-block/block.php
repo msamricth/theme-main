@@ -104,6 +104,7 @@ $inner_blocks_template = array(
                         'core/button',
                         array(
                             'placeholder' => 'Add a call to action',
+                            'backgroundColor' => 'primary',
                             "alignContent" => "right"
                         )
                     ),
