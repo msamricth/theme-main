@@ -38,7 +38,7 @@ $theme_ACFProCPTS = __DIR__ . '/acf/acf_cpts.php';
 //$theme_ACFProDIR  = __DIR__ . '/acf/';
 
 //if ( is_readable( $theme_ACFPUpgrades ) ) {	require_once $theme_ACFPUpgrades;}
-//if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
+if ( is_readable( $theme_ACFProFields ) ) {	require_once $theme_ACFProFields;}
 if ( is_readable( $theme_ACFProBlocks ) ) {	require_once $theme_ACFProBlocks;}
 if ( is_readable( $theme_ACFProCPTS ) ) {	require_once $theme_ACFProCPTS;}
 
