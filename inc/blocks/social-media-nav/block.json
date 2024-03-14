@@ -2,7 +2,7 @@
     "name": "acf/social-media-nav",
     "title": "Social Media Nav",
     "description": "A navigation list of your social media icons. (You can edit these links in your Theme Options Page.)",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "admin-users",
     "keywords": [
         "nav",

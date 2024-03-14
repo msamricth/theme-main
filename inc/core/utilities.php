@@ -639,3 +639,34 @@ if (!function_exists('theme_main_seperate_characters')) {
 		}
 	}
 }
+function filter_block_categories_when_post_provided( $block_categories, $editor_context ) {
+    if ( ! empty( $editor_context->post ) ) {
+        array_push(
+            $block_categories,
+            array(
+				'slug'  => 'theme-main',
+				'title' => __( 'Theme Main', 'Theme provided blocks' ),
+                'icon'  => null,
+            )
+        );
+    }
+    return $block_categories;
+}
+ 
+add_filter( 'block_categories_all', 'filter_block_categories_when_post_provided', 10, 2 );
+function custom_block_category( $categories ) {
+    $custom_block = array(
+		'slug'  => 'theme-main',
+		'title' => __( 'Theme Main', 'Theme provided blocks' ),
+    );
+
+    $categories_sorted = array();
+    $categories_sorted[0] = $custom_block;
+
+    foreach ($categories as $category) {
+        $categories_sorted[] = $category;
+    }
+
+    return $categories_sorted;
+}
+add_filter( 'block_categories', 'custom_block_category', 10, 2);

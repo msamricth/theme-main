@@ -529,6 +529,12 @@ if (!function_exists('theme_main_get_carousel')) {
             $blockContent .= '<ul class="splide__list">';
             $blockContent .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
             $blockContent .= '</ul>';
+
+            
+        } elseif ($slide_type == 'image-only') {
+            $blockContent .= '<ul class="splide__list">';
+            $blockContent .= theme_main_get_carousel_slideImages();
+            $blockContent .= '</ul>';
         } else {
             $blockContent .= theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses);
         }

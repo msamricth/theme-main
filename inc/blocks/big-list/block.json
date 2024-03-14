@@ -2,7 +2,7 @@
     "name": "acf/big-list",
     "title": "Big List",
     "description": "Big list of content",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "editor-ol",
     "keywords": ["link", "call to action", "content", "list"],
     "acf": {

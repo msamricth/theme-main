@@ -2,7 +2,7 @@
     "name": "acf/word-fumbler",
     "title": "Word Fumbler",
     "description": "A block that rotates between a  bunch of predefined terms",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "list-view",
     "keywords": ["content", "head", "animation", "word map", "words"],
     "acf": {

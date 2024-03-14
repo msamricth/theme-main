@@ -2,7 +2,7 @@
     "name": "acf/carousel-block",
     "title": "Carousel Block",
     "description": "Customizable Carousel Block",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "format-image",
     "keywords": ["Image", "media", "picture", "call to action", "slider", "carousel"],
     "acf": {

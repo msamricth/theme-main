@@ -2,7 +2,7 @@
     "name": "acf/content-slider",
     "title": "Content Slider",
     "description": "A carousel that displays selected posts, pages and other pieces of content",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "video-alt",
     "keywords": ["carousel", "content", "media", "Image", "picture", "slide", "slider"],
     "acf": {

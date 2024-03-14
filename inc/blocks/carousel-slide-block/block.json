@@ -2,7 +2,7 @@
     "name": "acf/carousel-slide-block",
     "title": "Carousel Slide Block",
     "description": "Slide Block for the Carousel Block",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "images-alt",
     "keywords": ["Image", "media", "picture", "call to action", "slider", "carousel", "slide", "individual"],
     "acf": {

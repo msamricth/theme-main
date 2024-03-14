@@ -2,7 +2,7 @@
     "name": "acf/card",
     "title": "Card",
     "description": "Theme Cards that you can use to display content with a image",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "format-aside",
     "keywords": ["content", "Image", "paragraph", "picture", "link", "icon"],
     "acf": {

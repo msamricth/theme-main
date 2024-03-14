@@ -2,7 +2,7 @@
     "name": "acf/content-loop",
     "title": "Content Loop",
     "description": "A loop of featured content",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "editor-strikethrough",
     "keywords": ["content", "picture", "link", "paragraph"],
     "acf": {

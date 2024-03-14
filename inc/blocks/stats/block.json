@@ -2,7 +2,7 @@
     "name": "acf/stats",
     "title": "Stats",
     "description": "A block for display statistics",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "chart-bar",
     "keywords": ["content", "graph", "stats", "statistics"],
     "acf": {

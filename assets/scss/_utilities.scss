@@ -50,6 +50,10 @@ $theme-main-nav-link-color: #{$body-color};
         --theme-main-gutter: #{$offsetWidthXXL} - #{$grid-gutter-width};
     }
 
+    @include media-breakpoint-up(2xl) {
+        --theme-main-container-max-width: calc(100% - (#{$offsetWidth2XL} * 2));
+        --theme-main-gutter: #{$offsetWidth2XL} - #{$grid-gutter-width};
+    }
     @include media-breakpoint-up(3xl) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidth3XL} * 2));
         --theme-main-gutter: #{$offsetWidth3XL} - #{$grid-gutter-width};

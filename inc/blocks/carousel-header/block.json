@@ -2,7 +2,7 @@
     "name": "acf/carousel-header",
     "title": "Carousel Header",
     "description": "Theme header block as a carousel",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "image-rotate-right",
     "keywords": ["content", "carousel", "picture", "media", "engagement", "call to action"],
     "acf": {

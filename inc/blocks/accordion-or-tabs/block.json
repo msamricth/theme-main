@@ -2,7 +2,7 @@
     "name": "acf/accordion-or-tabs",
     "title": "Accordion or Tabs",
     "description": "A block that allows you to display content in the form of Tabs or Accordions",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "list-view",
     "keywords": ["content", "menu", "engagement", "interaction", "Tabs", "Accordion"],
     "acf": {

@@ -2,7 +2,7 @@
     "name": "acf/header-block",
     "title": "Header Block",
     "description": "Theme header block",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "welcome-view-site",
     "keywords": ["head", "media", "header", "heading"],
     "acf": {

@@ -32,24 +32,6 @@ function theme_main_styles_loader()
 
 add_action('wp_enqueue_scripts', 'theme_main_styles_loader');
 
-function theme_main_scripts_loader()
-{
-    $theme_version = wp_get_theme()->get('Version');
-
-    wp_enqueue_script('main', get_template_directory_uri() . '/build/main.bundle.js', array(), $theme_version, true);
-
-    wp_localize_script(
-        'main',
-        'ajax_object',
-        array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'ajax_nonce' => wp_create_nonce('load_more_nonce'),
-        )
-    );
-
-}
-
-add_action('wp_enqueue_scripts', 'theme_main_scripts_loader', 100);
 
 add_filter('script_loader_tag', 'my_scripts_modifier', 10, 3);
 
@@ -135,16 +117,47 @@ function enqueue_splide_script_on_page()
         }
 
     }
-    if (!is_admin()) {
-        $blocks = parse_blocks($post->post_content);
 
-        foreach ($blocks as $block) {
-            if (has_block('acf/content-slider')) {
+}
+// Hook the conditional script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
+//add_action('wp_enqueue_scripts', 'enqueue_splide_script_on_page');
+add_action('enqueue_block_editor_assets', 'enqueue_splide_script_on_page');
+
+
+function theme_main_scripts_loader()
+{
+    $theme_version = wp_get_theme()->get('Version');
+
+    wp_enqueue_script('main', get_template_directory_uri() . '/build/main.bundle.js', array(), $theme_version, true);
+
+    wp_localize_script(
+        'main',
+        'ajax_object',
+        array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_nonce' => wp_create_nonce('load_more_nonce'),
+        )
+    );
+    //if (!is_admin()) {
+    global $post;
+    //if ($post) {
+    $blocks = parse_blocks($post->post_content);
+
+    foreach ($blocks as $block) {
+        if (has_block('acf/content-slider')) {
+            enqueue_splide_script();
+        }
+        if (has_block('acf/header-block')) {
+            $header_type = $block['attrs']['data']['header_type'];
+
+            if ($header_type == 'carousel') {
                 enqueue_splide_script();
             }
         }
     }
+    // }
+    //}
+
 }
-// Hook the conditional script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
-add_action('wp_enqueue_scripts', 'enqueue_splide_script_on_page');
-add_action('enqueue_block_editor_assets', 'enqueue_splide_script_on_page');
+
+add_action('wp_enqueue_scripts', 'theme_main_scripts_loader', 100);

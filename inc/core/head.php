@@ -135,11 +135,11 @@ if (!function_exists('get_theme_head')) {
                 $cssVariables .= get_theme_Colors_CSS_variables($extra_colors_color_label, $extra_colors_color);
                 $cssButtonVariables .= get_theme_Colors_Buttons($extra_colors_color_label, $extra_colors_color);
                 $cssButtonVariables .= '
-                    .has-' . $extra_colors_color_label . '-color {
-                        color: var(--wp--preset--color--' . $extra_colors_color_label . ');
-                    }
-                    .has-' . $extra_colors_color_label . '-background-color {
-                        background-color: var(--wp--preset--color--' . $extra_colors_color_label . ');
+                .has-' . $extra_colors_color_label . '-color {
+                    color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
+                }
+                .has-' . $extra_colors_color_label . '-background-color {
+                    background-color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
                     }
                 ';
             endwhile;
@@ -181,8 +181,8 @@ if (!function_exists('get_theme_head')) {
 
 add_action('admin_footer', function () {
     $current_screen = get_current_screen();
-    if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
-        $post_id = get_the_ID() ? get_the_ID() : (isset($_POST['post_id']) ? $_POST['post_id'] : null);
+    if (method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()) {
+        $post_id = get_the_ID() ? get_the_ID() : (isset ($_POST['post_id']) ? $_POST['post_id'] : null);
         if ($post_id) {
             $scheme = get_field('background_color', $post_id);
             ?>

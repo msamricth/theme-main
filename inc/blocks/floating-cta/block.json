@@ -2,7 +2,7 @@
     "name": "acf/floating-cta",
     "title": "Floating Call To Action ",
     "description": "Floating Call To Action - have a small sign up form or a button stick to the top",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "menu",
     "keywords": ["content", "navigation", "menu", "action", "call to action", "engagement", "interaction"],
     "acf": {

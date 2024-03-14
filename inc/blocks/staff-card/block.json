@@ -2,7 +2,7 @@
     "name": "acf/staff-card",
     "title": "Staff Card",
     "description": "A card for displaying information for a staff member",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "businessman",
     "keywords": ["card", "staff", "person", "picture", "leadership"],
     "acf": {

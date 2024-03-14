@@ -2,7 +2,7 @@
     "name": "acf/footer-nav",
     "title": "Footer Nav",
     "description": "Navigation that can be used in the footer",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "menu",
     "keywords": ["footer", "nav", "navigation", "menu", "link"],
     "acf": {

@@ -2,7 +2,7 @@
     "name": "acf/card-grid",
     "title": "Card Grid",
     "description": "A grid of card blocks",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "images-alt2",
     "keywords": ["Image", "content", "button", "paragraph", "action"],
     "acf": {

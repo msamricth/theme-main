@@ -2,7 +2,7 @@
     "name": "acf/contact-form-7",
     "title": "Contact Form 7 (theme version)",
     "description": "A block that bridges the connection between your theme and contact form 7",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "forms",
     "keywords": ["contact form 7", "form", "contact", "sign", "signup", "submission"],
     "acf": {

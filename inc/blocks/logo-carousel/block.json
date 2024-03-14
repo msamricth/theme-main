@@ -2,7 +2,7 @@
     "name": "acf/logo-carousel",
     "title": "Logo Carousel",
     "description": "A carousel with logos",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "exerpt-view",
     "keywords": ["Image", "flow", "carousel", "slider"],
     "acf": {

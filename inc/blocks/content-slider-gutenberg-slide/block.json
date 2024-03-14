@@ -2,7 +2,7 @@
     "name": "acf/content-slider-gutenberg-slide",
     "title": "Content Slider - Gutenberg slide",
     "description": "A carousel that displays selected posts, pages and other pieces of content",
-    "category": "Theme Main",
+    "category": "theme-main",
     "icon": "video-alt",
     "keywords": ["carousel", "content", "media", "Image", "picture", "slide", "slider"],
     "acf": {
