@@ -344,7 +344,7 @@ add_action( 'acf/include_fields', function() {
 							'id' => '',
 						),
 						'uploader' => '',
-						'return_format' => 'array',
+						'return_format' => 'id',
 						'acfe_thumbnail' => 0,
 						'acfe_settings' => '',
 						'acfe_validate' => '',

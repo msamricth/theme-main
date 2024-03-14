@@ -865,7 +865,6 @@ if (!function_exists('theme_main_get_carousel_slides')) {
     }
 }
 
-//if (!function_exists('theme_main_get_gutenberg_slides')) {
 function theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses)
 {
     $allowed_blocks = array(
@@ -881,4 +880,41 @@ function theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses)
         esc_attr(wp_json_encode($allowed_blocks)) . '" template="' . esc_attr(wp_json_encode($template)) . '" />';
 
 }
-//}
+if (!function_exists('theme_main_get_carousel_slideImages')) {
+
+    function theme_main_get_carousel_slideImages($slideClasses)
+    {
+        $slideMedia = '';
+        $slides = '';
+        if (have_rows('slides')):
+            while (have_rows('slides')):
+                the_row();
+                $slide_image = get_sub_field('slide_image');
+                if ($slide_image):
+                    $featured_img_url = wp_get_attachment_url($slide_image, 'full');
+                    if ($featured_img_url) {
+                         $alt_text = get_post_meta($slide_image, '_wp_attachment_image_alt', true);
+                        if (!empty($featured_img_url)) {
+                            if (!empty($alt_text)) {
+                                $alt_text = $alt_text;
+                            } else {
+                                $alt_text = __('no alt text set', 'themeMain');
+                            }
+                            $slides .= '<li class="splide__slide ' . $slideClasses . '">';
+
+                            $slideMedia .= '<img class="" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
+                            //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
+                            $slideMedia .= ' />';
+                           
+                            $slides .= $slideMedia;
+                            $slides .= '</li>';
+                        }
+                    }
+                endif;
+            endwhile;
+        else:
+            // No layouts found 
+        endif;
+        return $slides;
+    }
+}
