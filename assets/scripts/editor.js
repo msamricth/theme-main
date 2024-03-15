@@ -4,7 +4,7 @@ function editorStuff() {
 
         // Define an array of block names to remove
         const blocksToRemove = [
-            'core/image'
+     //       'core/image' Image block to be removed in version 3.
             // Add more block names here if needed
         ];
 
