@@ -1,6 +1,6 @@
 function get_slider() {
     function getSplideOptions(slider) {
-        let slidrGap = slider.hasAttribute('data-gap') ? parseInt(slider.getAttribute('data-gap')) : 40;
+        let slidrGap = slider.hasAttribute('data-gap') ? slider.getAttribute('data-gap') : '40px';
         let slidrDrag = slider.hasAttribute('data-drag') ? slider.getAttribute('data-drag') : null;
         let slidrPerMove = slider.hasAttribute('data-per_move') ? slider.getAttribute('data-per_move') : null;
         let ifCustomHeight = slider.hasAttribute('data-custom_height');
@@ -48,18 +48,20 @@ function get_slider() {
                 if (s2400) { } else { s2400 = $largePaging; }
                 var max = getMaxHeight('.splide__slide');
                 document.body.style.setProperty('--theme-main-carousel-height', max + 'px');
-
-                if (slidrGap == '') {
-                    slidrGap = 40;
-                }
                 if (ifSameHeight) {
+                    let smallHeight = '177px',
+                        smallMediumHeight = '405px',
+                        mediumHeight = '562px',
+                        largeHeight = '705px';
                     if (ifCustomHeight) {
                         const CustomHeight = slider.getAttribute('data-custom_height');
                         document.body.style.setProperty('--theme-main-carousel-height', CustomHeight / 2 + 'px');
                         document.body.style.setProperty('--theme-main-carousel-maxheight', CustomHeight + 'px');
+                        smallHeight = CustomHeight,
+                            smallMediumHeight = CustomHeight,
+                            mediumHeight = CustomHeight,
+                            largeHeight = CustomHeight;
                     }
-
-
 
                     slideOptions = {
                         arrows: slidrArrows,
@@ -70,26 +72,20 @@ function get_slider() {
                         mediaQuery: 'min',
                         breakpoints: {
                             1920: {
-                                padding: { left: 120, right: 120 },
-                                fixedHeight: '705px',
-                            },
-                            1440: {
-                                padding: { left: 120, right: 120 }
-                            },
-                            1290: {
-                                padding: { left: 120, right: 120 }
+                               // padding: { left: 120, right: 120 },
+                                fixedHeight: largeHeight,
                             },
                             1024: {
-                                padding: { left: 92, right: 92 },
-                                fixedHeight: '562px',
+                                //padding: { left: 92, right: 92 },
+                                fixedHeight: mediumHeight,
                             },
                             768: {
-                                padding: { left: 72, right: 76 },
-                                fixedHeight: '405px',
+                                //padding: { left: 72, right: 76 },
+                                fixedHeight: smallMediumHeight,
                             },
                             320: {
-                                padding: { left: 40, right: 77 },
-                                fixedHeight: '177px',
+                                //padding: { left: 40, right: 77 },
+                                fixedHeight: smallHeight,
                             }
                         }
                     };

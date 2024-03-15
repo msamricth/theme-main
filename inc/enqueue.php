@@ -142,16 +142,20 @@ function theme_main_scripts_loader()
     global $post;
     //if ($post) {
     $blocks = parse_blocks($post->post_content);
-
+    $blockCount = 1;
     foreach ($blocks as $block) {
-        if (has_block('acf/content-slider')) {
-            enqueue_splide_script();
-        }
-        if (has_block('acf/header-block')) {
-            $header_type = $block['attrs']['data']['header_type'];
-
-            if ($header_type == 'carousel') {
+        if ($blockCount == 1) {
+            if (has_block('acf/content-slider')) {
                 enqueue_splide_script();
+                $blockCount = 2;
+            }
+            if (has_block('acf/header-block')) {
+                $header_type = $block['attrs']['data']['header_type'];
+
+                if ($header_type == 'carousel') {
+                    enqueue_splide_script();
+                    $blockCount = 2;
+                }
             }
         }
     }

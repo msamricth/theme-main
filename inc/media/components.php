@@ -511,12 +511,7 @@ if (!function_exists('theme_main_get_carousel')) {
         if (empty($slide_type)) {
             $slide_type = 'related';
         }
-        if ($slide_type == 'related') {
-            $slides .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
-        } else {
-            $slides .= theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses);
-
-        }
+      
         if (!empty($options_arrows)) {
             if (!empty($options_position)) {
                 $blockContent .= '<div class="splide__arrows"><button class="splide__arrow splide__arrow--prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>';
@@ -530,10 +525,10 @@ if (!function_exists('theme_main_get_carousel')) {
             $blockContent .= theme_main_get_carousel_slides($positoning, $placement, $slideClasses);
             $blockContent .= '</ul>';
 
-            
+
         } elseif ($slide_type == 'image-only') {
             $blockContent .= '<ul class="splide__list">';
-            $blockContent .= theme_main_get_carousel_slideImages();
+            $blockContent .= theme_main_get_carousel_slideImages($slideClasses);
             $blockContent .= '</ul>';
         } else {
             $blockContent .= theme_main_get_gutenberg_slides($positoning, $placement, $slideClasses);
@@ -739,7 +734,9 @@ if (!function_exists('theme_main_get_carousel_slides')) {
                     $related_content_url = get_permalink($related_content);
                     $related_content_title = get_the_title($related_content);
                     $related_content_excerpt = get_the_excerpt($related_content);
-                    if(! empty($related_content_excerpt)){$related_content_excerpt .= '...';}
+                    if (!empty($related_content_excerpt)) {
+                        $related_content_excerpt .= '...';
+                    }
                     $related_content_date_posted = get_the_date('D, M j', $related_content) . '<span class="read-time"></span>';
                     $featured_img_url = get_the_post_thumbnail_url($related_content, 'full');
                     $related_content_post_type = get_post_type($related_content);
@@ -884,36 +881,34 @@ if (!function_exists('theme_main_get_carousel_slideImages')) {
 
     function theme_main_get_carousel_slideImages($slideClasses)
     {
-        $slideMedia = '';
-        $slides = '';
-        if (have_rows('slides')):
-            while (have_rows('slides')):
-                the_row();
-                $slide_image = get_sub_field('slide_image');
-                if ($slide_image):
-                    $featured_img_url = wp_get_attachment_url($slide_image, 'full');
-                    if ($featured_img_url) {
-                         $alt_text = get_post_meta($slide_image, '_wp_attachment_image_alt', true);
-                        if (!empty($featured_img_url)) {
-                            if (!empty($alt_text)) {
-                                $alt_text = $alt_text;
-                            } else {
-                                $alt_text = __('no alt text set', 'themeMain');
-                            }
-                            $slides .= '<li class="splide__slide ' . $slideClasses . '">';
 
-                            $slideMedia .= '<img class="" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
-                            //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
-                            $slideMedia .= ' />';
-                           
-                            $slides .= $slideMedia;
-                            $slides .= '</li>';
+        $slides = '';
+        $slide_image_ids = get_field('slide_image');
+        $size = 'full';
+        if ($slide_image_ids):
+            foreach ($slide_image_ids as $slide_image):
+                $slideMedia = '';
+                $featured_img_url = wp_get_attachment_url($slide_image, $size);
+                if ($featured_img_url) {
+                    $alt_text = get_post_meta($slide_image, '_wp_attachment_image_alt', true);
+                    if (!empty($featured_img_url)) {
+                        if (!empty($alt_text)) {
+                            $alt_text = $alt_text;
+                        } else {
+                            $alt_text = __('no alt text set', 'themeMain');
                         }
+                        $slides .= '<li class="splide__slide ' . $slideClasses . '">';
+
+                        $slideMedia = '<img class="" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
+                        //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
+                        $slideMedia .= ' />';
+
+                        $slides .= $slideMedia;
+                        $slides .= '</li>';
                     }
-                endif;
-            endwhile;
-        else:
-            // No layouts found 
+                }
+
+            endforeach;
         endif;
         return $slides;
     }

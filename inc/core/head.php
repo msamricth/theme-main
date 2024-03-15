@@ -130,18 +130,20 @@ if (!function_exists('get_theme_head')) {
                 the_row();
                 $extra_colors_color_label = get_sub_field('color_label');
                 $extra_colors_color = get_sub_field('color');
-                $extra_colors_color_label = slugify($extra_colors_color_label);
+                if (isset($extra_colors_color_label) && isset($extra_colors_color)) {
+                    $extra_colors_color_label = slugify($extra_colors_color_label);
 
-                $cssVariables .= get_theme_Colors_CSS_variables($extra_colors_color_label, $extra_colors_color);
-                $cssButtonVariables .= get_theme_Colors_Buttons($extra_colors_color_label, $extra_colors_color);
-                $cssButtonVariables .= '
-                .has-' . $extra_colors_color_label . '-color {
-                    color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
-                }
-                .has-' . $extra_colors_color_label . '-background-color {
-                    background-color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
+                    $cssVariables .= get_theme_Colors_CSS_variables($extra_colors_color_label, $extra_colors_color);
+                    $cssButtonVariables .= get_theme_Colors_Buttons($extra_colors_color_label, $extra_colors_color);
+                    $cssButtonVariables .= '
+                    .has-' . $extra_colors_color_label . '-color {
+                        color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
                     }
-                ';
+                    .has-' . $extra_colors_color_label . '-background-color {
+                        background-color: var(--wp--preset--color--' . $extra_colors_color_label . ') !important;
+                        }
+                    ';
+                }
             endwhile;
         endif;
 

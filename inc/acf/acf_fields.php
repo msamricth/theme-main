@@ -282,6 +282,45 @@ add_action( 'acf/include_fields', function() {
 				'search_placeholder' => '',
 			),
 			array(
+				'key' => 'field_65f3199d644c1',
+				'label' => 'Slide Image',
+				'name' => 'slide_image',
+				'aria-label' => '',
+				'type' => 'gallery',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_65ea750b22c03',
+							'operator' => '==',
+							'value' => 'image-only',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'return_format' => 'id',
+				'library' => 'all',
+				'acfe_settings' => '',
+				'acfe_validate' => '',
+				'min' => '',
+				'max' => '',
+				'min_width' => '',
+				'min_height' => '',
+				'min_size' => '',
+				'max_width' => '',
+				'max_height' => '',
+				'max_size' => '',
+				'mime_types' => '',
+				'acfe_permissions' => '',
+				'insert' => 'append',
+				'preview_size' => 'medium',
+			),
+			array(
 				'key' => 'field_65b055ca84d0a',
 				'label' => 'Slides',
 				'name' => 'slides',
@@ -295,13 +334,6 @@ add_action( 'acf/include_fields', function() {
 							'field' => 'field_65ea750b22c03',
 							'operator' => '==',
 							'value' => 'related',
-						),
-					),
-					array(
-						array(
-							'field' => 'field_65ea750b22c03',
-							'operator' => '==',
-							'value' => 'image-only',
 						),
 					),
 				),
@@ -321,45 +353,6 @@ add_action( 'acf/include_fields', function() {
 				'button_label' => 'Add a slide',
 				'rows_per_page' => 20,
 				'sub_fields' => array(
-					array(
-						'key' => 'field_65f3199d644c1',
-						'label' => 'Slide Image',
-						'name' => 'slide_image',
-						'aria-label' => '',
-						'type' => 'image',
-						'instructions' => '',
-						'required' => 0,
-						'conditional_logic' => array(
-							array(
-								array(
-									'field' => 'field_65ea750b22c03',
-									'operator' => '==',
-									'value' => 'image-only',
-								),
-							),
-						),
-						'wrapper' => array(
-							'width' => '',
-							'class' => '',
-							'id' => '',
-						),
-						'uploader' => '',
-						'return_format' => 'id',
-						'acfe_thumbnail' => 0,
-						'acfe_settings' => '',
-						'acfe_validate' => '',
-						'min_width' => '',
-						'min_height' => '',
-						'min_size' => '',
-						'max_width' => '',
-						'max_height' => '',
-						'max_size' => '',
-						'mime_types' => '',
-						'acfe_permissions' => '',
-						'preview_size' => 'medium',
-						'library' => 'all',
-						'parent_repeater' => 'field_65b055ca84d0a',
-					),
 					array(
 						'key' => 'field_65aefc678ec70',
 						'label' => 'Related Page or Post on this site',
@@ -7551,7 +7544,7 @@ add_action( 'acf/include_fields', function() {
 						'aria-label' => '',
 						'type' => 'text',
 						'instructions' => '',
-						'required' => 0,
+						'required' => 1,
 						'conditional_logic' => 0,
 						'wrapper' => array(
 							'width' => '',
@@ -7572,7 +7565,7 @@ add_action( 'acf/include_fields', function() {
 						'aria-label' => '',
 						'type' => 'color_picker',
 						'instructions' => '',
-						'required' => 0,
+						'required' => 1,
 						'conditional_logic' => 0,
 						'wrapper' => array(
 							'width' => '',
@@ -8785,7 +8778,7 @@ add_action( 'acf/include_fields', function() {
 				array(
 					'param' => 'post',
 					'operator' => '==',
-					'value' => '5182',
+					'value' => '747',
 				),
 			),
 		),
@@ -9200,5 +9193,4 @@ add_action( 'acf/include_fields', function() {
 		'acfe_note' => '',
 	) );
 } );
-
 

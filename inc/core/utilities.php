@@ -10,23 +10,40 @@
 
 /** PHP color stuff - trying to take it easy on browser side JS */
 if (!function_exists('HTMLToRGB')):
-	function HTMLToRGB($htmlCode)
-	{
-		if ($htmlCode[0] == '#')
-			$htmlCode = substr($htmlCode, 1);
+    function HTMLToRGB($htmlCode)
+    {
+		if (isset($htmlCode)) {
+			if (is_string($htmlCode) && !empty($htmlCode)) {
+				if ($htmlCode[0] == '#') {
+					$htmlCode = substr($htmlCode, 1);
+				}
 
-		if (strlen($htmlCode) == 3) {
-			$htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
+				if (strlen($htmlCode) == 3) {
+					$htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
+				}
+
+				if (strlen($htmlCode) == 6) { // Ensure the string has correct length after modifications
+					$r = hexdec($htmlCode[0] . $htmlCode[1]);
+					$g = hexdec($htmlCode[2] . $htmlCode[3]);
+					$b = hexdec($htmlCode[4] . $htmlCode[5]);
+
+					$srftidu = $b + ($g << 0x8) + ($r << 0x10);
+					return $r . ', ' . $g . ', ' . $b;
+				}
+			} else {
+				return 'error utitlities line-34 '.$htmlCode; // so we can figure out what it is.
+			}
+        } else {
+        
+			// Return default values if input is invalid or empty
+			$r = 'cant';
+			$g = 'find';
+			$b = 'hexcode';
+			return $r . ', ' . $g . ', ' . $b;
 		}
-
-		$r = hexdec($htmlCode[0] . $htmlCode[1]);
-		$g = hexdec($htmlCode[2] . $htmlCode[3]);
-		$b = hexdec($htmlCode[4] . $htmlCode[5]);
-
-		$srftidu = $b + ($g << 0x8) + ($r << 0x10);
-		return $r . ', ' . $g . ', ' . $b;
-	}
+    }
 endif;
+
 function adjustBrightness($hexCode, $adjustPercent)
 {
 	$hexCode = ltrim($hexCode, '#');
@@ -49,19 +66,26 @@ function adjustBrightness($hexCode, $adjustPercent)
 if (!function_exists('HTMLToRGBforComparison')):
 	function HTMLToRGBforComparison($htmlCode)
 	{
-		if ($htmlCode[0] == '#')
-			$htmlCode = substr($htmlCode, 1);
+		if (isset($htmlCode)) {
+			if ($htmlCode[0] == '#')
+				$htmlCode = substr($htmlCode, 1);
 
-		if (strlen($htmlCode) == 3) {
-			$htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
+			if (strlen($htmlCode) == 3) {
+				$htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
+			}
+
+			$r = hexdec($htmlCode[0] . $htmlCode[1]);
+			$g = hexdec($htmlCode[2] . $htmlCode[3]);
+			$b = hexdec($htmlCode[4] . $htmlCode[5]);
+
+			$srftidu = $b + ($g << 0x8) + ($r << 0x10);
+			return $b + ($g << 0x8) + ($r << 0x10);
+		} else {
+			$r = 'cant';
+			$g = 'find';
+			$b = 'hexcode';
+			return $r . ' ' . $g . ' ' . $b;
 		}
-
-		$r = hexdec($htmlCode[0] . $htmlCode[1]);
-		$g = hexdec($htmlCode[2] . $htmlCode[3]);
-		$b = hexdec($htmlCode[4] . $htmlCode[5]);
-
-		$srftidu = $b + ($g << 0x8) + ($r << 0x10);
-		return $b + ($g << 0x8) + ($r << 0x10);
 	}
 endif;
 
@@ -625,48 +649,50 @@ if (!function_exists('theme_main_duplicate_post')) {
 if (!function_exists('theme_main_seperate_characters')) {
 	function theme_main_seperate_characters($inputString)
 	{
-	    // Check if the input string is null or empty
+		// Check if the input string is null or empty
 		//if ($inputString === null || $inputString === '') {
-			//return;
+		//return;
 		//}
-	
+
 		// Split the input string into an array of characters
 		$characters = preg_split('/(?<!^)(?!$)/u', $inputString);
-	
+
 		// Print each character wrapped in a <span>
 		foreach ($characters as $character) {
 			echo "<span>$character</span>";
 		}
 	}
 }
-function filter_block_categories_when_post_provided( $block_categories, $editor_context ) {
-    if ( ! empty( $editor_context->post ) ) {
-        array_push(
-            $block_categories,
-            array(
-				'slug'  => 'theme-main',
-				'title' => __( 'Theme Main', 'Theme provided blocks' ),
-                'icon'  => null,
-            )
-        );
-    }
-    return $block_categories;
+function filter_block_categories_when_post_provided($block_categories, $editor_context)
+{
+	if (!empty($editor_context->post)) {
+		array_push(
+			$block_categories,
+			array(
+				'slug' => 'theme-main',
+				'title' => __('Theme Main', 'Theme provided blocks'),
+				'icon' => null,
+			)
+		);
+	}
+	return $block_categories;
 }
- 
-add_filter( 'block_categories_all', 'filter_block_categories_when_post_provided', 10, 2 );
-function custom_block_category( $categories ) {
-    $custom_block = array(
-		'slug'  => 'theme-main',
-		'title' => __( 'Theme Main', 'Theme provided blocks' ),
-    );
 
-    $categories_sorted = array();
-    $categories_sorted[0] = $custom_block;
+add_filter('block_categories_all', 'filter_block_categories_when_post_provided', 10, 2);
+function custom_block_category($categories)
+{
+	$custom_block = array(
+		'slug' => 'theme-main',
+		'title' => __('Theme Main', 'Theme provided blocks'),
+	);
 
-    foreach ($categories as $category) {
-        $categories_sorted[] = $category;
-    }
+	$categories_sorted = array();
+	$categories_sorted[0] = $custom_block;
 
-    return $categories_sorted;
+	foreach ($categories as $category) {
+		$categories_sorted[] = $category;
+	}
+
+	return $categories_sorted;
 }
-add_filter( 'block_categories', 'custom_block_category', 10, 2);
+add_filter('block_categories', 'custom_block_category', 10, 2);
