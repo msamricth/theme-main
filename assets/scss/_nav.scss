@@ -3,9 +3,7 @@ $hamburger-padding-y : 10px !default;
 // Import Hamburgers
 @import "../../node_modules/hamburgers/_sass/hamburgers/hamburgers";
 
-// Define variables
-$navTransitionDuration: 0.6s;
-$navDropdownTransitionDuration: 0.25s;
+
 
 // Header Navbar Styles
 header .navbar {

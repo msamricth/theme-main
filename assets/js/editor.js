@@ -6,9 +6,14 @@ import { get_slider } from '../scripts/carousel.js';
 import { get_wordfumbler } from '../scripts/blocks';
 import { get_stats } from '../scripts/content.js';
 import { forms } from '../scripts/forms.js';
+import { editorStuff } from '../scripts/editor.js'
+
+
+
 import '../scripts/final';
 
 document.addEventListener('DOMContentLoaded', function () {
+    editorStuff();
     setTimeout(
         function () {
             editorFold();

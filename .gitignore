@@ -7,3 +7,7 @@ node_modules/
 *.sql
 *.sqlite
 .vscode/
+
+#ignore acf pro
+inc/acf/plugin
+/inc/acf/plugin

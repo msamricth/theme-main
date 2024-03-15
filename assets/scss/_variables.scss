@@ -58,7 +58,6 @@ $theme-colors: (
   "light":      $light,
   "dark":       $dark
 );
-
 $nav-link-transition:               opacity .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
 
 // Fonts
@@ -69,3 +68,7 @@ $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mon
 $font-family-base: $font-family-sans-serif;
 $enable-negative-margins: true !default;
 $link-decoration: none;
+
+
+$navTransitionDuration: 0.6s;
+$navDropdownTransitionDuration: 0.25s;

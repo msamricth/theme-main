@@ -325,6 +325,7 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/word-fumbler');
     register_block_type(get_template_directory() . '/inc/blocks/big-list');
     register_block_type(get_template_directory() . '/inc/blocks/big-list-item');
+    register_block_type(get_template_directory() . '/inc/blocks/image');
 
     if (class_exists('WPCF7')) {
         register_block_type(get_template_directory() . '/inc/blocks/contact-form-7');
