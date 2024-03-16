@@ -102,10 +102,10 @@ function enqueue_splide_script_on_page()
     global $post;
 
     // Check if the function is called and if it's in the block editor
-    if (function_exists('theme_main_get_legacy_carousel') && (is_admin() || (isset($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_legacy_carousel')))) {
+    if (function_exists('theme_main_get_legacy_carousel') && (is_admin() || (isset ($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_legacy_carousel')))) {
         enqueue_splide_script();
     } else {
-        if (function_exists('theme_main_get_carousel') && (is_admin() || (isset($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_carousel')))) {
+        if (function_exists('theme_main_get_carousel') && (is_admin() || (isset ($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_carousel')))) {
 
             wp_enqueue_script('jQuery', 'https://code.jquery.com/jquery-3.7.1.min.js', array('jquery'), null, true);
 
@@ -142,26 +142,21 @@ function theme_main_scripts_loader()
     global $post;
     //if ($post) {
     $blocks = parse_blocks($post->post_content);
-    $blockCount = 1;
+    $loadSplide = false;
     foreach ($blocks as $block) {
-        if ($blockCount == 1) {
-            if (has_block('acf/content-slider')) {
-                enqueue_splide_script();
-                $blockCount = 2;
-            }
-            if (has_block('acf/header-block')) {
-                $header_type = $block['attrs']['data']['header_type'];
-
-                if ($header_type == 'carousel') {
-                    enqueue_splide_script();
-                    $blockCount = 2;
-                }
+        if (has_block('acf/content-slider')) {
+            $loadSplide = true;
+        }
+        if (has_block('acf/header-block') && isset($block['attrs']['data']) && isset($block['attrs']['data']['header_type'])) {
+            $header_type = $block['attrs']['data']['header_type'];
+            if ($header_type == 'carousel') {
+                $loadSplide = true;
             }
         }
     }
-    // }
-    //}
-
+    if ($loadSplide) {
+        enqueue_splide_script();
+    }
 }
 
 add_action('wp_enqueue_scripts', 'theme_main_scripts_loader', 100);

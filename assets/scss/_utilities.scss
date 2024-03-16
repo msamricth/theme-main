@@ -161,6 +161,7 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     min-height: 100vh;
 }
 .wp-admin .editor-styles-wrapper {
+    --theme-main-gutter-x: 30px !important;
     .acf-block-component.acf-block-body.acf-block-preview .splide {
         visibility: visible;
     }

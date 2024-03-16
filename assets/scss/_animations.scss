@@ -15,8 +15,8 @@
   &.fade-in-delay {}
 
   &.slide-up {
-    -webkit-animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) both;
-    animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) both
+    -webkit-animation: slide-in-bottom .95s cubic-bezier(.25, .46, .45, .94) both;
+    animation: slide-in-bottom .95s cubic-bezier(.25, .46, .45, .94) both
   }
 
   &.bounce-in {
@@ -239,8 +239,8 @@
 
 @-webkit-keyframes slide-in-bottom {
   0% {
-    -webkit-transform: translateY(1000px);
-    transform: translateY(1000px);
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
     opacity: 0
   }
 
@@ -253,8 +253,8 @@
 
 @keyframes slide-in-bottom {
   0% {
-    -webkit-transform: translateY(1000px);
-    transform: translateY(1000px);
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
     opacity: 0
   }
 

@@ -1,10 +1,10 @@
 {
-    "name": "acf/image",
-    "title": "Image",
-    "description": "Replaces the native gutenberg image block.",
+    "name": "acf/icon",
+    "title": "Icon",
+    "description": "Add a Font Awesome Icon to your content",
     "category": "theme-main",
-    "icon": "image-crop",
-    "keywords": ["Image", "media"],
+    "icon": "info",
+    "keywords": ["icon", "Image", "font awesome"],
     "acf": {
         "mode": "edit",
         "renderTemplate": "block.php"

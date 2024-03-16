@@ -331,7 +331,7 @@ if (!function_exists('backgroundVideo')):
         if ($mute == 1) {
             $ratio .= ' mute-controls';
         }
-        $embed .= '<div class="ratio supply-video ' . $ratio . '">';
+        $embed .= '<div class="ratio theme-main-video ' . $ratio . '">';
 
         if ($mute == 1) {
             $embed .= muteBTN($darkMode);

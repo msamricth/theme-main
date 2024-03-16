@@ -54,8 +54,6 @@ if ($header_type === "Image" || $header_type === "Video" ) {
     $header_media = get_header_media();
 }
 
-
-$classes .= $header_type;
 $inner_blocks_template = array(
     array(
         'core/columns',
@@ -113,6 +111,44 @@ $inner_blocks_template = array(
         ),
     ),
 );
+
+$classes .= $header_type;
+if(get_post_type( get_theme_main_postID() ) == 'post' ){
+    $inner_blocks_template = array(
+        array(
+            'core/columns',
+            array(
+                'verticalAlignment' => 'bottom',
+                'style'             => array(
+                    'spacing' => array(
+                        'padding' => array(
+                            'top'    => 'var:preset|spacing|30',
+                            'right'  => 'var:preset|spacing|30',
+                            'bottom' => 'var:preset|spacing|30',
+                            'left'   => 'var:preset|spacing|30',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'core/column',
+                    array(
+                        'verticalAlignment' => 'bottom',
+                        'width'             => '',
+                    ),
+                    array(
+                        array(
+                            'core/post-title',
+                            array(
+                            )
+                        )
+                    ),
+                ),
+            ),
+        ),
+    );
+}
 
 
 

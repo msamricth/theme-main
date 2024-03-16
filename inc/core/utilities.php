@@ -10,10 +10,10 @@
 
 /** PHP color stuff - trying to take it easy on browser side JS */
 if (!function_exists('HTMLToRGB')):
-    function HTMLToRGB($htmlCode)
-    {
-		if (isset($htmlCode)) {
-			if (is_string($htmlCode) && !empty($htmlCode)) {
+	function HTMLToRGB($htmlCode)
+	{
+		if (isset ($htmlCode)) {
+			if (is_string($htmlCode) && !empty ($htmlCode)) {
 				if ($htmlCode[0] == '#') {
 					$htmlCode = substr($htmlCode, 1);
 				}
@@ -31,17 +31,17 @@ if (!function_exists('HTMLToRGB')):
 					return $r . ', ' . $g . ', ' . $b;
 				}
 			} else {
-				return 'error utitlities line-34 '.$htmlCode; // so we can figure out what it is.
+				return 'error utitlities line-34 ' . $htmlCode; // so we can figure out what it is.
 			}
-        } else {
-        
+		} else {
+
 			// Return default values if input is invalid or empty
 			$r = 'cant';
 			$g = 'find';
 			$b = 'hexcode';
 			return $r . ', ' . $g . ', ' . $b;
 		}
-    }
+	}
 endif;
 
 function adjustBrightness($hexCode, $adjustPercent)
@@ -66,7 +66,7 @@ function adjustBrightness($hexCode, $adjustPercent)
 if (!function_exists('HTMLToRGBforComparison')):
 	function HTMLToRGBforComparison($htmlCode)
 	{
-		if (isset($htmlCode)) {
+		if (isset ($htmlCode)) {
 			if ($htmlCode[0] == '#')
 				$htmlCode = substr($htmlCode, 1);
 
@@ -142,7 +142,7 @@ if (!function_exists('get_match_nav')):
 	 */
 	function get_match_nav($custom = null)
 	{
-		if (isset($custom)) {
+		if (isset ($custom)) {
 			$scheme = $custom;
 		} else {
 			$scheme = get_field('background_color', get_theme_main_postID());
@@ -165,7 +165,7 @@ if (!function_exists('get_scheme')):
 	 */
 	function get_scheme($custom = null)
 	{
-		if (isset($custom)) {
+		if (isset ($custom)) {
 			$scheme = $custom;
 		} else {
 			$scheme = get_field('background_color', get_theme_main_postID());
@@ -188,15 +188,15 @@ if (!function_exists('get_scheme_new')):
 	function get_scheme_new($custom = null, $postID = null)
 	{
 
-		if (empty($postID)) {
+		if (empty ($postID)) {
 			$postID = get_theme_main_postID();
 		}
-		if (isset($custom)) {
+		if (isset ($custom)) {
 			$scheme = $custom;
 		} else {
 			$scheme = get_field('background_color', $postID);
 		}
-		if (empty($scheme)) {
+		if (empty ($scheme)) {
 			$scheme = 'light';
 		}
 		return $scheme;
@@ -302,7 +302,36 @@ if (!function_exists('theme_main_load_more_posts')) {
 	add_action('wp_ajax_load_more_posts', 'theme_main_load_more_posts');
 	add_action('wp_ajax_nopriv_load_more_posts', 'theme_main_load_more_posts');
 }
+if (!function_exists('theme_main_get_ratio')):
+	/**
+	 * "Theme posted on" pattern.
+	 *
+	 * @since v1.7
+	 */
 
+	function theme_main_get_ratio($content, $ratio, $extras = null)
+	{
+		enqueue_header_markup(customRatio($ratio));
+		$classes = ' ratio-' . $ratio;
+		return '<div class="ratio '.$classes.'>'.$content.'</div>';
+
+	}
+endif;
+
+if (!function_exists('theme_main_get_block_ratio')):
+	/**
+	 *
+	 * @since v1.7
+	 */
+
+	function theme_main_get_block_ratio($content, $ratio, $block, $blockID, $classes)
+	{
+		enqueue_header_markup(customRatio($ratio));
+		$classes .= 'ratio ratio-' . $ratio;
+		return '<div '.get_block_settings($block, $blockID, $classes).'>'.$content.'</div>';
+
+	}
+endif;
 
 
 if (!function_exists('customRatio')):
@@ -332,8 +361,8 @@ if (!function_exists('customRatio')):
 				}
 			}
 			if ($ratiomatches) {
-				if (empty($ratioWidth)) {
-					if (empty($ratioHeight)) {
+				if (empty ($ratioWidth)) {
+					if (empty ($ratioHeight)) {
 						if (strpos($ratio, '.') !== false) {
 							list($ratioWidth, $ratioHeight) = preg_split("/x/", $ratio);
 							$ratioWidth = preg_replace("/[^0-9\.]/", '', $ratioWidth);
@@ -412,7 +441,7 @@ function is_blog()
 	global $post;
 	$posttype = get_post_type($post);
 
-	return((is_archive() || is_author() || is_category() || is_home() || is_single() || (is_tag() && ('post' === $posttype))) ? true : false);
+	return ((is_archive() || is_author() || is_category() || is_home() || is_single() || (is_tag() && ('post' === $posttype))) ? true : false);
 }
 
 /**
@@ -561,7 +590,7 @@ if (!function_exists('theme_main_article_posted_on')) {
 function theme_main_password_form()
 {
 	global $post;
-	$label = 'pwbox-' . (empty($post->ID) ? rand() : $post->ID);
+	$label = 'pwbox-' . (empty ($post->ID) ? rand() : $post->ID);
 
 	$output = '<div class="row">';
 	$output .= '<form action="' . esc_url(site_url('wp-login.php?action=postpass', 'login_post')) . '" method="post">';
@@ -601,7 +630,7 @@ if (!function_exists('theme_main_duplicate_post')) {
 	function theme_main_duplicate_post()
 	{
 		// Check for nonce security
-		if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'theme_main_duplicate_post_nonce')) {
+		if (!isset ($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'theme_main_duplicate_post_nonce')) {
 			return;
 		}
 
@@ -611,9 +640,9 @@ if (!function_exists('theme_main_duplicate_post')) {
 		}
 
 		// Get the original post ID
-		$post_id = (isset($_GET['post'])) ? absint($_GET['post']) : '';
+		$post_id = (isset ($_GET['post'])) ? absint($_GET['post']) : '';
 
-		if (empty($post_id)) {
+		if (empty ($post_id)) {
 			return;
 		}
 
@@ -665,7 +694,7 @@ if (!function_exists('theme_main_seperate_characters')) {
 }
 function filter_block_categories_when_post_provided($block_categories, $editor_context)
 {
-	if (!empty($editor_context->post)) {
+	if (!empty ($editor_context->post)) {
 		array_push(
 			$block_categories,
 			array(
@@ -696,3 +725,27 @@ function custom_block_category($categories)
 	return $categories_sorted;
 }
 add_filter('block_categories', 'custom_block_category', 10, 2);
+
+if (!function_exists('theme_main_check_for_unit')) {
+	function theme_main_check_for_unit($demension)
+	{
+
+		$unitOfMeasurement = array("px", "pc", "pt", "%", "em", "rem", "vh", "vw", "lh", "rlh", "vb", "vi", "svw", "svh", "lvw", "lvh", "dvw", "dvh", "auto");
+
+		// Regular expression pattern to match any unit of measurement
+		$pattern = '/\b(?:' . implode('|', $unitOfMeasurement) . ')\b/i';
+
+		// Check if width contains a unit of measurement
+		if (preg_match($pattern, $demension)) {
+			return $demension;
+		} else {
+			if (str_contains($demension, '%')) { //because the first filter keeps missing percentages
+				return $demension;
+			} else {
+				return $demension.'px';
+			}
+		}
+
+
+	}
+}
