@@ -724,7 +724,7 @@ function custom_block_category($categories)
 
 	return $categories_sorted;
 }
-add_filter('block_categories', 'custom_block_category', 10, 2);
+add_filter('block_categories_all', 'custom_block_category', 10, 2);
 
 if (!function_exists('theme_main_check_for_unit')) {
 	function theme_main_check_for_unit($demension)
