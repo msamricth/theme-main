@@ -14,12 +14,14 @@ $blockID = "header-block";
 $classes = $blockID . " ";
 
 $anchor = 'header-' . get_theme_main_postID();
-if (!empty($block['anchor'])) {
+if (!empty ($block['anchor'])) {
     $anchor = $block['anchor'];
 }
 $fullHeight = '';
-
-$classes .= "header-container full-width mb-gutter ";
+$classes .= "header-container full-width ";
+if (empty ($block['className'])) {
+    $classes .= 'mb-gutter ';
+}
 if (have_rows('options')):
     while (have_rows('options')):
         the_row();
@@ -33,7 +35,7 @@ $blockStyles = '';
 $header_content = '';
 $blockContent = '';
 $page_title = '';
-if (isset($args['page_title'])) {
+if (isset ($args['page_title'])) {
     $page_title = $args['page_title'];
 }
 
@@ -45,12 +47,12 @@ $header_type = get_field('header_type');
 $classes .= $header_type;
 
 
-if (($header_type === "image" || empty($header_type)) && !has_post_thumbnail(get_theme_main_postID())) {
+if (($header_type === "image" || empty ($header_type)) && !has_post_thumbnail(get_theme_main_postID())) {
 
     $header_type = 'Basic';
 }
 
-if ($header_type === "Image" || $header_type === "Video" ) {
+if ($header_type === "Image" || $header_type === "Video") {
     $header_media = get_header_media();
 }
 
@@ -59,13 +61,13 @@ $inner_blocks_template = array(
         'core/columns',
         array(
             'verticalAlignment' => 'bottom',
-            'style'             => array(
+            'style' => array(
                 'spacing' => array(
                     'padding' => array(
-                        'top'    => 'var:preset|spacing|30',
-                        'right'  => 'var:preset|spacing|30',
+                        'top' => 'var:preset|spacing|30',
+                        'right' => 'var:preset|spacing|30',
                         'bottom' => 'var:preset|spacing|30',
-                        'left'   => 'var:preset|spacing|30',
+                        'left' => 'var:preset|spacing|30',
                     ),
                 ),
             ),
@@ -75,7 +77,7 @@ $inner_blocks_template = array(
                 'core/column',
                 array(
                     'verticalAlignment' => 'bottom',
-                    'width'             => '',
+                    'width' => '',
                 ),
                 array(
                     array(
@@ -95,7 +97,7 @@ $inner_blocks_template = array(
                 'core/column',
                 array(
                     'verticalAlignment' => 'bottom',
-                    'width'             => '250px',
+                    'width' => '250px',
                 ),
                 array(
                     array(
@@ -113,19 +115,19 @@ $inner_blocks_template = array(
 );
 
 $classes .= $header_type;
-if(get_post_type( get_theme_main_postID() ) == 'post' ){
+if (get_post_type(get_theme_main_postID()) == 'post') {
     $inner_blocks_template = array(
         array(
             'core/columns',
             array(
                 'verticalAlignment' => 'bottom',
-                'style'             => array(
+                'style' => array(
                     'spacing' => array(
                         'padding' => array(
-                            'top'    => 'var:preset|spacing|30',
-                            'right'  => 'var:preset|spacing|30',
+                            'top' => 'var:preset|spacing|30',
+                            'right' => 'var:preset|spacing|30',
                             'bottom' => 'var:preset|spacing|30',
-                            'left'   => 'var:preset|spacing|30',
+                            'left' => 'var:preset|spacing|30',
                         ),
                     ),
                 ),
@@ -135,7 +137,7 @@ if(get_post_type( get_theme_main_postID() ) == 'post' ){
                     'core/column',
                     array(
                         'verticalAlignment' => 'bottom',
-                        'width'             => '',
+                        'width' => '',
                     ),
                     array(
                         array(
@@ -152,21 +154,21 @@ if(get_post_type( get_theme_main_postID() ) == 'post' ){
 
 
 
-if (!empty($block['alignContent'])) {
+if (!empty ($block['alignContent'])) {
     $blockClasses .= ' align-items-' . $block['alignContent'];
 }
-$header_content .= '<div class="page-header py-2 my-3xl-5 fold '.$blockClasses.'" data-class="header">';
+$header_content .= '<div class="page-header py-2 my-3xl-5 fold ' . $blockClasses . '" data-class="header">';
 
 
 $header_content .= '<div class="container">';
-$header_content .= '<InnerBlocks class="header-block-editor-content" '. get_header_color().' template="'. esc_attr( wp_json_encode( $inner_blocks_template ) ) .'"/>';
+$header_content .= '<InnerBlocks class="header-block-editor-content" ' . get_header_color() . ' template="' . esc_attr(wp_json_encode($inner_blocks_template)) . '"/>';
 $header_content .= '</div></div>';
 
 
 $header_type = get_field('header_type');
 
-if ( $header_type == 'carousel') {
-    $header_media = theme_main_get_legacy_carousel('carousel-'.$blockID, 1);
+if ($header_type == 'carousel') {
+    $header_media = theme_main_get_legacy_carousel('carousel-' . $blockID, 1);
 }
 if ($header_type === 'Basic') {
     $header_media = get_header_basic();
@@ -183,9 +185,9 @@ $classes .= ' ' . $fullHeight;
     ?>
 
     <?php
-        echo $header_content;
-    
-    if (!empty($header_media)) {
+    echo $header_content;
+
+    if (!empty ($header_media)) {
 
         echo $header_media;
     } ?>

@@ -25,6 +25,7 @@ $theme-main-nav-link-color: #{$body-color};
     --theme-main-footer-background-gradient: radial-gradient(at bottom right, var(--theme-main-footer-background-gradient-bottom) 10%, var(--theme-main-footer-background-gradient-top) 76%);
     --bs-card-height: 100%;
     --theme-main-arrow-color: currentColor;
+
     @include media-breakpoint-up(md) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidthMD} * 2));
         --theme-main-gutter: #{$offsetWidthMD} - #{$grid-gutter-width};
@@ -54,6 +55,7 @@ $theme-main-nav-link-color: #{$body-color};
         --theme-main-container-max-width: calc(100% - (#{$offsetWidth2XL} * 2));
         --theme-main-gutter: #{$offsetWidth2XL} - #{$grid-gutter-width};
     }
+
     @include media-breakpoint-up(3xl) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidth3XL} * 2));
         --theme-main-gutter: #{$offsetWidth3XL} - #{$grid-gutter-width};
@@ -70,14 +72,17 @@ $theme-main-nav-link-color: #{$body-color};
 
 .full-width {
     @include media-breakpoint-down(md) {
-        margin-left: calc(0px - var(--theme-main-gutter) - 4px);
-        margin-right: calc(0px - var(--theme-main-gutter) - 4px);
+        &:not(.wp-block-group) {
+            margin-left: calc(0px - var(--theme-main-gutter) - 4px);
+            margin-right: calc(0px - var(--theme-main-gutter) - 4px);
+        }
     }
 
     margin-left: calc(0px - var(--theme-main-gutter));
     margin-right: calc(0px - var(--theme-main-gutter));
     padding-right: calc(var(--bs-gutter-x) / 2);
     padding-left: calc(var(--bs-gutter-x) / 2);
+
     &.wp-block-image img {
         width: 100%;
     }
@@ -153,6 +158,7 @@ $theme-main-nav-link-color: #{$body-color};
         padding-left: calc(var(--bs-gutter-x) / 2);
     }
 }
+
 html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     max-width: 90% !important;
 }
@@ -160,11 +166,14 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
 .full-height {
     min-height: 100vh;
 }
+
 .wp-admin .editor-styles-wrapper {
     --theme-main-gutter-x: 30px !important;
+
     .acf-block-component.acf-block-body.acf-block-preview .splide {
         visibility: visible;
     }
+
     .full-width {
         @include media-breakpoint-down(md) {
             margin-left: auto !important;
@@ -174,9 +183,11 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
         margin-left: auto !important;
         margin-right: auto !important;
     }
+
     .animation-on {
         opacity: 1;
     }
+
     .full-height {
         min-height: 450px;
     }
@@ -184,9 +195,13 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     .position-sticky {
         z-index: 1 !important;
     }
-    .d-none, .d-md-none, .d-xl-none {
+
+    .d-none,
+    .d-md-none,
+    .d-xl-none {
         display: inherit !important;
     }
+
     .hide-in-editor {
         display: none !important;
     }
@@ -199,9 +214,11 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
 .container {
     max-width: var(--theme-main-container-max-width);
 }
+
 .wp-block-group__inner-container {
     max-width: var(--theme-main-container-max-width) !important;
 }
+
 .wp-block-group__inner-container {
     @extend .container;
 }
@@ -216,6 +233,7 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     li.d-md-inherit {
         display: list-item !important;
     }
+
     .container-md {
         max-width: var(--theme-main-container-max-width);
     }
@@ -271,6 +289,7 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     @include margin-spacing(top, var(--theme-main-gutter-x));
     @include margin-spacing(bottom, var(--theme-main-gutter-x));
 }
+
 @include media-breakpoint-up(md) {
     .my-md-gutter {
         @include margin-spacing(top, var(--theme-main-gutter-x));
@@ -337,16 +356,26 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     @include padding-spacing(left, var(--theme-main-gutter-x));
     @include padding-spacing(right, var(--theme-main-gutter-x));
 }
-.center-flex, .wp-block-group .center-flex, .wp-block-group .wp-block-group.center-flex {
+
+.center-flex,
+.wp-block-group .center-flex,
+.wp-block-group .wp-block-group.center-flex {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
 .text-justify {
     text-align: justify;
 }
-.tabs .nav-link, .tabs .nav-tabs {--bs-nav-tabs-border-width: 1px;}
-.tabs .nav-link, .tabs .nav-tabs {
+
+.tabs .nav-link,
+.tabs .nav-tabs {
+    --bs-nav-tabs-border-width: 1px;
+}
+
+.tabs .nav-link,
+.tabs .nav-tabs {
     --bs-nav-tabs-border-width: 1px;
     --bs-nav-link-padding-x: 2rem;
     --bs-nav-tabs-link-active-bg: #{$primary};
