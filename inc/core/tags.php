@@ -631,7 +631,7 @@ if (!function_exists('theme_main_get_overlay_card')):
             $output .= '<strong class="theme-main-color text-uppercase">' . esc_html($card_date) . '</strong>';
         }
         $output .= '<h3 class="card-title"><a href="' . esc_url($permalink) . '" class="stretched-link" title="Continue reading - ' . esc_attr($title) . '">' . esc_html($title) . '</a></h3>';
-        $output .= '<p class="card-text">' . esc_html($excerpt) . '</p>';
+        $output .= '<p class="card-text mb-0">' . esc_html($excerpt) . '</p>';
 
         $output .= '<div class="theme-overlay" style="--theme-main-overlay-color: rgba(var(--bs-dark-rgb), 0.99); --theme-main-overlay-level: 65%;"></div>';
         $output .= '</div>';
