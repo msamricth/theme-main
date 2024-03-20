@@ -27,7 +27,7 @@ $template = array(
 
 // add acf or other functions here
 
-$classes .= "row row-cols-1 row-cols-md-2 row-cols-dlg-3 g-4"; // Add extra classes here.
+$classes .= "row row-cols-1 row-cols-md-2 row-cols-dlg-3 row-cols-2xl-4 justify-content-center g-4"; // Add extra classes here.
 ?>
 
 <?php
