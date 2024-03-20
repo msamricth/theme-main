@@ -143,8 +143,10 @@ if (!function_exists('get_block_classes')):
 
         $classes = $classNames . ' ';
         // Create class attribute allowing for custom "className" and "align" values.
-        if (!empty($block['className']))
-            $classes .= array_merge($classes, explode(' ', $block['className']));
+    
+        if (!empty($block['className'])) {
+            $classes .= $block['className'];
+        }
         if (!empty($block['alignText'])) {
             $classes .= ' text-' . $block['alignText'];
         }

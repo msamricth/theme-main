@@ -271,6 +271,12 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     @include margin-spacing(top, var(--theme-main-gutter-x));
     @include margin-spacing(bottom, var(--theme-main-gutter-x));
 }
+@include media-breakpoint-up(md) {
+    .my-md-gutter {
+        @include margin-spacing(top, var(--theme-main-gutter-x));
+        @include margin-spacing(bottom, var(--theme-main-gutter-x));
+    }
+}
 
 .m-gutter {
     @include margin-spacing(left, var(--theme-main-gutter-x));
@@ -304,10 +310,14 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     @include padding-spacing(top, var(--theme-main-gutter-x));
     @include padding-spacing(bottom, var(--theme-main-gutter-x));
 }
-.py-md-gutter {
-    @include padding-spacing(top, var(--theme-main-gutter-x));
-    @include padding-spacing(bottom, var(--theme-main-gutter-x));
+
+@include media-breakpoint-up(md) {
+    .py-md-gutter {
+        @include padding-spacing(top, var(--theme-main-gutter-x));
+        @include padding-spacing(bottom, var(--theme-main-gutter-x));
+    }
 }
+
 .p-gutter {
     @include padding-spacing(top, var(--theme-main-gutter-x));
     @include padding-spacing(bottom, var(--theme-main-gutter-x));
