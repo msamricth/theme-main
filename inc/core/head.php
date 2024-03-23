@@ -519,3 +519,56 @@ if (!function_exists('get_header_color')):
     }
 
 endif;
+/**
+ * Add Open Graph and Twitter Card meta tags to the head section
+ */
+if (!function_exists('theme_main_seo')) {
+    function theme_main_seo() {
+        global $post;
+
+        if (!is_singular()) {
+            return;
+        }
+
+        $excerpt = '';
+
+        if ($post->post_excerpt) {
+            $excerpt = strip_tags($post->post_excerpt);
+        } else {
+            $excerpt = get_bloginfo('description');
+        }
+
+        // Initialize variable to hold meta tags
+        $meta_tags = '';
+
+        // Open Graph meta tags
+        $meta_tags .= '<meta property="og:title" content="' . get_the_title() . '"/>';
+        $meta_tags .= '<meta property="og:description" content="' . $excerpt . '"/>';
+        $meta_tags .= '<meta property="og:type" content="article"/>';
+        $meta_tags .= '<meta property="og:url" content="' . get_permalink() . '"/>';
+        $meta_tags .= '<meta property="og:site_name" content="' . get_bloginfo() . '"/>';
+
+        // Twitter Card meta tags
+        $meta_tags .= '<meta name="twitter:title" content="' . get_the_title() . '"/>';
+        $meta_tags .= '<meta name="twitter:card" content="summary" />';
+        $meta_tags .= '<meta name="twitter:description" content="' . $excerpt . '" />';
+        $meta_tags .= '<meta name="twitter:url" content="' . get_permalink() . '"/>';
+
+        if (!has_post_thumbnail($post->ID)) {
+            // If the post doesn't have a featured image, use a default image
+            $default_image = "http://example.com/image.jpg"; // Replace this with your default image URL
+            $meta_tags .= '<meta property="og:image" content="' . $default_image . '"/>';
+            $meta_tags .= '<meta name="twitter:image" content="' . $default_image . '"/>';
+        } else {
+            // If the post has a featured image, use it
+            $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'medium');
+            $meta_tags .= '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+            $meta_tags .= '<meta name="twitter:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+        }
+
+        // Output the meta tags
+        echo $meta_tags;
+    }
+}
+
+add_action('wp_head', 'theme_main_seo');
