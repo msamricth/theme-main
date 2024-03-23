@@ -40,6 +40,7 @@ if (!function_exists('get_block_settings')):
     {
         $output = '';
         $turnOnFold = '';
+        $styles = '';
         $anchor = $blockID . '-block-' . $block['id'];
         if (!empty($block['anchor'])) {
             $anchor = $block['anchor'];
@@ -62,6 +63,10 @@ if (!function_exists('get_block_settings')):
         }
         if (!empty($block['align'])) {
             $classes .= ' align' . $block['align'];
+        }
+        if (!empty($block['animationDelay'])) {
+            $animation_delay .= str_replace('animation-delay-', '', $block['animationDelay']);
+            $styles .= ' --theme-main-animation-delay: ' .$animation_delay . ';';
         }
         if (!empty($block['topPadding'])) {
             $classes .= ' ' . $block['topPadding'];
@@ -119,12 +124,15 @@ if (!function_exists('get_block_settings')):
 
         if (!empty($block['backgroundImage'])) {
             $classes .= ' has-background-image';
-            $classes .= '" style="background-image:url(' . $block['backgroundImage'] . ');';
+            $styles .= ' background-image:url(' . $block['backgroundImage'] . ');';
         }
 
         $anchor = 'id="' . $anchor . '"';
         $classes = ' class="' . $classes . '"';
-        $output = $anchor . $classes;
+        if(!empty($styles)){
+            $styles = ' styles="'.$styles.'"';
+        }
+        $output = $anchor . $classes . $styles;
 
         return $output;
     }
