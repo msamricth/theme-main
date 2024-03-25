@@ -213,3 +213,8 @@ add_filter( 'wp_check_filetype_and_ext', function($data, $file, $filename, $mime
           </style>';
   }
   add_action( 'admin_head', 'fix_svg' );
+  function my_mime_types($mimes) {
+    $mimes['json'] = 'text/plain';
+    return $mimes;
+}
+add_filter('upload_mimes', 'my_mime_types');

@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, panelsSection, panelsContainer } from "./identifiers.js";
+import Flip from "gsap/Flip";
+import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, pinElement, pinEnd, pinTrigger } from "./identifiers.js";
 import { topTA, bottomTA } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
 import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
@@ -12,12 +13,10 @@ function videoScrollTriggerFunction(video, player, videoTitle, videoID = null, s
 
 }
 
-
-
 function scrollingCarousel() {
     let scrollingCarouselHeader = document.querySelector("#logo-carousel-header");
 
-    
+
     let cont = document.querySelector(".scroll-slider-container");
     gsap.to(".scroll-slide", {
         ease: "none",
@@ -36,7 +35,7 @@ function scrollingCarousel() {
             },
             onEnterBack: () => {
                 if (scrollingCarouselHeader) {
-                    
+
                     scrollingCarouselHeader.classList.remove("fadeTopOut");
                 }
             }
@@ -99,46 +98,87 @@ function vimeoGSAP() {
 
 
 function selfHostedGSAP() {
-   // LazyLoad().then(() => {
-        gsap.utils.toArray(".videofx.selfhosted").forEach(function (video, i) {
-            const vimeoFrame = document.getElementById(video.id);
-            const videoID = video.id;
-            const player = video;
-            const videoTitle = video.getAttribute('data-videotitle');
-            var sTIIV = ScrollTrigger.isInViewport(video),
-                sTPIV = ScrollTrigger.positionInViewport(video, "center").toFixed(2);
-            ScrollTrigger.create({
-                trigger: video,
-                start: 'top 100%',
-                end: 'bottom 15%',
-                markers: videoMarker,
-                onEnter: () => (
-                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV), //player, video <- code debt
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV, video)
-                ),
-                onLeave: () => (
-                    pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV, video)
-                ),
-                onLeaveBack: () => (
-                    pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV, video)
-                ),
-                onEnterBack: () => (
-                    playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
-                    loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV, video)
-                ),
-                //onUpdate: updateVideo()
-            });
+    // LazyLoad().then(() => {
+    gsap.utils.toArray(".videofx.selfhosted").forEach(function (video, i) {
+        const vimeoFrame = document.getElementById(video.id);
+        const videoID = video.id;
+        const player = video;
+        const videoTitle = video.getAttribute('data-videotitle');
+        var sTIIV = ScrollTrigger.isInViewport(video),
+            sTPIV = ScrollTrigger.positionInViewport(video, "center").toFixed(2);
+        ScrollTrigger.create({
+            trigger: video,
+            start: 'top 100%',
+            end: 'bottom 15%',
+            markers: videoMarker,
+            onEnter: () => (
+                playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV), //player, video <- code debt
+                loadVideoErrorHandler(videoTitle, videoID, '', 'play', 'onEnter', sTIIV, sTPIV, video)
+            ),
+            onLeave: () => (
+                pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeave', sTIIV, sTPIV, video)
+            ),
+            onLeaveBack: () => (
+                pauseVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                loadVideoErrorHandler(videoTitle, videoID, '', 'Pause', 'onLeaveBack', sTIIV, sTPIV, video)
+            ),
+            onEnterBack: () => (
+                playVideo(player, video, videoTitle, videoID, sTIIV, sTPIV),
+                loadVideoErrorHandler(videoTitle, videoID, '', 'Play', 'onEnterBack', sTIIV, sTPIV, video)
+            ),
+            //onUpdate: updateVideo()
         });
-  //  });
+    });
+    //  });
 }
 function videoScrollTrigger() {
     vimeoGSAP();
     selfHostedGSAP();
 }
 
+function experimental() {
+    gsap.registerPlugin(Flip) 
+    const grid = document.querySelector(".image-cloud");
+    const items = gsap.utils.toArray(".image-cloud--item");
+    
+    function shuffleImages() {
+      // Get the state
+      const state = Flip.getState(items);
+    
+      // Do the actual shuffling
+      for (let i = items.length; i >= 0; i--) {
+        grid.appendChild(grid.children[(Math.random() * i) | 0]);
+      }
+    
+      // Animate the change
+      Flip.from(state, {
+        absolute: true,
+        scale: true,
+        fade: true
+      });
+    }
+    function randomInterval(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    function delayedShuffle() {
+      setTimeout(() => {
+        shuffleImages(); // Shuffle images
+        delayedShuffle(); // Repeat the shuffle
+      }, randomInterval(5000, 10000)); // Adjust the interval range as needed (from 5 to 10 seconds in this example)
+    }
+    
+    // Initial shuffle
+    shuffleImages();
+    
+    // Start the delayed shuffle
+    delayedShuffle();
+    
+}
 function theFoldScrollTrigger() {
+    if (document.querySelector(".image-cloud")) {
+        experimental();
+    }
     if (!scrollRoot.hasAttribute("data-fold-reset")) {
         gsap.utils.toArray(".fold").forEach(function (elem) {
 
@@ -195,7 +235,7 @@ function theFoldScrollTrigger() {
         if (elem.hasAttribute('data-class')) {
             setFoldLegacy(color);
         }
-        
+
         if (elemClassList.contains('view-type')) {
             isElemInView(elem, scrollAction);
         }

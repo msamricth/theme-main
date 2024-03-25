@@ -20,6 +20,115 @@
     }
 }
 
+.theme-main-popover-content {
+    @extend .position-absolute;
+    @extend .card;
+    @extend .h-auto;
+    overflow: hidden;
+
+    &.collapsing {
+        opacity: 0;
+
+    }
+
+    &:not(.show) {
+        &:not(.collapsing) {
+            animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+    }
+    &.closing {
+        animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both !important;
+    }
+    &.collapse {}
+
+    &.show {
+
+        animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
+        &.collapsing {
+            //animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+
+        &.popover-direction-left {
+            animation: slide-in-right-collapse 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
+            &.collapsing {
+                animation: slide-out-right-collapse 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+            }
+        }
+
+        &.popover-direction-right {
+            animation: slide-in-left-collapse 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
+            &.collapsing {
+                animation: slide-left-right-collapse 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+            }
+        }
+    }
+}
+
+.image-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    min-height: 28vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    .image-cloud--item {
+        width: var(--theme-main-image-cloud-item-width);
+
+        min-height: var(--theme-main-image-cloud-item-width);
+        min-width: var(--theme-main-image-cloud-item-width);
+        opacity: 1;
+
+
+        .image-cloud--item-container {
+            padding: 0.6rem;
+
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    --theme-main-image-cloud-item-1-width: 2rem;
+    --theme-main-image-cloud-item-2-width: 4rem;
+    --theme-main-image-cloud-item-3-width: 5rem;
+    --theme-main-image-cloud-item-4-width: 6rem;
+    --theme-main-image-cloud-item-5-width: 8rem;
+    --theme-main-image-cloud-item-6-width: 10rem;
+
+    @include media-breakpoint-up(md) {
+        --theme-main-image-cloud-item-1-width: 3rem;
+        --theme-main-image-cloud-item-2-width: 5rem;
+        --theme-main-image-cloud-item-3-width: 6rem;
+        --theme-main-image-cloud-item-4-width: 7rem;
+        --theme-main-image-cloud-item-5-width: 9rem;
+        --theme-main-image-cloud-item-6-width: 11rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+        --theme-main-image-cloud-item-1-width: 4rem;
+        --theme-main-image-cloud-item-2-width: 6rem;
+        --theme-main-image-cloud-item-3-width: 8rem;
+        --theme-main-image-cloud-item-4-width: 10rem;
+        --theme-main-image-cloud-item-5-width: 16rem;
+        --theme-main-image-cloud-item-6-width: 18rem;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        --theme-main-image-cloud-item-1-width: 6rem;
+        --theme-main-image-cloud-item-2-width: 8rem;
+        --theme-main-image-cloud-item-3-width: 10rem;
+        --theme-main-image-cloud-item-4-width: 12rem;
+        --theme-main-image-cloud-item-5-width: 18rem;
+        --theme-main-image-cloud-item-6-width: 20rem;
+    }
+
+}
+
 .word-fumbler,
 .word-fumbler-second-version {
 
@@ -46,6 +155,7 @@
         }
     }
 }
+
 .word-fumbler-first-version {
     .box {
         li {
@@ -69,119 +179,155 @@
 .word-fumbler-second-version {
     margin: 0;
     height: 20vw;
+
     .box {
         li {
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin:0;
-            & > * {
+            margin: 0;
+
+            &>* {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 0px;
             }
 
             animation: bounce-out-bottom .145s .09s cubic-bezier(.755, .05, .855, .06) both;
+
             span {
                 display: block;
+
                 &:nth-child(0) {
                     animation: bounce-out-bottom 1.1s both;
                 }
+
                 &:nth-child(1) {
                     animation: bounce-out-bottom 1.1s 0.05s both;
                 }
+
                 &:nth-child(2) {
                     animation: bounce-out-bottom 1.1s 0.1s both;
                 }
+
                 &:nth-child(3) {
                     animation: bounce-out-bottom 1.1s 0.15s both;
                 }
+
                 &:nth-child(4) {
                     animation: bounce-out-bottom 1.1s 0.2s both;
                 }
+
                 &:nth-child(5) {
                     animation: bounce-out-bottom 1.1s 0.25s both;
                 }
+
                 &:nth-child(6) {
                     animation: bounce-out-bottom 1.1s 0.3s both;
                 }
+
                 &:nth-child(7) {
                     animation: bounce-out-bottom 1.1s 0.35s both;
                 }
+
                 &:nth-child(8) {
                     animation: bounce-out-bottom 1.1s 0.4s both;
                 }
+
                 &:nth-child(9) {
                     animation: bounce-out-bottom 1.1s 0.45s both;
                 }
+
                 &:nth-child(10) {
                     animation: bounce-out-bottom 1.1s 0.5s both;
                 }
+
                 &:nth-child(11) {
                     animation: bounce-out-bottom 1.1s 0.55s both;
                 }
+
                 &:nth-child(12) {
                     animation: bounce-out-bottom 1.1s 0.6s both;
                 }
+
                 &:nth-child(13) {
                     animation: bounce-out-bottom 1.1s 0.65s both;
                 }
+
                 &:nth-child(14) {
                     animation: bounce-out-bottom 1.1s 0.7s both;
                 }
+
                 &:nth-child(15) {
                     animation: bounce-out-bottom 1.1s 0.75s both;
                 }
             }
+
             &.animate {
                 animation: slide-in-blurred-bottom .12s cubic-bezier(.23, 1.000, .32, 1.000) both; //opacity: 1;
+
                 span {
                     &:nth-child(0) {
                         animation: bounce-in-top 1.1s both;
                     }
+
                     &:nth-child(1) {
                         animation: bounce-in-top 1.1s 0.05s both;
                     }
+
                     &:nth-child(2) {
                         animation: bounce-in-top 1.1s 0.1s both;
                     }
+
                     &:nth-child(3) {
                         animation: bounce-in-top 1.1s 0.15s both;
                     }
+
                     &:nth-child(4) {
                         animation: bounce-in-top 1.1s 0.2s both;
                     }
+
                     &:nth-child(5) {
                         animation: bounce-in-top 1.1s 0.25s both;
                     }
+
                     &:nth-child(6) {
                         animation: bounce-in-top 1.1s 0.3s both;
                     }
+
                     &:nth-child(7) {
                         animation: bounce-in-top 1.1s 0.35s both;
                     }
+
                     &:nth-child(8) {
                         animation: bounce-in-top 1.1s 0.4s both;
                     }
+
                     &:nth-child(9) {
                         animation: bounce-in-top 1.1s 0.45s both;
                     }
+
                     &:nth-child(10) {
                         animation: bounce-in-top 1.1s 0.5s both;
                     }
+
                     &:nth-child(11) {
                         animation: bounce-in-top 1.1s 0.55s both;
                     }
+
                     &:nth-child(12) {
                         animation: bounce-in-top 1.1s 0.6s both;
                     }
+
                     &:nth-child(13) {
                         animation: bounce-in-top 1.1s 0.65s both;
                     }
+
                     &:nth-child(14) {
                         animation: bounce-in-top 1.1s 0.7s both;
                     }
+
                     &:nth-child(15) {
                         animation: bounce-in-top 1.1s 0.75s both;
                     }
@@ -190,9 +336,11 @@
         }
     }
 }
+
 .big-list-item {
     border-bottom: 1px solid var(--bs-gray-700);
     margin-bottom: 3.5rem;
+
     svg {
         path {
             fill: currentColor;

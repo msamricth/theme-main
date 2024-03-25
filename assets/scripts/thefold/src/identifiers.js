@@ -32,5 +32,8 @@ const isHeaderNavTransDark  = document.body.classList.contains('nav-bg-transpare
 const isHeaderNavTransLight  = document.body.classList.contains('nav-bg-transparent-light');
 const isHeaderNavTransprimary  = document.body.classList.contains('nav-bg-transparent-primary');
 let $videoI = 0;
+const pinElement = document.querySelector(".pin-this");
+const pinEnd = document.querySelector(".pin-end");
+const pinTrigger = document.querySelector(".pin-trigger");
 const videos = document.querySelectorAll(".videofx.vimeo");
-export { articleInteriorPage, sidebar, foldON, Wrapper, bodyOG, dotsON, lazy_load_videos, caseStudy, header, sections, selfhosted, scrollRoot, headerLinks, debuglog, hasCustomTxtColor, hasCustomBGColor, nav_compression, debugMarker, videoMarker, lazy_loaded_video, $videoI, videos, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, vimeoPlaceholder, navOG, panelsSection, panelsContainer, isHeaderNavTransprimary };
+export { articleInteriorPage, sidebar, foldON, Wrapper, bodyOG, dotsON, lazy_load_videos, caseStudy, header, sections, selfhosted, scrollRoot, headerLinks, debuglog, hasCustomTxtColor, hasCustomBGColor, nav_compression, debugMarker, videoMarker, lazy_loaded_video, $videoI, videos, navbarNav, isHeaderNavTransLight, isHeaderNavTransDark, vimeoPlaceholder, navOG, panelsSection, panelsContainer, isHeaderNavTransprimary, pinElement, pinEnd, pinTrigger };

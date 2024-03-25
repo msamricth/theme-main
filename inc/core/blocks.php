@@ -65,7 +65,10 @@ if (!function_exists('get_block_settings')):
             $classes .= ' align' . $block['align'];
         }
         if (!empty($block['animationDelay'])) {
-            $animation_delay .= str_replace('animation-delay-', '', $block['animationDelay']);
+            $animation_delay = str_replace('animation-delay-', '', $block['animationDelay']);
+            if(!str_contains($animation_delay, 's')){
+                $animation_delay .= 's';
+            } 
             $styles .= ' --theme-main-animation-delay: ' .$animation_delay . ';';
         }
         if (!empty($block['topPadding'])) {
@@ -130,20 +133,46 @@ if (!function_exists('get_block_settings')):
         $anchor = 'id="' . $anchor . '"';
         $classes = ' class="' . $classes . '"';
         if(!empty($styles)){
-            $styles = ' styles="'.$styles.'"';
+            $styles = ' style="'.$styles.'"';
         }
         $output = $anchor . $classes . $styles;
 
         return $output;
     }
 endif;
+// Add custom inline styles to all blocks except ACF blocks
+function get_block_settings_for_core_blocks( $block_content, $block ) {
+    
+    $styles = '';
+    if (!is_null($block['blockName']) && strpos($block['blockName'], 'acf/') === 0) {
+        // If it's an ACF block, return the block content as is without any modifications since we handled that above
+        return $block_content;
+    }
+    if (!empty($block['animationDelay'])) {
+        $animation_delay = str_replace('animation-delay-', '', $block['animationDelay']);
+        if(!str_contains($animation_delay, 's')){
+            $animation_delay .= 's';
+        } 
+        $styles .= ' --theme-main-animation-delay: ' .$animation_delay . ';';
+    }
+    if(!empty($styles)){
+        $styles = ' style="'.$styles.'"';
+    }
+
+    // Add the custom inline styles to the block's attributes
+    $block_content = str_replace( '<' . $block['blockName'], '<' . $block['blockName'] . ' ' . esc_attr( $styles ) . ' ', $block_content );
+
+    return $block_content;
+}
+add_filter( 'render_block', 'get_block_settings_for_core_blocks', 10, 2 );
+
 if (!function_exists('get_block_classes')):
     /**
      *
      * @since v1
      * Make creating blocks as easy as possible.
      */
-    function get_block_classes($block, $classNames)
+    function get_block_classes($block, $classNames, $classNamesOff = null)
     {
         $output = '';
 
@@ -152,7 +181,7 @@ if (!function_exists('get_block_classes')):
         $classes = $classNames . ' ';
         // Create class attribute allowing for custom "className" and "align" values.
     
-        if (!empty($block['className'])) {
+        if (!empty($block['className']) && empty($classNamesOff)) {
             $classes .= $block['className'];
         }
         if (!empty($block['alignText'])) {
@@ -337,6 +366,10 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/big-list-item');
     register_block_type(get_template_directory() . '/inc/blocks/image');
     register_block_type(get_template_directory() . '/inc/blocks/icon');
+    register_block_type(get_template_directory() . '/inc/blocks/lottie-motion');
+    register_block_type(get_template_directory() . '/inc/blocks/image-cloud');
+    register_block_type(get_template_directory() . '/inc/blocks/pop-over');
+    
 
     if (class_exists('WPCF7')) {
         register_block_type(get_template_directory() . '/inc/blocks/contact-form-7');

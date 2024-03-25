@@ -3,7 +3,7 @@
     "title": "Media Block",
     "description": "A custom Media block that uses ACF fields.",
     "style": [ "file:./block.css" ],
-    "category": "formatting",
+    "category": "theme-main",
     "icon": "image",
     "keywords": ["video", "image"],
     "acf": {

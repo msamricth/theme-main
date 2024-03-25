@@ -97,7 +97,7 @@ function enqueue_splide_script()
 //add_action('enqueue_block_editor_assets', 'enqueue_splide_script');
 
 // Check if the function theme_main_get_legacy_carousel is called, and enqueue the script
-function enqueue_splide_script_on_page()
+function enqueue_block_script_on_page()
 {
     global $post;
 
@@ -105,6 +105,7 @@ function enqueue_splide_script_on_page()
     if (function_exists('theme_main_get_legacy_carousel') && (is_admin() || (isset ($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_legacy_carousel')))) {
         enqueue_splide_script();
     } else {
+
         if (function_exists('theme_main_get_carousel') && (is_admin() || (isset ($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_carousel')))) {
 
             wp_enqueue_script('jQuery', 'https://code.jquery.com/jquery-3.7.1.min.js', array('jquery'), null, true);
@@ -121,7 +122,7 @@ function enqueue_splide_script_on_page()
 }
 // Hook the conditional script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
 //add_action('wp_enqueue_scripts', 'enqueue_splide_script_on_page');
-add_action('enqueue_block_editor_assets', 'enqueue_splide_script_on_page');
+add_action('enqueue_block_editor_assets', 'enqueue_block_script_on_page');
 
 
 function theme_main_scripts_loader()
@@ -144,6 +145,9 @@ function theme_main_scripts_loader()
     $blocks = parse_blocks($post->post_content);
     $loadSplide = false;
     foreach ($blocks as $block) {
+        if(has_block('acf/lottie-motion')) {
+            wp_enqueue_script( 'lottie-player', "https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js", array(), $theme_version, true );
+        }
         if (has_block('acf/content-slider')) {
             $loadSplide = true;
         }
