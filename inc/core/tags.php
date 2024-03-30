@@ -188,11 +188,11 @@ if (!function_exists('get_theme_main_link')):
                 the_row();
                 $padding_block = get_sub_field('padding_bottom');
 
-                if (isset($padding_block)) {
+                if (isset ($padding_block)) {
                     $classes .= ' ' . $padding_block;
                 }
                 if (get_sub_field('use_url') == 1) {
-                    if (isset($linkURL)) {
+                    if (isset ($linkURL)) {
                         $link = $linkURL;
                     }
                     if (empty($linkTitle)) {
@@ -211,7 +211,7 @@ if (!function_exists('get_theme_main_link')):
                 endif;
             endwhile;
         endif;
-        if (!empty($link)) {
+        if (!empty ($link)) {
             $output .= '<a class="' . esc_html($linkClass) . '" ';
             if ($linkClass) {
                 $output .= 'target="_blank" ';
@@ -252,53 +252,53 @@ if (!function_exists('get_theme_main_accordion')):
     function get_theme_main_accordion($blockID, $accordion_open_icon, $accordion_close_icon = null, $accordion_always_open = null)
     {
         $i = 0;
-        $accordionID = 'accordion-'.$blockID;
-        $output='<div class="accordion accordion-flush" id="'.$accordionID.'">';
+        $accordionID = 'accordion-' . $blockID;
+        $output = '<div class="accordion accordion-flush" id="' . $accordionID . '">';
         if (have_rows('accordion_tabs_block_content')) {
             while (have_rows('accordion_tabs_block_content')) {
                 the_row();
                 $i++;
-                $contentID = $accordionID.'-item-'.$i;
+                $contentID = $accordionID . '-item-' . $i;
                 $type = get_sub_field('type');
                 $blockTitle = get_sub_field('title');
                 $basic_editor = get_sub_field('basic_editor');
-                if($type === 'Block Editor') {
-                    $blockContent = '<InnerBlocks class="accordion-editor-content '.$contentID.'"/>';
+                if ($type === 'Block Editor') {
+                    $blockContent = '<InnerBlocks class="accordion-editor-content ' . $contentID . '"/>';
                 }
 
-                if($type === 'Basic Content') {
+                if ($type === 'Basic Content') {
                     $blockContent = $basic_editor;
                 }
                 $output .= '<div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button';
-                    if($i === 1) {
-                        $output .= '" aria-expanded="true"';
-                    } else {
-                        $output .= ' collapsed" aria-expanded="false"';
-                    }
-                    $output .= ' type="button" data-bs-toggle="collapse" data-bs-target="#'.$contentID.'" aria-controls="'.$contentID.'">
-                        '.$blockTitle.'
+                if ($i === 1) {
+                    $output .= '" aria-expanded="true"';
+                } else {
+                    $output .= ' collapsed" aria-expanded="false"';
+                }
+                $output .= ' type="button" data-bs-toggle="collapse" data-bs-target="#' . $contentID . '" aria-controls="' . $contentID . '">
+                        ' . $blockTitle . '
                     </button>
                 </h2> 
-                <div id="'.$contentID.'" class="accordion-collapse';
-                if($i === 1) {
-                    $output .=' show';
+                <div id="' . $contentID . '" class="accordion-collapse';
+                if ($i === 1) {
+                    $output .= ' show';
                 }
-                
+
                 $output .= ' collapse"';
-                if(empty($accordion_always_open)){
-                    $output .= 'data-bs-parent="#'.$accordionID.'"';
+                if (empty($accordion_always_open)) {
+                    $output .= 'data-bs-parent="#' . $accordionID . '"';
                 }
                 $output .= '>
-                    <div class="accordion-body">'.$blockContent.'</div>
+                    <div class="accordion-body">' . $blockContent . '</div>
                 </div>';
             }
         } else {
             $output .= '<h2 class="accordion-header">No rows found</h2>';
         }
-            
-        $output .=' </div>';
+
+        $output .= ' </div>';
         return $output;
     }
 endif;
@@ -308,69 +308,69 @@ if (!function_exists('get_theme_main_tabs')):
     function get_theme_main_tabs($blockID, $tab_placement, $nav_styles, $nav_fill_on = null)
     {
         $i = 0;
-        $tabsID = 'tabs-'.$blockID;
+        $tabsID = 'tabs-' . $blockID;
         $blockTitle = '';
         $blockContent = '';
         $alignment = 'horizontal'; // Replace this with your actual variable
-        $nav_classes = 'nav nav-'.$nav_styles;
-        
+        $nav_classes = 'nav nav-' . $nav_styles;
+
         $output = '<div class="tabs tabbed-content"';
         if ($tab_placement == 'left' || $tab_placement == 'right') {
             $alignment = 'vertical';
-        } 
-        if($alignment === 'vertical') {
+        }
+        if ($alignment === 'vertical') {
             $nav_classes .= ' flex-column';
             $output .= ' d-flex align-items-start';
         }
-        if($tab_placement == 'right') {
+        if ($tab_placement == 'right') {
             $nav_classes .= ' order-last ms-4';
         }
-        if($tab_placement == 'left') {
+        if ($tab_placement == 'left') {
             $nav_classes .= ' me-4';
         }
-        if($nav_fill_on) {
+        if ($nav_fill_on) {
             $nav_classes .= ' nav-fill';
         }
-        $output .= '" id="'.$tabsID.'">';
+        $output .= '" id="' . $tabsID . '">';
 
         if (have_rows('accordion_tabs_block_content')) {
             while (have_rows('accordion_tabs_block_content')) {
                 the_row();
                 $i++;
-                $contentID = $tabsID.'-item-'.$i;
+                $contentID = $tabsID . '-item-' . $i;
                 $type = get_sub_field('type');
                 $basic_editor = get_sub_field('basic_editor');
 
 
                 $blockTitle .= '<button class="nav-link';
-                if($i === 1) {
+                if ($i === 1) {
                     $blockTitle .= ' active" aria-selected="true"';
                 } else {
                     $blockTitle .= '" aria-selected="false"';
                 }
-                $blockTitle .= 'id="'.$contentID.'" data-bs-toggle="tab" data-bs-target="#'.$contentID.'-pane" type="button" role="tab" aria-controls="'.$contentID.'-pane">'.get_sub_field('title').'</button>';
+                $blockTitle .= 'id="' . $contentID . '" data-bs-toggle="tab" data-bs-target="#' . $contentID . '-pane" type="button" role="tab" aria-controls="' . $contentID . '-pane">' . get_sub_field('title') . '</button>';
 
                 $blockContent .= '<div class="tab-pane fade';
-                if($i === 1) {
-                    $blockContent .='show active';
+                if ($i === 1) {
+                    $blockContent .= 'show active';
                 }
-                $blockContent .='" id="'.$contentID.'-pane" role="tabpanel" aria-labelledby="'.$contentID.'" tabindex="'.$i.'">';
-                if($type === 'Block Editor') {
-                    $blockContent .= '<InnerBlocks class="tabs-editor-content '.$contentID.'"/>';
+                $blockContent .= '" id="' . $contentID . '-pane" role="tabpanel" aria-labelledby="' . $contentID . '" tabindex="' . $i . '">';
+                if ($type === 'Block Editor') {
+                    $blockContent .= '<InnerBlocks class="tabs-editor-content ' . $contentID . '"/>';
                 }
 
-                if($type === 'Basic Content') {
+                if ($type === 'Basic Content') {
                     $blockContent .= $basic_editor;
                 }
-                $blockContent .='</div>';
+                $blockContent .= '</div>';
 
             }
         } else {
             $output .= '<h2 class="tabs-header">No rows found</h2>';
         }
-        $output .='<nav class="'. $nav_classes .'">'.$blockTitle.'</nav>';
-        $output .='<div class="tab-content" id="TabContent-'.$tabsID.'">' . $blockContent .'</div>';
-        $output .=' </div>';
+        $output .= '<nav class="' . $nav_classes . '">' . $blockTitle . '</nav>';
+        $output .= '<div class="tab-content" id="TabContent-' . $tabsID . '">' . $blockContent . '</div>';
+        $output .= ' </div>';
         return $output;
     }
 endif;
@@ -421,7 +421,20 @@ add_filter('edit_comment_link', 'theme_main_custom_edit_comment_link');
 if (!function_exists('theme_main_get_horizontal_card')):
     function theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
     {
+        if (empty($read_more_toggle)) {
+            if (get_field('read_more_link_type') == 1):
+                $read_more_toggle = 'true';
+            endif;
+        }
+        $read_posts_more_label = get_field('read_posts_more_label');
+        if (empty($read_posts_more_label)) {
+            $read_posts_more_label = 'Read More';
+        }
 
+        $read_more_button_style = get_field('read_more_button_style');
+        if (empty($read_more_button_style)) {
+            $read_more_button_style = 'btn-primary';
+        }
         if ($classes) {
             $classes = $classes . ' ';
         }
@@ -459,9 +472,9 @@ if (!function_exists('theme_main_get_horizontal_card')):
         $output .= '<div class="card-footer">';
 
         if ($read_more_toggle) {
-            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn '.$read_more_button_style.'">'.$read_posts_more_label.'</a>';
         } else {
-            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link stretched-link">'.$read_posts_more_label.'</a>';
         }
         $output .= '</div>';
         $output .= '</div>';
@@ -474,7 +487,20 @@ endif;
 if (!function_exists('theme_main_get_horizontal_card_version_2')):
     function theme_main_get_horizontal_card_version_2($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $column_classes = null, $read_more_toggle = null)
     {
+        if (empty($read_more_toggle)) {
+            if (get_field('read_more_link_type') == 1):
+                $read_more_toggle = 'true';
+            endif;
+        }
+        $read_posts_more_label = get_field('read_posts_more_label');
+        if (empty($read_posts_more_label)) {
+            $read_posts_more_label = 'Read More';
+        }
 
+        $read_more_button_style = get_field('read_more_button_style');
+        if (empty($read_more_button_style)) {
+            $read_more_button_style = 'btn-primary';
+        }
         if ($classes) {
             $classes = $classes . ' ';
         }
@@ -517,9 +543,9 @@ if (!function_exists('theme_main_get_horizontal_card_version_2')):
         $output .= '<div class="card-footer">';
 
         if ($read_more_toggle) {
-            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn '.$read_more_button_style.'">'.$read_posts_more_label.'</a>';
         } else {
-            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link stretched-link">'.$read_posts_more_label.'</a>';
         }
         $output .= '</div>';
         $output .= '</div>';
@@ -533,6 +559,21 @@ endif;
 if (!function_exists('theme_main_get_vertical_card')):
     function theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id = null, $card_date = null, $thumbnail_url = null, $classes = null, $read_more_toggle = null, $column_classes = null)
     {
+
+        if (empty($read_more_toggle)) {
+            if (get_field('read_more_link_type') == 1):
+                $read_more_toggle = 'true';
+            endif;
+        }
+        $read_posts_more_label = get_field('read_posts_more_label');
+        if (empty($read_posts_more_label)) {
+            $read_posts_more_label = 'Read More';
+        }
+
+        $read_more_button_style = get_field('read_more_button_style');
+        if (empty($read_more_button_style)) {
+            $read_more_button_style = 'btn-primary';
+        }
         if ($classes) {
             $classes = $classes . ' ';
         }
@@ -547,7 +588,7 @@ if (!function_exists('theme_main_get_vertical_card')):
             $output .= '<img src="' . esc_url($thumbnail_url) . '" class="card-img-top" alt="' . esc_attr($title) . '">';
         }
 
-        $output .= '<div class="card-body '.$column_classes .'">';
+        $output .= '<div class="card-body ' . $column_classes . '">';
         if ($card_date) {
             $output .= '<strong class="theme-main-color">' . $card_date . '</strong>';
         }
@@ -557,12 +598,12 @@ if (!function_exists('theme_main_get_vertical_card')):
         $output .= '</div>';
 
 
-        $output .= '<div class="card-footer">';
+        $output .= '<div class="card-footer ' . $column_classes . '">';
 
         if ($read_more_toggle) {
-            $output .= '<a href="' . esc_url($permalink) . '" class="btn btn-primary">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="btn '.$read_more_button_style.'">'.$read_posts_more_label.'</a>';
         } else {
-            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link stretched-link">Read More</a>';
+            $output .= '<a href="' . esc_url($permalink) . '" class="read-more-link stretched-link">'.$read_posts_more_label.'</a>';
         }
         $output .= '</div>';
         $output .= '</div>';
@@ -576,11 +617,11 @@ if (!function_exists('theme_main_loading_animation')):
     {
         ob_start(); // Start output buffering
 
-        if(empty($text)){
+        if (empty($text)) {
             $text = 'loading';
         }
         $output = '<div class="d-flex justify-content-between w-75 mx-auto">';
-        $output .= '<h4 class="me-2">'.$text.'</h4>';
+        $output .= '<h4 class="me-2">' . $text . '</h4>';
         $output .= '<div class="spinner-grow text-dark" role="status">';
         $output .= '<span class="visually-hidden">Loading...</span>';
         $output .= '</div>';

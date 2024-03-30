@@ -22,5 +22,21 @@
         "alignText": true,
         "fullHeight": false,
         "alignWide": true
-    }
+    },
+    "styles": [
+        {
+            "name": "featured",
+            "label": "Featured (small)"
+        },
+        {
+            "name": "posts",
+            "label": "Full Grid (more)"
+        },
+        {
+            "name": "list",
+            "label": "Vertical List (more)"
+        }
+    ]
 }
+
+

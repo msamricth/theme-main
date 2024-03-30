@@ -239,27 +239,34 @@ add_filter('acf/load_field/name=button_background', 'acf_append_color_choices');
 if (!function_exists('theme_main_load_more_posts')) {
 	function theme_main_load_more_posts()
 	{
+
+		$category_id = isset ($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+
+		// Define the query arguments
 		$page = $_POST['page'];
 
 		$load_moreArgs = array(
 			'posts_per_page' => 6,
 			'paged' => $page,
-			'offset' => ($page - 1) * 6, // Calculate offset based on page number
+			'offset' => ($page - 1) * 3, // Calculate offset based on page number
 		);
 
+
+		// Check if a category filter is applied
+		if ($category_id > 0) {
+			$load_moreArgs['cat'] = $category_id;
+		}
+
+		// Query posts
 		$query = new WP_Query($load_moreArgs);
+		$post_count = $query->post_count; // Get the total number of posts in the query
 		$i = 0;
 		$row_class = '';
+		// Output posts
 		if ($query->have_posts()) {
 			while ($query->have_posts()) {
 				$query->the_post();
-
-
-				/**
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
+				// Include the Post-Format-specific template for the content
 				$title = get_the_title();
 				$excerpt = theme_main_excerpt('40') . '...';
 				$permalink = get_the_permalink();
@@ -271,29 +278,41 @@ if (!function_exists('theme_main_load_more_posts')) {
 				$read_more_toggle = '';
 				$final = '<div class="d-none estimate" id="estimate-' . $post_id . '">' . wp_strip_all_tags(get_the_content()) . '</div>';
 
-				if ($i == 0) { ?>
-					<div class="col-dlg-12 col-md-6 mb-4 fold animation-on fade-in mb-xl-5">
-						<?php echo theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $column_classes, $read_more_toggle);
-						echo $final ?>
-					</div>
-				<?php } elseif ($i <= 3) { ?>
-					<div class="col-md-6 col-xl-4 mb-4 fold animation-on fade-in mb-xl-5">
-						<?php // Display 3 posts in the second row
-											//get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
-											echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
-											echo $final; ?>
-					</div>
-					<?php
-				} else { ?>
-					<div class="col-md-6 mb-4 fold animation-on fade-in mb-xl-5">
+				// Check if there are less than four posts
+				if ($post_count < 4) {
+					$post_col = 12 / $post_count;
+					?>
+					<div class="col-md-6 col-xl-<?php echo $post_col; ?> mb-4 mb-xl-5 fold animation-on fade-in">
 						<?php echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
 						echo $final; ?>
 					</div>
 					<?php
+				} else {
+					if ($i == 0) { ?>
+						<div class="col-dlg-12 col-md-6 mb-4 mb-xl-5 fold animation-on fade-in">
+							<?php echo theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $column_classes, $read_more_toggle);
+							echo $final ?>
+						</div>
+					<?php } elseif ($i <= 3) { ?>
+						<div class="col-md-6 col-xl-4 mb-4 mb-xl-5 fold animation-on fade-in">
+							<?php // Display 3 posts in the second row
+													//get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+													echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+													echo $final; ?>
+						</div>
+						<?php
+					} else { ?>
+						<div class="col-md-6 mb-4 mb-xl-5 fold animation-on fade-in">
+							<?php echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+							echo $final; ?>
+						</div>
+						<?php
+					}
+					$i++; // Increment $i after each post
 				}
-				$i++; // Increment $i after each post
 			}
 		}
+
 
 		wp_reset_postdata();
 		die();
@@ -313,7 +332,7 @@ if (!function_exists('theme_main_get_ratio')):
 	{
 		enqueue_header_markup(customRatio($ratio));
 		$classes = ' ratio-' . $ratio;
-		return '<div class="ratio '.$classes.'>'.$content.'</div>';
+		return '<div class="ratio ' . $classes . '>' . $content . '</div>';
 
 	}
 endif;
@@ -328,7 +347,7 @@ if (!function_exists('theme_main_get_block_ratio')):
 	{
 		enqueue_header_markup(customRatio($ratio));
 		$classes .= 'ratio ratio-' . $ratio;
-		return '<div '.get_block_settings($block, $blockID, $classes).'>'.$content.'</div>';
+		return '<div ' . get_block_settings($block, $blockID, $classes) . '>' . $content . '</div>';
 
 	}
 endif;
@@ -495,7 +514,10 @@ if (!function_exists('theme_main_content_nav')) {
 	{
 		global $wp_query;
 		if ($nav_id === 'ajax') {
-			echo '<div id="posts-container" class="row"></div><button id="load-more" class="btn btn-wide mx-auto mt-5 mb-gutter btn-primary">Load More</button>';
+			$count_posts = wp_count_posts();
+			if ($count_posts > 7) { //if theres only 6 posts on a site dont give a option to load more 
+				echo '<div id="posts-container" class="row"></div><button id="load-more" class="btn btn-wide mx-auto mt-5 mb-gutter btn-primary">Load More</button>';
+			}
 		} else {
 			if ($wp_query->max_num_pages > 1) {
 				?>
@@ -513,9 +535,6 @@ if (!function_exists('theme_main_content_nav')) {
 			}
 
 		}
-
-
-
 	}
 
 	/**
@@ -532,6 +551,89 @@ if (!function_exists('theme_main_content_nav')) {
 	add_filter('next_posts_link_attributes', 'posts_link_attributes');
 	add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 }
+
+//if (!function_exists('theme_main_filter_posts')) {
+add_action('wp_ajax_theme_main_filter_posts', 'theme_main_filter_posts'); // Update AJAX Action
+add_action('wp_ajax_nopriv_theme_main_filter_posts', 'theme_main_filter_posts');
+
+function theme_main_filter_posts()
+{
+	$category_id = isset ($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+
+	// Define the query arguments
+	$args = array(
+		'posts_per_page' => 6,
+	);
+
+	// Check if a category filter is applied
+	if ($category_id > 0) {
+		$args['cat'] = $category_id;
+	}
+
+	// Query posts
+	$query = new WP_Query($args);
+	$post_count = $query->post_count; // Get the total number of posts in the query
+	$i = 0;
+	$row_class = '';
+	// Output posts
+	if ($query->have_posts()) {
+		while ($query->have_posts()) {
+			$query->the_post();
+			// Include the Post-Format-specific template for the content
+			$title = get_the_title();
+			$excerpt = theme_main_excerpt('40') . '...';
+			$permalink = get_the_permalink();
+			$post_id = get_the_ID();
+			$card_date = get_the_date('D, M j') . '<span class="read-time"></span>';
+			$thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+			$classes = 'p-4 bg-primary';
+			$column_classes = '';
+			$read_more_toggle = '';
+			$final = '<div class="d-none estimate" id="estimate-' . $post_id . '">' . wp_strip_all_tags(get_the_content()) . '</div>';
+
+			// Check if there are less than four posts
+			if ($post_count < 4) {
+				$post_col = 12 / $post_count;
+				?>
+				<div class="col-md-6 col-xl-<?php echo $post_col; ?> mb-4 mb-xl-5 fold animation-on fade-in">
+					<?php echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+					echo $final; ?>
+				</div>
+				<?php
+			} else {
+				if ($i == 0) { ?>
+					<div class="col-dlg-12 col-md-6 mb-4 mb-xl-5 fold animation-on fade-in">
+						<?php echo theme_main_get_horizontal_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $column_classes, $read_more_toggle);
+						echo $final ?>
+					</div>
+				<?php } elseif ($i <= 3) { ?>
+					<div class="col-md-6 col-xl-4 mb-4 mb-xl-5 fold animation-on fade-in">
+						<?php // Display 3 posts in the second row
+											//get_template_part('templates/content/vertical-card', null, ['row_class' => $row_class]);
+											echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+											echo $final; ?>
+					</div>
+					<?php
+				} else { ?>
+					<div class="col-md-6 mb-4 mb-xl-5 fold animation-on fade-in">
+						<?php echo theme_main_get_vertical_card($title, $excerpt, $permalink, $post_id, $card_date, $thumbnail_url, $classes, $read_more_toggle, 'px-0');
+						echo $final; ?>
+					</div>
+					<?php
+				}
+				$i++; // Increment $i after each post
+			}
+		}
+		wp_reset_postdata();
+	} else {
+		echo 'No posts found';
+	}
+
+	theme_main_content_nav('ajax');
+	die();
+}
+//}
+
 
 if (!function_exists('theme_main_add_user_fields')) {
 	/**
@@ -742,10 +844,65 @@ if (!function_exists('theme_main_check_for_unit')) {
 			if (str_contains($demension, '%')) { //because the first filter keeps missing percentages
 				return $demension;
 			} else {
-				return $demension.'px';
+				return $demension . 'px';
 			}
 		}
 
 
+	}
+}
+
+
+if (!function_exists('theme_main_option_fields')) {
+	function theme_main_option_fields($style, $terms, $filter_label, $classes, $aria = null)
+	{
+		$field = '';
+		switch ($style) {
+			case 'select':
+				$classes .= ' form-select';
+				$field .= '<select name="' . $style . '" class="' . $classes . '" aria-label="Filter by ' . $filter_label . '" id="' . slugify($filter_label) . '-filter">';
+				$field .= '<option value="">All ' . $filter_label . '</option>';
+				foreach ($terms as $term) {
+					$field .= '<option value="' . esc_attr($term->term_id) . '">' . esc_html($term->name) . '</option>';
+				}
+				$field .= '</select>';
+				break;
+			case 'multiple-select':
+				$classes .= ' form-select';
+				$field .= '<select name="' . $style . '" class="' . $classes . '" multiple aria-label="Filter by ' . $filter_label . '" id="' . slugify($filter_label) . '-filter">';
+				foreach ($terms as $term) {
+					$field .= '<option value="' . esc_attr($term->term_id) . '">' . esc_html($term->name) . '</option>';
+				}
+				$field .= '</select>';
+				break;
+			case 'checkbox':
+				$classes .= ' form-check-input';
+				$field .= '<div class="form-check-container" id="' . slugify($filter_label) . '-filter">';
+				foreach ($terms as $term) {
+					$field .= '<div class="form-check mb-3" id="term-' . esc_attr($term->term_id) . '">';
+					$field .= '<input class="' . $classes . '" type="checkbox" name="' . $term->slug . '" value="' . esc_attr($term->term_id) . '" id="term-' . esc_attr($term->term_id) . '">';
+					$field .= '<label class="form-check-label" for="term-' . esc_attr($term->term_id) . '">' . esc_html($term->name) . '</label>';
+					$field .= '</input>';
+					$field .= '</div>';
+				}
+				$field .= '</div>';
+				break;
+			case 'radio':
+				$classes .= ' form-check-input';
+				$field .= '<div class="form-check-container" id="' . slugify($filter_label) . '-filter">';
+				foreach ($terms as $term) {
+					$field .= '<div class="form-check mb-3" id="term-' . esc_attr($term->term_id) . '">';
+					$field .= '<input class="' . $classes . '" type="radio" name="' . $term->slug . '" value="' . esc_attr($term->term_id) . '" id="term-' . esc_attr($term->term_id) . '">';
+					$field .= '<label class="form-check-label" for="term-' . esc_attr($term->term_id) . '">' . esc_html($term->name) . '</label>';
+					$field .= '</input>';
+					$field .= '</div>';
+				}
+				$field .= '</div>';
+				break;
+			default:
+				// Handle unsupported styles or fallback to a default style
+				break;
+		}
+		return $field;
 	}
 }

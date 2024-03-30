@@ -201,7 +201,9 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     .d-xl-none {
         display: inherit !important;
     }
-
+    .estimate.d-none {
+        display: none !important;
+    }
     .hide-in-editor {
         display: none !important;
     }
