@@ -207,6 +207,9 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     .hide-in-editor {
         display: none !important;
     }
+    .stretched-link:after{
+        content: none;
+    }
 }
 
 @mixin container-max-width($max-width) {

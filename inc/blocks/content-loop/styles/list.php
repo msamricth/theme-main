@@ -104,7 +104,7 @@ $read_more_function = get_field('read_more_function');
             $output .= '</div>';
             $output .= '<div class="' . $column_content . ' content-side">';
             $output .= '<div class="card-body ';
-            if($hasBackground){
+            if(empty($hasBackground)){
                 $output .= 'pt-0';
             }
             $output .= '">';
@@ -117,7 +117,7 @@ $read_more_function = get_field('read_more_function');
             $output .= '</div>';
     
             $output .= '<div class="card-footer ';
-            if($hasBackground){
+            if(empty($hasBackground)){
                 $output .= 'pb-0';
             }
             $output .= '">';
