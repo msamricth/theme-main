@@ -20,7 +20,7 @@ $template = array(
     array(
         'acf/card',
         array(
-            'className' => 'col',
+            'className' => 'col position-relative',
         )
     )
 );

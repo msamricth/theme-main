@@ -46,6 +46,7 @@ if (!function_exists('get_block_settings')):
             $anchor = $block['anchor'];
         }
         $classes = $classNames . ' ';
+        if(empty($NamesOff)){ $NamesOff = 'none';}
         // Create class attribute allowing for custom "className" and "align" values.
 
 
@@ -176,6 +177,7 @@ if (!function_exists('get_block_classes')):
         $output = '';
         $turnOnFold = false;
 
+        if(empty($NamesOff)){ $NamesOff = 'none';}
         $classes = $classNames . ' ';
 
         if (!empty ($block['className']) && strpos($NamesOff, 'className') === false) {
@@ -365,6 +367,7 @@ function theme_main_register_acf_blocks()
     register_block_type(get_template_directory() . '/inc/blocks/image-cloud');
     register_block_type(get_template_directory() . '/inc/blocks/pop-over');
     register_block_type(get_template_directory() . '/inc/blocks/filter-posts');
+    register_block_type(get_template_directory() . '/inc/blocks/post-meta');
 
 
     if (class_exists('WPCF7')) {
@@ -462,7 +465,7 @@ if (!function_exists('theme_main_check_for_blocks')) {
 
         // Check if the content contains any blocks
         $blocks = parse_blocks($content);
-        if (!empty($blocks) && count($blocks) > 2) {
+        if (!empty($blocks) && count($blocks) > 1) {
             return true;
         }
         return false;

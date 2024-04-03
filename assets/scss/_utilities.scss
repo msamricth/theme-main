@@ -72,7 +72,7 @@ $theme-main-nav-link-color: #{$body-color};
 
 .full-width {
     @include media-breakpoint-down(md) {
-        &:not(.wp-block-group) {
+        &:not(.wp-block-group, .splide__slide) {
             margin-left: calc(0px - var(--theme-main-gutter) - 4px);
             margin-right: calc(0px - var(--theme-main-gutter) - 4px);
         }
@@ -300,6 +300,12 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
         @include margin-spacing(top, var(--theme-main-gutter-x));
         @include margin-spacing(bottom, var(--theme-main-gutter-x));
     }
+    .mb-md-gutter {
+        @include margin-spacing(bottom, var(--theme-main-gutter-x));
+    }
+    .mt-md-gutter {
+        @include margin-spacing(top, var(--theme-main-gutter-x));
+    }
 }
 
 .m-gutter {
@@ -385,4 +391,7 @@ html .wp-admin .editor-styles-wrapper :where(.wp-block) {
     --bs-nav-link-padding-x: 2rem;
     --bs-nav-tabs-link-active-bg: #{$primary};
     --bs-nav-tabs-link-active-color: #{$dark};
+}
+.lead p {
+    @extend .lead;
 }

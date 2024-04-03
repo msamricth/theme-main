@@ -19,7 +19,7 @@
         }
     }
 }
-
+.position-relative .card-body .wp-block-buttons {width: calc(100% - (var(--bs-card-spacer-y) * 2));position: absolute;align-self: flex-end !important;bottom: var(--bs-card-spacer-y);margin: auto;}
 .theme-main-popover-content {
     @extend .position-absolute;
     @extend .card;

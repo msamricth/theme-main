@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Filter field change event triggered');
             var category_id = this.value;
             var xhr = new XMLHttpRequest();
+            var postId = element.getAttribute('data-post-id');
             xhr.open('POST', ajax_object.ajax_url);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function () {
@@ -18,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             };
             console.log('Filter field AJAX data:', 'action=theme_main_filter_posts&category_id=' + category_id);
-            xhr.send('action=theme_main_filter_posts&category_id=' + category_id);
+            xhr.send('action=theme_main_filter_posts&category_id=' + category_id + '&post_id=' + postId);
+
         });
     });
     

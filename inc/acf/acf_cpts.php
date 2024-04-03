@@ -26,12 +26,7 @@ register_post_type('redirect', array(
     'show_in_nav_menus' => true,
     'show_in_admin_bar' => true,
     'has_archive' => false,
-    'rewrite' => array(
-        'slug' => '',
-        'with_front' => false,
-        'feeds' => false,
-        'pages' => false,
-    ),
+    'rewrite' => false, // Set to false to remove the slug
     'capability_type' => 'page',
     'capabilities' => array(),
     'map_meta_cap' => null,
