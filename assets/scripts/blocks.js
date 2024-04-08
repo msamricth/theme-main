@@ -1,15 +1,20 @@
 import * as bootstrap from 'bootstrap';
-document.addEventListener('click', function(event) {
-    var isClickInsideCollapse = document.querySelector('.theme-main-popover-content').contains(event.target);
-    var isClickInsideButton = event.target.closest('[data-toggle="collapse"]');
-    if (!isClickInsideCollapse && !isClickInsideButton) {
-        var collapse = document.querySelector('.theme-main-popover-content');
-        if (collapse.classList.contains('show')) {
-            var collapseInstance = new bootstrap.Collapse(collapse);
-            collapseInstance.hide();
+
+
+const popoverContent = document.querySelector('.theme-main-popover-content');
+if (popoverContent) {
+    document.addEventListener('click', function (event) {
+        var isClickInsideCollapse = popoverContent.contains(event.target);
+        var isClickInsideButton = event.target.closest('[data-toggle="collapse"]');
+        if (!isClickInsideCollapse && !isClickInsideButton) {
+            var collapse = document.querySelector('.theme-main-popover-content');
+            if (collapse.classList.contains('show')) {
+                var collapseInstance = new bootstrap.Collapse(collapse);
+                collapseInstance.hide();
+            }
         }
-    }
-});
+    });
+}
 function get_wordfumbler() {
 
     document.addEventListener("DOMContentLoaded", function () {

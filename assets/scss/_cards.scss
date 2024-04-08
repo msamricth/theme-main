@@ -13,7 +13,7 @@
     }
 
     .card-footer {
-        background-color: var(--bs-card-bg);
+        background-color: transparent;
     }
 }
 
@@ -94,7 +94,10 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-
+        position: relative;
+        @include media-breakpoint-up(md) {
+            position: absolute;
+        }
         &:hover,
         &:focus,
         &:active {

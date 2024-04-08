@@ -211,7 +211,7 @@ function get_slider() {
         });
     }
 
-    let splideBlocks = document.getElementsByClassName("splide");
+    let splideBlocks = document.querySelectorAll(".splide");
     if (splideBlocks.length > 0) {
         for (var i = 0; i < splideBlocks.length; i++) {
             splider(splideBlocks[i]);

@@ -14,13 +14,17 @@ $blockID = "header-block";
 $classes = $blockID . " ";
 
 $anchor = 'header-' . get_theme_main_postID();
-if (!empty ($block['anchor'])) {
+if (!empty($block['anchor'])) {
     $anchor = $block['anchor'];
 }
 $fullHeight = '';
 $classes .= "header-container full-width ";
-if (empty ($block['className'])) {
-    $classes .= 'mb-gutter ';
+if (empty($block['className'])) {
+    if (is_singular()) {
+        $classes .= 'mb-3 mb-xl-5 ';
+    } else {
+        $classes .= 'mb-gutter mb-xl-3 ';
+    }
 }
 if (have_rows('options')):
     while (have_rows('options')):
@@ -35,7 +39,7 @@ $blockStyles = '';
 $header_content = '';
 $blockContent = '';
 $page_title = '';
-if (isset ($args['page_title'])) {
+if (isset($args['page_title'])) {
     $page_title = $args['page_title'];
 }
 
@@ -47,7 +51,7 @@ $header_type = get_field('header_type');
 $classes .= $header_type;
 
 
-if (($header_type === "image" || empty ($header_type)) && !has_post_thumbnail(get_theme_main_postID())) {
+if (($header_type === "image" || empty($header_type)) && !has_post_thumbnail(get_theme_main_postID())) {
 
     $header_type = 'Basic';
 }
@@ -66,7 +70,7 @@ $inner_blocks_template = array(
                     'padding' => array(
                         'top' => 'var:preset|spacing|30',
                         'right' => 'var:preset|spacing|30',
-                        'bottom' => 'var:preset|spacing|30',
+                        'bottom' => 'var:preset|spacing|0',
                         'left' => 'var:preset|spacing|30',
                     ),
                 ),
@@ -126,7 +130,7 @@ if (get_post_type(get_theme_main_postID()) == 'post') {
                         'padding' => array(
                             'top' => 'var:preset|spacing|30',
                             'right' => 'var:preset|spacing|30',
-                            'bottom' => 'var:preset|spacing|30',
+                            'bottom' => 'var:preset|spacing|0',
                             'left' => 'var:preset|spacing|30',
                         ),
                     ),
@@ -147,6 +151,23 @@ if (get_post_type(get_theme_main_postID()) == 'post') {
                         )
                     ),
                 ),
+                array(
+                    'core/column',
+                    array(
+                        'verticalAlignment' => 'bottom',
+                        'width' => '250px',
+                    ),
+                    array(
+                        array(
+                            'acf/post-meta',
+                            array(
+                                "alignContent" => "right",
+                                "align" => "right",
+                                "alignText " => "right"
+                            )
+                        ),
+                    ),
+                ),
             ),
         ),
     );
@@ -154,10 +175,10 @@ if (get_post_type(get_theme_main_postID()) == 'post') {
 
 
 
-if (!empty ($block['alignContent'])) {
+if (!empty($block['alignContent'])) {
     $blockClasses .= ' align-items-' . $block['alignContent'];
 }
-$header_content .= '<div class="page-header py-2 my-3xl-5 fold ' . $blockClasses . '" data-class="header">';
+$header_content .= '<div class="page-header py-2 fold ' . $blockClasses . '" data-class="header">';
 
 
 $header_content .= '<div class="container">';
@@ -187,7 +208,7 @@ $classes .= ' ' . $fullHeight;
     <?php
     echo $header_content;
 
-    if (!empty ($header_media)) {
+    if (!empty($header_media)) {
 
         echo $header_media;
     } ?>

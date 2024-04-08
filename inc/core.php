@@ -100,4 +100,16 @@ if ( is_readable( $core_widgets ) ) {
  * @since v1.0
  */
 $theme_main_block_settings = __DIR__ . '/core/blocks.php';
-if ( is_readable( $theme_main_block_settings ) ) {	require_once $theme_main_block_settings;}
+if ( is_readable( $theme_main_block_settings ) ) {	
+	require_once $theme_main_block_settings;
+}
+
+
+/**
+ * Post loop patterns and functions
+ * @since v2.8
+ */
+$theme_main_the_loop = __DIR__ . '/core/loop.php';
+if ( is_readable( $theme_main_the_loop ) ) {	
+	require_once $theme_main_the_loop;
+}

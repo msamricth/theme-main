@@ -31,7 +31,7 @@ $blockClasses = 'collapse theme-main-popover-content';
 if($direction){
     $blockClasses .= ' popover-direction-'.$direction;
 }
-$blockContent = '<div id="' . $blockID . '" class="' . get_block_classes($block, $blockClasses, '1') . '">';
+$blockContent = '<div id="' . $blockID . '" class="' . get_block_classes($block, $blockClasses, 'classNames') . '">';
 $blockContent .= $popover_content;
 $blockContent .= '</div>';
 echo $blockContent;
