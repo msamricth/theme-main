@@ -165,7 +165,7 @@ function experimental() {
       setTimeout(() => {
         shuffleImages(); // Shuffle images
         delayedShuffle(); // Repeat the shuffle
-      }, randomInterval(5000, 10000)); // Adjust the interval range as needed (from 5 to 10 seconds in this example)
+      }, randomInterval(2000, 8000)); // Adjust the interval range as needed (from 5 to 10 seconds in this example)
     }
     
     // Initial shuffle

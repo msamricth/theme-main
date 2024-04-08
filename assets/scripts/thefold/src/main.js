@@ -196,34 +196,24 @@ function isColorLight(hexColor) {
 }
 function isElemInView(elem, ScrollAction) {
 	let elemID = elem.id;
-	function elemInView() {
-		if (elemID) {
-			document.body.classList.add(elemID + '-inView')
-		}
-	}
-	function elemOutView() {
-		if (elemID) {
-			document.body.classList.remove(elemID + '-inView')
-		}
-	}
 
 	if (ScrollAction) {
 		switch (ScrollAction) {
 			case 'undefined':
 				break;
 			case 'onEnter':
-				elem.classList.add('is-in-view'),elemInView();
+				elem.classList.add('is-in-view'), elemInView(elemID);
 				break;
 			case 'onEnterBack':
-				elem.classList.add('is-in-view'),elemInView();
+				elem.classList.add('is-in-view'), elemInView(elemID);
 				break;
 			case 'onLeave':
 				elem.classList.remove('is-in-view');
-				elemOutView();
+				elemOutView(elemID);
 				break;
 			case 'onLeaveBack':
 				elem.classList.remove('is-in-view');
-				elemOutView();
+				elemOutView(elemID);
 				break;
 			//case 'bg-custom':
 			//foldSwitch(theme, bg, txt, foldBG = null, foldColor = null);
@@ -233,4 +223,20 @@ function isElemInView(elem, ScrollAction) {
 	}
 }
 
+function elemInView(elemID) {
+	if (elemID) {
+		document.body.classList.add(elemID + '-inView')
+	}
+}
+function elemOutView(elemID) {
+	if (elemID) {
+		document.body.classList.add(elemID + '-leavingView');
+		document.body.classList.remove(elemID + '-inView');
+		setTimeout(
+			function () {
+				document.body.classList.remove(elemID + '-leavingView');
+			},
+			800);
+	}
+}
 export { matchNav, animationOn, setFoldLegacy, isElemInView };

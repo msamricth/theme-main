@@ -11,7 +11,7 @@
     },
     "supports": {
         "align": [ "left", "right", "wide", "full" ],
-        "anchor": false,
+        "anchor": true,
         "alignContent": true,
         "jsx": true,
         "color": {

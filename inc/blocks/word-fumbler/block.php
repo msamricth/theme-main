@@ -15,22 +15,18 @@ $blockVersion = 1;
 $type = '';
 $type_size = '';
 
+$classes = $blockID . " ";
 if (have_rows('options')):
     while (have_rows('options')):
         the_row();
         if (get_sub_field('version') == 1):
             $blockVersion = 2;
-            $blockID .= " word-fumbler-second-version";
+            $classes .= " word-fumbler-second-version";
         else:
-            $blockID .= " word-fumbler-first-version";
+            $classes .= " word-fumbler-first-version";
         endif;
     endwhile;
 endif;
-
-$classes = $blockID . " ";
-// add acf or other functions here
-
-$classes .= ""; // Add extra classes here.
 ?>
 <div <?php echo get_block_settings($block, $blockID, $classes); ?>>
     <?php if (have_rows('terms')): ?>
