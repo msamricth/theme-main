@@ -96,6 +96,12 @@ if (!function_exists('get_block_settings')):
                 $classes .= ' match-nav match_' . $block['backgroundColor'] . ' ';
             }
         }
+        if (!empty ($block['blockAnimation']) && strpos($NamesOff, 'blockAnimation') === false) {
+            $classes .= ' animation-on ' . $block['blockAnimation'] . ' ';
+          //  if ($block['blockAnimation'] === 'fold') {
+                $turnOnFold = true;
+            //}
+        }
         if ($turnOnFold) {
             $classes .= ' fold ';
         }
@@ -107,12 +113,6 @@ if (!function_exists('get_block_settings')):
         }
         if (!empty ($block['hideDesktop']) && strpos($NamesOff, 'hideDesktop') === false) {
             $classes .= ' d-xl-none ';
-        }
-        if (!empty ($block['blockAnimation']) && strpos($NamesOff, 'blockAnimation') === false) {
-            $classes .= ' animation-on ' . $block['blockAnimation'] . ' ';
-            if ($block['blockAnimation'] === 'fold') {
-                $turnOnFold = true;
-            }
         }
         if (!empty ($block['animationDelay'])) {
             $animation_delay = str_replace('animation-delay-', '', $block['animationDelay']);

@@ -8,10 +8,6 @@ import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.
 import { matchNav, animationOn, setFoldLegacy, isElemInView } from "./main.js";
 gsap.registerPlugin(ScrollTrigger);
 
-function videoScrollTriggerFunction(video, player, videoTitle, videoID = null, sTIIV = null, sTPIV = null, vimeoFrame = null) {
-
-
-}
 
 function scrollingCarousel() {
     let scrollingCarouselHeader = document.querySelector("#logo-carousel-header");

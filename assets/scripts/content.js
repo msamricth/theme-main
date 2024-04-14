@@ -8,9 +8,9 @@ function readingTime(obj) {
 			const text = estimateContainer.querySelector(".estimate").innerText;
 			const wpm = 225;
 			const words = text.trim().split(/\s+/).length;
-			time = Math.ceil(words / wpm); 
+			time = Math.ceil(words / wpm);
 			let readingTimeObj = estimateContainer.querySelector(".read-time");
-			if(readingTimeObj) readingTimeObj.innerText = time + ' min read';
+			if (readingTimeObj) readingTimeObj.innerText = time + ' min read';
 		}
 	}
 }
@@ -23,15 +23,15 @@ if (contentSlider) {
 		readingTime(contentslideThatIsPost);
 	});
 }
-
 const readTimes = document.querySelectorAll(".read-time");
-if(readTimes){
-	const contentLoop = document.querySelector('.content-loop'),
-	contentLoopPosts = contentLoop.querySelectorAll('.card')
-
-	contentLoopPosts.forEach(function (contentLoopPost) {
-		readingTime(contentLoopPost);
-	});
+if (readTimes) {
+	const contentLoop = document.querySelector('.content-loop')
+	if (contentLoop) {
+		const contentLoopPosts = contentLoop.querySelectorAll('.card');
+		contentLoopPosts.forEach(function (contentLoopPost) {
+			readingTime(contentLoopPost);
+		});
+	}
 }
 
 const articleInteriorPage = document.querySelector(".supply-articles");

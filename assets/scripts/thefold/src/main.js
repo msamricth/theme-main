@@ -199,8 +199,6 @@ function isElemInView(elem, ScrollAction) {
 
 	if (ScrollAction) {
 		switch (ScrollAction) {
-			case 'undefined':
-				break;
 			case 'onEnter':
 				elem.classList.add('is-in-view'), elemInView(elemID);
 				break;
@@ -221,22 +219,22 @@ function isElemInView(elem, ScrollAction) {
 			default:
 		}
 	}
-}
 
-function elemInView(elemID) {
-	if (elemID) {
-		document.body.classList.add(elemID + '-inView')
+	function elemInView(elemID) {
+		if (elemID) {
+			document.body.classList.add(elemID + '-inView')
+		}
 	}
-}
-function elemOutView(elemID) {
-	if (elemID) {
-		document.body.classList.add(elemID + '-leavingView');
-		document.body.classList.remove(elemID + '-inView');
-		setTimeout(
-			function () {
-				document.body.classList.remove(elemID + '-leavingView');
-			},
-			800);
+	function elemOutView(elemID) {
+		if (elemID) {
+			document.body.classList.add(elemID + '-leavingView');
+			document.body.classList.remove(elemID + '-inView');
+			setTimeout(
+				function () {
+					document.body.classList.remove(elemID + '-leavingView');
+				},
+				1000);
+		}
 	}
 }
 export { matchNav, animationOn, setFoldLegacy, isElemInView };

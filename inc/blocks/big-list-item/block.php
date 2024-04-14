@@ -117,7 +117,7 @@ $template = '{
 
 $classes .= "d-flex flex-column justify-content-between"; // Add extra classes here.
 if (!empty($block['anchor'])) {
-   $blockClasses = $blockID . " ";
+   $blockClasses = $blockID . " fold ";
    echo '<div '. get_block_settings($block, $blockID, $blockClasses) .'>';
    echo '<InnerBlocks ' . get_block_classes($block, $classes) . '" template="' . esc_attr(wp_json_encode($template)) . '" />';
    echo ' </div>';
