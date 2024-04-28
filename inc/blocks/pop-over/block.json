@@ -4,7 +4,7 @@
     "description": "https://getbootstrap.com/docs/5.3/components/popovers/",
     "category": "theme-main",
     "icon": "chart-area",
-    
+    "script": "popover",
     "keywords": ["content", "navigation", "button", "call to action"],
     "acf": {
         "mode": "edit",

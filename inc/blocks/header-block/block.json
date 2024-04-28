@@ -9,6 +9,8 @@
         "mode": "preview",
         "renderTemplate": "block.php"
     },
+    "script": "themeMainCarousel",
+    "enqueue_assets": "themeMainCarousel",
     "style": "file:./block.css",
     "supports": {
         "align": [ "left", "right", "wide", "full" ],

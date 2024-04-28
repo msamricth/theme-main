@@ -66,7 +66,7 @@ function theme_main_black_editor_scripts()
 
 }
 
-//add_action('enqueue_block_editor_assets', 'theme_main_black_editor_scripts');
+add_action('enqueue_block_editor_assets', 'theme_main_black_editor_scripts');
 function theme_main_black_editor_assets()
 {
     $screen = get_current_screen();
@@ -85,11 +85,54 @@ add_action('enqueue_block_editor_assets', 'theme_main_black_editor_assets');
 
 
 
+/**
+ * Register block scripts
+ */
+function register_splide_js()
+{
+    wp_register_script('splide-js', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js', ['acf']);
+}
+add_action('init', 'register_splide_js');
+
+function register_theme_main_carousel()
+{
+    wp_register_script('themeMainCarousel', get_template_directory_uri() . '/build/carousel.bundle.js', ['splide-js', 'acf']);
+}
+add_action('init', 'register_theme_main_carousel');
+
+function register_lottie_player()
+{
+    wp_register_script('lottie-player', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', ['acf']);
+}
+add_action('init', 'register_lottie_player');
+
+function register_text_animation()
+{
+    wp_register_script('textAnimation', get_template_directory_uri() . '/build/textAnimation.bundle.js', ['acf']);
+}
+//add_action('init', 'register_text_animation');
+
+function register_popover()
+{
+    wp_register_script('popover', get_template_directory_uri() . '/build/popover.bundle.js', ['acf']);
+}
+//add_action('init', 'register_popover');
+
+function theme_main_carousel()
+{
+    if (is_singular()) {
+        $post = get_post();
+        if (has_block('acf/content-slider', $post->post_content)) {
+        }
+    }
+}
+//add_action('wp_enqueue_scripts', 'theme_main_carousel');
 
 
 function enqueue_splide_script()
 {
-    wp_enqueue_script('splide-script', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js', array('jquery'), null, true);
+    wp_enqueue_script('splide-js');
+    wp_enqueue_script('themeMainCarousel');
 }
 
 // Hook the script enqueue function to 'wp_enqueue_scripts' and 'enqueue_block_editor_assets' actions
@@ -107,8 +150,6 @@ function enqueue_block_script_on_page()
     } else {
 
         if (function_exists('theme_main_get_carousel') && (is_admin() || (isset($post->post_content) && has_shortcode($post->post_content, 'theme_main_get_carousel')))) {
-
-            wp_enqueue_script('jQuery', 'https://code.jquery.com/jquery-3.7.1.min.js', array('jquery'), null, true);
 
             enqueue_splide_script();
         } else {
@@ -169,3 +210,9 @@ function theme_main_scripts_loader()
 }
 
 add_action('wp_enqueue_scripts', 'theme_main_scripts_loader', 100);
+// Enqueue media scripts
+function my_enqueue_media()
+{
+    wp_enqueue_media();
+}
+add_action('admin_enqueue_scripts', 'my_enqueue_media');

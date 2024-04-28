@@ -216,7 +216,7 @@ if (!function_exists('get_card_media')):
                     if ($placerholder) {
                         $media .= image_containers($placerholder, '', $ratio);
                     } else {
-                        $media .= image_containers_URL('https://placehold.co/1440x750?text=Placeholder%20Image', 'placeholder image', '', $ratio, '');
+                        $media .= image_containers_URL('https://placehold.co/1440x750?text=Set%20Featured%20Image', 'placeholder image', '', $ratio, '');
                     }
                 } else {
                     $media = video_containers($videoURL, '', $ratio, '', $placerholder);
@@ -640,17 +640,24 @@ if (!function_exists('theme_main_get_legacy_carousel')) {
                 $blockContent .= $extra_options . '>';
             }
         }
-
+        $slideCount = 0;
         if (have_rows('slides')):
             while (have_rows('slides')):
                 the_row();
+                $slideCount++;
                 $slides .= '<li class="splide__slide ' . $slideClasses . '">';
                 if (get_row_layout() == 'image') {
                     $image = get_sub_field('image');
                     if ($image):
+        //                if($slideCount == 1){
                         $slides .= '<img src="' . esc_url($image['url']) . '" alt="' . esc_attr($image['alt']) . '"';
                         //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
                         $slides .= ' />';
+       //             } else {
+       //                 $slides .= '<img src="https://placehold.co/1200x800@3x?text=..." data-splide-lazy="' . esc_url($image['url']) . '" data-src="' . esc_url($image['url']) . '" class="lazyLoad-image" alt="' . esc_attr($image['alt']) . '"';
+       //                 //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
+       //                 $slides .= ' />';
+       //             }
 
                         $slides .= get_header_gradient();
                     endif;
@@ -899,11 +906,9 @@ if (!function_exists('theme_main_get_carousel_slideImages')) {
                         }
                         $slides .= '<li class="splide__slide ' . $slideClasses . '">';
 
-                        $slideMedia = '<img class="" src="' . esc_url($featured_img_url) . '" alt="' . esc_attr($alt_text) . '"';
+                        $slides .= '<img src="https://placehold.co/1200x800@3x?text=..." data-splide-lazy="' . esc_url($featured_img_url) . '" data-src="' . esc_url($featured_img_url) . '" class="lazyLoad-image" alt="' . esc_attr($alt_text) . '"';
                         //	$slides .=' width="'.esc_attr( $image['width'] ).'" height="'.esc_attr( $image['height'] ).'"';
-                        $slideMedia .= ' />';
-
-                        $slides .= $slideMedia;
+                        $slides .= ' />';
                         $slides .= '</li>';
                     }
                 }

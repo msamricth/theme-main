@@ -691,3 +691,13 @@ if (!function_exists('theme_main_option_fields')) {
 		return $field;
 	}
 }
+add_action('acfe/fields/button/name=set_featured_image', 'theme_main_header_update_FI', 10, 2);
+function theme_main_header_update_FI($field, $post_id){
+
+    // retrieve field input value 'my_field'
+    $my_field = get_field('set_featured_image');
+    
+    // send json success message
+    wp_send_json_success("Success! Field value is: {$my_field}");
+    
+}

@@ -26,6 +26,8 @@ $theme-main-nav-link-color: #{$body-color};
     --bs-card-height: 100%;
     --theme-main-arrow-color: currentColor;
     --theme-main-animation-delay: 0s;
+    --theme-main-placeholder-primary: #eeeeee;
+    --theme-main-placeholder-secondary: #cccccc;
     @include media-breakpoint-up(md) {
         --theme-main-container-max-width: calc(100% - (#{$offsetWidthMD} * 2));
         --theme-main-gutter: #{$offsetWidthMD} - #{$grid-gutter-width};

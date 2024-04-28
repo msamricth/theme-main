@@ -286,7 +286,7 @@ if (!function_exists('get_header_assets')):
             if ($placerholder) {
                 $header_media .= image_containers($placerholder, $mobileplaceholder, $ratio, $mobile_ratio);
             } else {
-                $header_media .= image_containers_URL('https://placehold.co/1440x750?text=Placeholder%20Image', 'placeholder image', 'https://placehold.co/390x844?text=Placeholder%20for%20header%20media', 'fullw', 'fullw');
+                $header_media .= image_containers_URL('https://placehold.co/1440x750?text=Set%20Featured%20Image', 'placeholder image', 'https://placehold.co/390x844?text=Set%20Featured%20Image', 'fullw', 'fullw');
             }
         } else {
 

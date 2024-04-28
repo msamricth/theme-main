@@ -9,6 +9,7 @@
         "mode": "edit",
         "renderTemplate": "block.php"
     },
+    "script": "textAnimation",
     "supports": {
         "align": [ "left", "right", "wide", "full" ],
         "anchor": false,

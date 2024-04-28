@@ -16,7 +16,7 @@ function LazyLoad() {
                         if (video.isIntersecting) {
                             let source = null, videoID = video.target.id, videoTitle = video.target.getAttribute('data-videotitle');
                             var videoSource = video.target.dataset.src;
-                    
+
                             if (source) {
                                 loadVideoErrorHandler("Not loaded yet", "No ID loaded yet", "Yikes!!!!", 'playPromise (Previously played)', 'loaded with error', 'sTIIV', 'sTPIV');
                             } else {
@@ -26,15 +26,15 @@ function LazyLoad() {
                                 source.setAttribute(
                                     "src",
                                     videoSource,
-                                  );
-                                  source.setAttribute("type", "video/mp4");
-                                  video.target.appendChild(source);
-                                  
-                                  //video.target.classList.add("first-load");
-                                  pauseVideo(video.target, video.target, videoTitle, videoID,'','');
+                                );
+                                source.setAttribute("type", "video/mp4");
+                                video.target.appendChild(source);
+
+                                //video.target.classList.add("first-load");
+                                pauseVideo(video.target, video.target, videoTitle, videoID, '', '');
                             }
                         }
-                    
+
                     });
 
 
@@ -227,7 +227,7 @@ function pauseVimeo(player, video) {
 
 function pauseVideo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = null) {
 
-   // var playPromise = video.play();
+    // var playPromise = video.play();
 
     if (video.classList.contains('playing')) {
         if (playPromise !== undefined) {
@@ -263,6 +263,16 @@ function pauseVideo(player, video, videoTitle, videoID, sTIIV = null, sTPIV = nu
         }
     }
 }
+function lazyloadImages(lazyloadImages) {
+    lazyloadImages.forEach(function (image) {
+        lazyLoadImage(image);
+    })
+}
+function lazyLoadImage(image) {
+    image.src = image.getAttribute('data-src');
+    if (image.classList.contains('lazyLoad-image')) {
+        image.classList.remove('lazyLoad-image');
+    }
+}
 
-
-export { videoInit, updateVideo, playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad }
+export { videoInit, updateVideo, playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad, lazyloadImages, lazyLoadImage }

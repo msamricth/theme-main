@@ -1,4 +1,3 @@
-
 function readingTime(obj) {
 	var objID = obj.id;
 	if (objID) {
@@ -171,4 +170,6 @@ function get_stats() {
 	}
 }
 get_stats();
+
+
 export { get_stats }

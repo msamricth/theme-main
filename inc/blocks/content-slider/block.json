@@ -5,12 +5,15 @@
     "category": "theme-main",
     "icon": "video-alt",
     "keywords": ["carousel", "content", "media", "Image", "picture", "slide", "slider"],
+    "script": "themeMainCarousel",
+    "viewScript": "themeMainCarousel",
+    "enqueue_assets": "themeMainCarousel",
     "acf": {
         "mode": "edit",
         "renderTemplate": "block.php"
     },
     "supports": {
-        "align": [ "left", "right", "wide", "full" ],
+        "align": ["left", "right", "wide", "full"],
         "anchor": false,
         "alignContent": true,
         "jsx": true,

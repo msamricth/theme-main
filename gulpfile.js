@@ -89,7 +89,7 @@ function build_editor_js() {
 			})
 		)
 		//.pipe(minify())
-		.pipe(gulp.dest(paths.script.dest));
+		.pipe(gulp.dest(paths.editorScript.dest));
 }
 /**
  * SASS-CSS compilation: https://www.npmjs.com/package/gulp-sass

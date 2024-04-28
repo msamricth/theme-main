@@ -4,7 +4,7 @@ import Flip from "gsap/Flip";
 import { articleInteriorPage, scrollRoot, debugMarker, debuglog, videoMarker, pinElement, pinEnd, pinTrigger } from "./identifiers.js";
 import { topTA, bottomTA } from "./utils.js";
 import { foldDebug, loadVideoErrorHandler } from "./console.js";
-import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad } from "./video.js";
+import { playVimeo, pauseVimeo, playVideo, pauseVideo, LazyLoad, lazyLoadImage } from "./media.js";
 import { matchNav, animationOn, setFoldLegacy, isElemInView } from "./main.js";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -202,6 +202,14 @@ function theFoldScrollTrigger() {
                 //foldDebug(scrollAction, color, elemID, elemClassList, topTA, bottomTA, error, bg, txt);
             }
 
+        });
+        gsap.utils.toArray(".lazyLoad-image").forEach(function (elem) {
+            ScrollTrigger.create({
+                trigger: elem,
+                start: topTA,
+                end: bottomTA,
+                onEnter: () => lazyLoadImage,
+            });
         });
 
 

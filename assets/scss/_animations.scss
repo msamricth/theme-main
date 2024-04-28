@@ -1036,3 +1036,14 @@
     transform: translateX(-6px) rotate(-1.2deg);
   }
 }
+@keyframes placeholder {
+  0% {
+      background-color: var(--theme-main-placeholder-primary);
+  }
+  50% {
+      background-color: var(--theme-main-placeholder-secondary);
+  }
+  100% {
+      background-color: var(--theme-main-placeholder-primary);
+  }
+}

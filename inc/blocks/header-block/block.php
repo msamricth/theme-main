@@ -120,6 +120,7 @@ $inner_blocks_template = array(
 
 $classes .= $header_type;
 if (get_post_type(get_theme_main_postID()) == 'post') {
+    $inner_blocks_template = [];
     $inner_blocks_template = array(
         array(
             'core/columns',
@@ -201,9 +202,6 @@ if ($header_type === 'Basic') {
 $classes .= ' ' . $fullHeight;
 ?>
 <header id="<?php echo esc_attr($anchor); ?>" class="<?php echo esc_attr(get_block_classes($block, $classes)); ?>">
-    <?php
-
-    ?>
 
     <?php
     echo $header_content;
